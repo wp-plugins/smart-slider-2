@@ -1,0 +1,14 @@
+<root translate="1">
+    <params name="imagetype" label="iframe_item_settings">
+        <param name="url" type="text" label="iframe_url" default="" />        
+        <param name="size" type="mixed" label="Size" default="100%|*|100%" translateable="1">
+            <param type="text" label="Width"  />
+            <param type="text" label="Height" />
+        </param>        
+        <param type="list" name="scroll" label="Scroll" translateable="1">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+            <option value="auto">Auto</option>
+        </param>
+    </params>
+</root>

@@ -1,0 +1,128 @@
+.smartslider-icon{
+    background: url('../images/smallicons.png') no-repeat 0 0;
+    display: block;
+    height: 22px;
+    width: 22px;
+    overflow: hidden;
+    text-indent: -1000px;
+    opacity: 0.7;
+}
+
+.smartslider-icon-container .smartslider-icon{
+    display: none;
+}
+
+.smartslider-icon-container:HOVER .smartslider-icon{
+    display: block;
+}
+
+.smartslider-icon-trash{
+    background-position: 0 0;
+}
+
+.smartslider-icon-container.active .smartslider-icon-trash{
+    background-position: 0 -22px;
+}
+
+.smartslider-icon-duplicate{
+    background-position: -88px 0;
+}
+
+.smartslider-icon-container.active .smartslider-icon-duplicate{
+    background-position: -88px -22px;
+}
+
+.smartslider-icon-starred{
+    background-position: -154px 0;
+}
+
+.smartslider-icon-container.active .smartslider-icon-starred{
+    background-position: -154px -22px;
+}
+
+.smartslider-icon-star{
+    background-position: -176px 0;
+}
+
+.smartslider-icon-container.active .smartslider-icon-star{
+    background-position: -176px -22px;
+}
+
+.smartslider-icon-generator{
+    background-position: -198px 0;
+}
+
+.nextend-slider-generator-enabled .smartslider-icon-generator{
+    background-position: -242px 0;
+}
+
+.smartslider-icon-container.active .smartslider-icon-generator{
+    background-position: -198px -22px;
+}
+
+.nextend-slider-generator-enabled.active .smartslider-icon-generator{
+    background-position: -242px -22px;
+}
+.smartslider-icon-module{
+    background-position: -220px 0;
+}
+
+.smartslider-icon-container.active .smartslider-icon-module{
+    background-position: -220px -22px;
+}
+
+.smartslider-icon-published{
+    background-position: -110px 0;
+}
+
+.smartslider-icon-container.active .smartslider-icon-published{
+    background-position: -110px -22px;
+}
+
+.smartslider-icon-unpublished{
+    background-position: -132px 0;
+}
+
+.smartslider-icon-container.active .smartslider-icon-unpublished{
+    background-position: -132px -22px;
+}
+
+.smartslider-icon-container:HOVER .smartslider-icon:HOVER,
+.smartslider-icon-container.active .smartslider-icon:HOVER{
+    opacity: 1;
+}
+
+.smartslider-icon-container .smartslider-icon-add{
+    opacity: 1;
+    display: block;
+    float: left;
+    margin: 6px 2px 6px 6px;
+}
+
+.smartslider-icon-container .smartslider-icon-add{
+    background-position: -22px 0;
+}
+
+.smartslider-icon-container.active .smartslider-icon-add{
+    background-position: -22px -22px;
+}
+
+.smartslider-icon-container .smartslider-icon-ordering{
+    display: block;
+    opacity: 1;
+    background-position: -44px 0;
+}
+
+.smartslider-icon-container.active .smartslider-icon-ordering{
+    background-position: -44px -22px;
+}
+
+.smartslider-icon-container .smartslider-icon-smalladd{
+    display: block;
+    opacity: 1;
+    background-position: -66px 0;
+}
+
+.smartslider-icon-container.active .smartslider-icon-smalladd{
+    background-position: -66px -22px;
+}

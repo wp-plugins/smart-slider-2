@@ -1,0 +1,6 @@
+<root translate="1">
+    <params label="Html_item_settings">
+        <param name="html" type="textarea" label="HTML" default="" />
+        <param name="css" type="textarea" label="CSS" default="" />
+    </params>
+</root>
