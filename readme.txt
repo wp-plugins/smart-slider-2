@@ -4,7 +4,7 @@ Tags: slider, slide, layer slider, responsive, gallery, auto, autoplay, carousel
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
 Tested up to: 3.6.1
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -89,5 +89,8 @@ If you installed this version, then you have to deactivate and delete it, then i
 
 == Changelog ==
 
-= 1.0.0 =
+= 2.1.2 =
+* Fix: Some template conflict
+
+= 2.1.0 =
 * Initial release
