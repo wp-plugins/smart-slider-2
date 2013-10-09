@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Nextend Smart Slider2
+Plugin Name: Smart Slider 2
 Plugin URI: http://nextendweb.com/
 Description: The perfect all-in-one responsive slider solution for WordPress.
-Version: 2.1.0
+Version: 2.1.1
 Author: Nextend
 Author URI: http://www.nextendweb.com
 License: GPLv3 or later

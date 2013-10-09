@@ -1,10 +1,10 @@
-=== Nextend Smart Slider 2 ===
+=== Smart Slider 2 ===
 Contributors: nextendweb
 Tags: slider, slide, layer slider, responsive, gallery, auto, autoplay, carousel, image rotation, image slider, images, photo slider, jquery slider, pictures, shortcode, slideshow, thumbnails, widgets, nextend, responsive slider, horizontal slider, vertical slider, accordion slider, fade slider, layout, youtube, video, flickr, facebook, twitter, instagram, images from folder
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
 Tested up to: 3.6.1
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
