@@ -12,7 +12,9 @@ class NextendPluginAbstract{
     static function callPlugin($group, $method, $args = null){
         if(isset(self::$classes[$group])){
             foreach(self::$classes[$group] AS $class){
-                call_user_func_array(array($class, $method), $args);
+                if(is_callable(array($class, $method))){
+                    call_user_func_array(array($class, $method), $args);
+                }
             }
         }
     }

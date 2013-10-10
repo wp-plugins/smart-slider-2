@@ -4,7 +4,7 @@ Tags: slider, slide, layer slider, responsive, gallery, auto, autoplay, carousel
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
 Tested up to: 3.6.1
-Stable tag: 2.1.2
+Stable tag: 2.1.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,9 +12,9 @@ The perfect all-in-one responsive slider solution for WordPress.
 
 == Description ==
 
->[DEMO](http://www.nextendweb.com/demo/smartslider2/)  |  [PRO VERSION PAGE](http://www.nextendweb.com/smart-slider/)  |  [DOCUMENTATION](http://www.nextendweb.com/wiki/smart-slider-documentation/)
-
 Smart Slider 2 comes with an intuitive interface for backend, which makes easy for anyone to design beautiful sliders in minutes. Grab a new layer, move it on the canvas, finally drag&drop some items with your mouse and your slide is ready. Our customers highly recommend Smart Slider 2. Let’s find out why:
+
+>[DEMO](http://www.nextendweb.com/demo/smartslider2/)  |  [PRO VERSION PAGE](http://www.nextendweb.com/smart-slider/)  |  [DOCUMENTATION](http://www.nextendweb.com/wiki/smart-slider-documentation/)
 
 [youtube https://www.youtube.com/watch?v=xRgn-cHwpLs]
 
@@ -88,6 +88,9 @@ If you installed this version, then you have to deactivate and delete it, then i
 4. Screenshot from the backend, which will help you through the set up process with easily understandable features.
 
 == Changelog ==
+
+= 2.1.3 =
+* Fix: In WordPress 3.5.x and lower, you can't drag items into the layer, because the old jQuery UI. Fixed in this release.
 
 = 2.1.2 =
 * Fix: Some template conflict

@@ -65,37 +65,40 @@ class NextendJavascriptjQuery {
     function addJsLibraryFile($file) {
     
         if(nextendIsWordPress()){
-            switch(basename($file)){
-                case 'jquery.ui.widget.min.js': 
-                wp_enqueue_script('jquery-ui-widget');
-                return;
-                break;
-                case 'jquery.ui.sortable.min.js': 
-                wp_enqueue_script('jquery-ui-sortable');
-                return;
-                break;
-                case 'jquery.ui.resizable.min.js': 
-                wp_enqueue_script('jquery-ui-resizable');
-                return;
-                break;
-                case 'jquery.ui.mouse.min.js': 
-                wp_enqueue_script('jquery-ui-mouse');
-                return;
-                break;
-                case 'jquery.ui.droppable.min.js': 
-                wp_enqueue_script('jquery-ui-droppable');
-                return;
-                break;
-                case 'jquery.ui.draggable.min.js': 
-                wp_enqueue_script('jquery-ui-draggable');
-                return;
-                break;
-                case 'jquery.ui.core.min.js': 
-                wp_enqueue_script('jquery-ui-core');
-                return;
-                break;
-                default:
-                break;
+            global $wp_version;
+            if (version_compare($wp_version, '3.6', 'ge')) {
+                switch(basename($file)){
+                    case 'jquery.ui.widget.min.js': 
+                    wp_enqueue_script('jquery-ui-widget');
+                    return;
+                    break;
+                    case 'jquery.ui.sortable.min.js': 
+                    wp_enqueue_script('jquery-ui-sortable');
+                    return;
+                    break;
+                    case 'jquery.ui.resizable.min.js': 
+                    wp_enqueue_script('jquery-ui-resizable');
+                    return;
+                    break;
+                    case 'jquery.ui.mouse.min.js': 
+                    wp_enqueue_script('jquery-ui-mouse');
+                    return;
+                    break;
+                    case 'jquery.ui.droppable.min.js': 
+                    wp_enqueue_script('jquery-ui-droppable');
+                    return;
+                    break;
+                    case 'jquery.ui.draggable.min.js': 
+                    wp_enqueue_script('jquery-ui-draggable');
+                    return;
+                    break;
+                    case 'jquery.ui.core.min.js': 
+                    wp_enqueue_script('jquery-ui-core');
+                    return;
+                    break;
+                    default:
+                    break;
+                }
             }
         }
         $file = NextendFilesystem::getBasePath().NextendFilesystem::getLibraryPath() . 'javascript/jquery/1.9.1/' . $file;

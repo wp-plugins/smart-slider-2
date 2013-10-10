@@ -12,7 +12,7 @@ class NextendElementSliderLayerAnimation extends NextendElementList {
             '2' => 'Slide left to right - full',
             '3' => 'Slide right to left - full',
             '4' => 'Slide top to bottom - full',
-            '7' => 'Slide bottom to top',
+            'slidebottomtotop' => 'Slide bottom to top',
             '5' => 'Flip X - full',
             '6' => 'Fade up - full',
             'fadedown' => 'Fade down',
