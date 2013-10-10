@@ -3,6 +3,17 @@
   margin: @margin;
   position: relative;
   
+  &.nextend-slider-fadeload{
+      opacity: 0;
+      -webkit-transition: opacity 0.3s ease-in-out;
+      -moz-transition: opacity 0.3s ease-in-out;
+      transition: opacity 0.3s ease-in-out;
+      
+      &.nextend-loaded{
+          opacity: 1;
+      }
+  }
+  
   a,
   a:focus{
     outline: none !important;

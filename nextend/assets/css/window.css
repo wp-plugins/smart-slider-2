@@ -12,6 +12,10 @@
   font-family: 'Montserrat', Arial, sans-serif;
 }
 
+#content-box .nextend-window{
+  z-index:101;
+}
+
 .nextend-window.nextend-no-style{
   display: block;
   position: static;

@@ -12,11 +12,10 @@ The perfect all-in-one responsive slider solution for WordPress.
 
 == Description ==
 
-Smart Slider 2 comes with an intuitive interface for backend, which makes easy for anyone to design beautiful sliders in minutes. Grab a new layer, move it on the canvas, finally drag&drop some items with your mouse and your slide is ready. Our customers highly recommend Smart Slider 2. Let’s find out why:
+Smart Slider 2 comes with an intuitive interface for backend, which makes easy for anyone to design beautiful sliders in minutes. Grab a new layer, move it on the canvas, finally drag&drop some items with your mouse and your slide is ready. Our customers highly recommend Smart Slider 2.
 
 >[DEMO](http://www.nextendweb.com/demo/smartslider2/)  |  [PRO VERSION PAGE](http://www.nextendweb.com/smart-slider/)  |  [DOCUMENTATION](http://www.nextendweb.com/wiki/smart-slider-documentation/)
 
-[youtube https://www.youtube.com/watch?v=xRgn-cHwpLs]
 
 #### Most powerful features:
 * User-friendly administrator page with live preview
@@ -40,7 +39,19 @@ Smart Slider 2 comes with an intuitive interface for backend, which makes easy f
 
 
 #### Installation and tutorial video
-[youtube https://www.youtube.com/watch?v=xRgn-cHwpLs]
+Please switch the video quality to 1080p for best experience!
+
+* Installation of Smart Slider 2 - 00:00
+* Place the slider into a post via shortcode - 00:30
+* Create the slider - 01:15
+* Create the first slide - 02:00
+* Add captions to the slider - 03:30
+* Slider animation - 04:10
+* Create slides from a folder which contains images (generator) - 06:24
+* How to upgrade Smart Slider 2 to full version - 07:09
+* Extra feature in Smart Slider 2 Full - 07:37
+
+[youtube https://www.youtube.com/watch?v=naD8cj-AHQg]
 
 #### Support
 If you have any problem or feature request for this plugin, please feel free to [contact us](http://www.nextendweb.com/help/contact/)!
@@ -88,6 +99,9 @@ If you installed this version, then you have to deactivate and delete it, then i
 4. Screenshot from the backend, which will help you through the set up process with easily understandable features.
 
 == Changelog ==
+
+= 2.1.5 =
+* Feature: Slider can show up with fade after the page loaded - prevent glitches
 
 = 2.1.4 =
 * Fix: Shortcode list box doesn't show sliders when there were no slides

@@ -117,6 +117,7 @@
                 _this._animating = true;
                 $(this).on('load.first', function () {
                     $(this).off('load.first');
+                    _this.$slider.addClass('nextend-loaded');
                     _this._animating = false;
                     if (_this.options.playfirstlayer) {
                         var canvas = $(_this.slideList[_this._active]);
