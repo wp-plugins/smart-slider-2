@@ -48,13 +48,8 @@ function nextendsmartslider2_button_dialog(){
           $wpdb->nextend_smartslider_slides = $wpdb->base_prefix.'nextend_smartslider_slides';
           $wpdb->nextend_smartslider_sliders = $wpdb->base_prefix.'nextend_smartslider_sliders';
           
-          $query = 'SELECT a.title, a.id , count(1) AS slides '
-            . ' FROM '.$wpdb->nextend_smartslider_sliders.' AS a'
-            . ' LEFT JOIN '.$wpdb->nextend_smartslider_slides.' AS b ON a.id = b.slider'
-            . ' WHERE b.published = 1'
-            . ' GROUP BY a.id';
+          $query = 'SELECT a.title, a.id FROM '.$wpdb->nextend_smartslider_sliders.' AS a';
           $smartsliders = $wpdb->get_results($query, ARRAY_A);
-          
           ?>
           <div id='nextend-smart-sliders-modal' title='Select a Slider'>Please choose a slider from the following list:</div>
           
@@ -80,7 +75,7 @@ function nextendsmartslider2_button_dialog(){
                           if(count($smartsliders)){
                               foreach($smartsliders AS $slider){
                                   ?>
-                                  "<?php echo $slider['title'].' ('. $slider['slides'] .')'; ?>": function() {
+                                  "<?php echo $slider['title']; ?>": function() {
                                       jQuery(this).dialog('close');
                                       addToEditor(<?php echo intval($slider['id']); ?> );
                                   },

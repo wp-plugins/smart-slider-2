@@ -4,7 +4,7 @@ Tags: slider, slide, layer slider, responsive, gallery, auto, autoplay, carousel
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
 Tested up to: 3.6.1
-Stable tag: 2.1.3
+Stable tag: 2.1.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -88,6 +88,9 @@ If you installed this version, then you have to deactivate and delete it, then i
 4. Screenshot from the backend, which will help you through the set up process with easily understandable features.
 
 == Changelog ==
+
+= 2.1.4 =
+* Fix: Shortcode list box doesn't show sliders when there were no slides
 
 = 2.1.3 =
 * Fix: In WordPress 3.5.x and lower, you can't drag items into the layer, because the old jQuery UI. Fixed in this release.
