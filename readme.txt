@@ -4,7 +4,7 @@ Tags: slider, slide, layer slider, responsive, gallery, auto, autoplay, carousel
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
 Tested up to: 3.6.1
-Stable tag: 2.1.6
+Stable tag: 2.1.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -99,6 +99,9 @@ If you installed this version, then you have to deactivate and delete it, then i
 4. Screenshot from the backend, which will help you through the set up process with easily understandable features.
 
 == Changelog ==
+
+= 2.1.7 =
+* Fix: Live slide editor were not accessible on some system.
 
 = 2.1.6 =
 * Feature: Slider can show up with fade after the page loaded - prevent glitches

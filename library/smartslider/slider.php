@@ -220,7 +220,7 @@ class NextendSlider {
         
         $widgets = new NextendSliderWidgets($this, $id);
 
-        $sliderClasses = $this->_sliderParams->get('fadeonload', 1) ? 'nextend-slider-fadeload ' : '';
+        $sliderClasses = (!$this->_backend && $this->_sliderParams->get('fadeonload', 1) ? 'nextend-slider-fadeload ' : '');
 
         ob_start();
         include($this->_typePath . 'slider.php');
