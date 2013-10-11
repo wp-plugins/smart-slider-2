@@ -4,7 +4,7 @@ Tags: slider, slide, layer slider, responsive, gallery, auto, autoplay, carousel
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
 Tested up to: 3.6.1
-Stable tag: 2.1.7
+Stable tag: 2.1.8
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -13,6 +13,8 @@ The perfect all-in-one responsive slider solution for WordPress.
 == Description ==
 
 Smart Slider 2 comes with an intuitive interface for backend, which makes easy for anyone to design beautiful sliders in minutes. Grab a new layer, move it on the canvas, finally drag&drop some items with your mouse and your slide is ready. Our customers highly recommend Smart Slider 2.
+
+[youtube https://www.youtube.com/watch?v=qesNtYIBDfs]
 
 >[DEMO](http://www.nextendweb.com/demo/smartslider2/)  |  [PRO VERSION PAGE](http://www.nextendweb.com/smart-slider/)  |  [DOCUMENTATION](http://www.nextendweb.com/wiki/smart-slider-documentation/)
 
@@ -26,7 +28,7 @@ Smart Slider 2 comes with an intuitive interface for backend, which makes easy f
 * Total control over the design, customize the slider without HTML or CSS knowledge. Change color, font, arrow, bullet, background, link, position, size, etc.
 * Slide layout creator: save and load your own slide design
 
-** Note: This plugin is provided as-is, but PAID version for this plugin is available with a ton of extra and new features! [Upgrade to the Smart Slider 2 FULL version!](http://www.nextendweb.com/smart-slider/)**
+**Note: This plugin is provided as-is, but PAID version for this plugin is available with a ton of extra and new features!** [Upgrade to the Smart Slider 2 FULL version!](http://www.nextendweb.com/smart-slider/)
 
 #### Why should you upgrade to Smart Slider Full version?
 * Because you get 3 extra slider types (full page, accordion horizontal and vertical)
@@ -99,6 +101,9 @@ If you installed this version, then you have to deactivate and delete it, then i
 4. Screenshot from the backend, which will help you through the set up process with easily understandable features.
 
 == Changelog ==
+
+= 2.1.8 =
+* Improved readme.txt
 
 = 2.1.7 =
 * Fix: Live slide editor were not accessible on some system.
