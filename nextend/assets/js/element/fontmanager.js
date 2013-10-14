@@ -1,6 +1,7 @@
 (function(dojo) {
     dojo.declare("NextendElementFontmanager", NextendElement, {
         constructor: function(args) {
+            this.base64 = 0;
             dojo.mixin(this, args);
             this.hidden = dojo.byId(this.hidden);
             this.button = dojo.byId(this.button);
@@ -20,12 +21,12 @@
         
         showFontmanager: function(){
             this.fontmanager.firsttab = this.firsttab;
-            this.fontmanager.show(this.tabs, this.translatedTabs, this.hidden.value);
+            this.fontmanager.show(this.tabs, this.translatedTabs, this.base64 ? Base64.decode(this.hidden.value) : this.hidden.value);
             this.fontmanager.onSave = dojo.hitch(this,'save');
         },
         
         save: function(value){
-            this.hidden.value = value;
+            this.hidden.value = this.base64 ? Base64.encode(value) : value;
             this.fontmanager.onSave = function(){};
         },
         

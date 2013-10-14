@@ -20,7 +20,7 @@ class NextendTabFontmatrix extends NextendTab {
             preg_match('/sliderfontcustom([0-9]*)$/', $k, $matches);
             if(count($matches)){
                 nextendimport('nextend.form.element.fontmanager');
-                $element = new SimpleXMLElement('<param type="fontmanager" label="" name="'.$matches[0].'" tabs="Text|Link|Link:Hover" />');
+                $element = new SimpleXMLElement('<param type="fontmanager" base64="1" label="" name="'.$matches[0].'" tabs="Text|Link|Link:Hover" />');
                 $font = new NextendElementFontmanager($this->_form, $this, $element);
                 $font->_editableName = true;
                 $this->_elements[$matches[0]] = $font;
@@ -37,7 +37,7 @@ class NextendTabFontmatrix extends NextendTab {
         $js = NextendJavascript::getInstance();
         $js->addLibraryJsAssetsFile('dojo', 'fontmatrix.js');
 
-        $element = new SimpleXMLElement('<param type="fontmanager" label="**label**" default="**value**" name="**name**" tabs="Text|Link|Link:Hover" />');
+        $element = new SimpleXMLElement('<param type="fontmanager" base64="1" label="**label**" default="**value**" name="**name**" tabs="Text|Link|Link:Hover" />');
         $extrafont = new NextendElementFontmanager($this->_form, $this, $element);
         $extrafont->_includeJS = false;
         $extrafont->_editableName = true;

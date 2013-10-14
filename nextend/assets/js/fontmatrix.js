@@ -44,7 +44,7 @@
                 var tr = this.duplicates[i].parentNode.parentNode;
                 var trminus1 = this.duplicates[i - 1].parentNode.parentNode;
                 if(tr.parentNode == null){
-                    this.duplicates[i] = this.duplicates[i-1]
+                    this.duplicates[i] = this.duplicates[i-1];
                 }else if (tr != trminus1) {
                     if (dojo.hasClass(trminus1, 'odd')) {
                         dojo.removeClass(tr, 'odd');

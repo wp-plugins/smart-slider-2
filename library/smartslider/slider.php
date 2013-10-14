@@ -275,6 +275,9 @@ class NextendSlider {
             preg_match('/sliderfont(custom)?([0-9]*)$/', $k, $matches);
             if (count($matches)) {
                 $context['font' . $fonts] = '~".' . $matches[0] . '"';
+                
+                if(json_decode($v)===null) $v = base64_decode($v);
+                
                 $font = new NextendParseFont($v);
                 $context['font' . $fonts . 'text'] = '";' . $font->printTab() . '"';
                 $font->mixinTab('Link');

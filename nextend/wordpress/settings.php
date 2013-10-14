@@ -2,6 +2,7 @@
 
 $nextend_config = $data = get_option('nextend_config');
 if(is_array($nextend_config)){
+    setNextend('cachepath', rtrim(getNextend('cachepath','cache/'), '/\\').'/');
     foreach($nextend_config AS $k => $v){
         setNextend($k, $v);
     }
@@ -48,6 +49,13 @@ function nextend_settings_page() {
 
         $form = new NextendForm();
         $data = get_option('nextend_config');
+        
+        global $nextend;
+        foreach($nextend AS $k => $v){
+            if(!isset($data[$k])){
+                $data[$k] = $v;
+            }
+        }
         $form->loadArray($data);
 
         $form->loadXMLFile($configurationXmlFile);

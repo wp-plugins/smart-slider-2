@@ -6,6 +6,8 @@ class NextendElementFontmanager extends NextendElement {
     
     var $_includeJS = true;
     
+    var $base64 = 0;
+    
     function fetchElement() {
 
         $css = NextendCss::getInstance();
@@ -15,6 +17,17 @@ class NextendElementFontmanager extends NextendElement {
         $js->addLibraryJsAssetsFile('dojo', 'element/fontmanager.js');
         
         $this->_value = $this->_form->get($this->_name, $this->_default);
+        
+        if(intval(NextendXmlGetAttribute($this->_xml, 'base64'))){
+            $this->base64 = 1;
+            
+            $js->addLibraryJsFile('jquery', NEXTENDLIBRARYASSETS . 'js' . DIRECTORY_SEPARATOR . 'base64.js');
+            if(json_decode($this->_value)!=null){
+                $this->_value = base64_encode($this->_value);
+                $this->_form->set($this->_name, $this->_value);
+            }
+        }
+        
         $hidden = new NextendElementHidden($this->_form, $this->_tab, $this->_xml);
         
         $html = '';
@@ -54,7 +67,8 @@ class NextendElementFontmanager extends NextendElement {
                 txt: {
                     importingdone: "'.NextendText::_('FONTMANAGER_Importing_done').'",
                     youcanimport: "'.NextendText::_('FONTMANAGER_Now_you_can_import_the_settings_of_this_font').'"
-                }
+                },
+                base64: '.$this->base64.'
             });
         ';
         if($this->_includeJS){

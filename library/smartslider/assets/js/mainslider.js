@@ -38,7 +38,8 @@
                 controls: {
                     scroll: 0,
                     touch: 0
-                }
+                },
+                blockrightclick: 0
             };
             this.slideDimension = {
                 w: 0,
@@ -56,6 +57,12 @@
             if (this.options.translate3d && Modernizr && Modernizr.csstransforms3d) {
                 this.$slider.css(Modernizr.prefixed('transform'), 'translate3d(0,0,0)');
                 this.$slider.css(Modernizr.prefixed('perspective'), '1000');
+            }
+            
+            if(this.options.blockrightclick && window.ssadmin !== 1){
+                this.$slider.bind("contextmenu",function(e){
+                    e.preventDefault();
+                }); 
             }
 
             this.id = $el.attr('id');

@@ -32,11 +32,11 @@ if(NEXTEND_SMART_SLIDER2_BASE == 'nextend-smart-slider2-full'){
           $raw_response = $response;
       }
       
-    	if (!is_wp_error($raw_response) && ($raw_response['response']['code'] == 200))
+      
+    	if (!is_object($response) && !is_wp_error($raw_response) && ($raw_response['response']['code'] == 200))
     		$response = unserialize($raw_response['body']);
     	if (is_object($response) && !empty($response)) // Feed the update data into WP updater
-    		$checked_data->response[$nextend_asmart_slider2_plugin_slug .'/'. $nextend_smart_slider2_plugin_slug .'.php'] = $response;
-    	
+    		$checked_data->response[$nextend_smart_slider2_plugin_slug .'/'. $nextend_smart_slider2_plugin_slug .'.php'] = $response;
     	return $checked_data;
     }
     
@@ -73,7 +73,6 @@ if(NEXTEND_SMART_SLIDER2_BASE == 'nextend-smart-slider2-full'){
     		if ($res === false)
     			$res = new WP_Error('plugins_api_failed', __('An unknown error occurred'), $request['body']);
     	}
-    	
     	return $res;
     }
 
@@ -99,7 +98,7 @@ if(NEXTEND_SMART_SLIDER2_BASE == 'nextend-smart-slider2-full'){
       }
     ?>
     
-    <form method="post" action="<?php echo admin_url("admin.php?page=nextend-smart-slider2/update.php"); ?>">
+    <form method="post" action="<?php echo admin_url("admin.php?page=nextend-smart-slider2-full/update.php"); ?>">
     <p>If you fill out the license key field, you will be able to use the the WordPress plugin updater with Nextend Smart Slider 2.</p>
     <p>You can get your license key in the <a target="_blank" href="http://www.nextendweb.com/availabledownloads/">Download area</a> at Nextendweb.com</p>
         <table class="form-table">
