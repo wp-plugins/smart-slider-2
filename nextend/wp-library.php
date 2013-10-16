@@ -10,7 +10,8 @@ if (!defined('NEXTENDLIBRARY')) {
 
     nextendimport('nextend.wordpress.settings');
     
-    add_action('print_footer_scripts', 'nextend_generate');
+    add_action('wp_footer', 'nextend_generate');
+    add_action('admin_footer', 'nextend_generate');
     function nextend_generate() {
         global $nextend_head, $nextend_body;
         if (class_exists('NextendCss', false) || class_exists('NextendJavascript', false)) {
@@ -68,7 +69,7 @@ if (!defined('NEXTENDLIBRARY')) {
     if(is_admin()){
         add_action('admin_init', 'nextend_wp_loaded', 3000);
     }else{
-        add_action('wp', 'nextend_wp_loaded', 3000);
+        add_action('wp', 'nextend_wp_loaded', 3000); // fix for gzip ob_starts
     }
     function nextend_wp_loaded() {
         setNextend('safemode', 0);
