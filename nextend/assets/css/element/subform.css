@@ -2,6 +2,10 @@
   float: left;
 }
 
+.x-rtl .nextend-subform > .nextend-list{
+  float: right;
+}
+
 .nextend-subform .nextend-ajax{
   display: none;
   background: url('../../images/ajax-loader.gif') no-repeat center center;

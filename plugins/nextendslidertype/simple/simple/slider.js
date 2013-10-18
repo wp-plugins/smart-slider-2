@@ -30,7 +30,8 @@
             }
         },
         storeDefaults: function () {
-            var ss = this.$slider;
+            var _this = this,
+                ss = this.$slider;
 
             ss.data('ss-outerwidth', ss.outerWidth(true));
 
@@ -60,11 +61,24 @@
                 width: canvases.data('ss-w'),
                 height: canvases.data('ss-h')
             });
+            
+            this.imagesinited = false;
+            this.$slider.waitForImages(function () {
+                $.each(_this.slidebgList, function(){
+                    var $img = $(this);
+                    var im = $("<img/>").attr("src", $img.attr("src"));
+                    $img.data('ss-w', im[0].width);
+                    $img.data('ss-h', im[0].height);
+                });
+                _this.imagesinited = true;
+                _this.$slider.trigger('imagesinited');
+            });
 
 
         },
         onResize: function () {
-            var ss = this.$slider;
+            var _this = this,
+                ss = this.$slider;
 
             var ratio = 1;
 
@@ -146,7 +160,21 @@
             this.slideDimension.w = canvasWidth;
             this.slideDimension.h = canvasHeight;
 
+            
             this.slidebgList.width(oCanvasWidth);
+            var bgfn = function () {
+                $.each(_this.slidebgList, function(){
+                    var $img = $(this);
+                    $img.height(parseInt(oCanvasWidth/$img.data('ss-w')*$img.data('ss-h')));
+                });
+            };
+            if(_this.imagesinited){
+                bgfn();
+            }else{
+                _this.$slider.on('imagesinited', function(){
+                    bgfn();
+                });
+            }
 
 
             for (var i = 0; i < window[this.id + '-onresize'].length; i++) {
@@ -213,9 +241,21 @@
             this._animationOptions.current = $.merge(this.options.animationSettings, this._animationOptions.current);
 
             switch (currentAnimation) {
-                default:
+                case 'horizontal':
                     this.__animateIn = this.__animateInHorizontal;
                     this.__animateOut = this.__animateOutHorizontal;
+                    break;
+                case 'vertical':
+                    this.__animateIn = this.__animateInVertical;
+                    this.__animateOut = this.__animateOutVertical;
+                    break;
+                case 'fade':
+                    this.__animateIn = this.__animateInFade;
+                    this.__animateOut = this.__animateOutFade;
+                    break;
+                default:
+                    this.__animateIn = this.__animateInNo;
+                    this.__animateOut = this.__animateOutNo;
                     break;
             }
         },
@@ -226,6 +266,16 @@
 
         __animateOut: function ($slide, reversed, end) {
 
+        },
+
+        __animateInNo: function ($slide, reversed, end) {
+            if (end) end();
+            return ssAnimationManager.getAnimation('no', $slide, {});
+        },
+
+        __animateOutNo: function ($slide, reversed, end) {
+            if (end) end();
+            return ssAnimationManager.getAnimation('no', $slide, {});
         },
 
         __animateInHorizontal: function ($slide, reversed, end) {

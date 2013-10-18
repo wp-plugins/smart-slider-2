@@ -1,6 +1,11 @@
 
 (function($) {
     var uaMatch = '', prefix = '';
+    
+    var dir = $(document.documentElement).attr('dir');
+    if(!dir) dir = 'ltr';
+    $('html').addClass('x-'+dir);
+    window.nextendDir = dir;
 
     if (navigator.userAgent.match(/Windows/))
     {

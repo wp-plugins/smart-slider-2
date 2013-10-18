@@ -72,7 +72,7 @@
         switchToLayerTab: function () {
             this.views.removeClass('active');
             this.views.eq(1).addClass('active');
-            this.toolboxviews.parent().css('marginLeft', '-100%');
+            this.toolboxviews.parent().css((window.nextendDir == 'rtl' ? 'marginRight' : 'marginLeft'), '-100%');
             this.parent.switchToEdit();
             $('#smartslider-admin').removeClass('smartslider-item-mode-active');
             $('#smartslider-admin').addClass('smartslider-layer-mode-active');

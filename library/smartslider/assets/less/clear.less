@@ -4,6 +4,7 @@
   position: relative;
   
   &.nextend-slider-fadeload{
+      position: absolute;
       opacity: 0;
       -webkit-transition: opacity 0.3s ease-in-out;
       -moz-transition: opacity 0.3s ease-in-out;
@@ -11,6 +12,7 @@
       
       &.nextend-loaded{
           opacity: 1;
+          position: relative;
       }
   }
   
@@ -80,8 +82,14 @@
   }
 
   .fontmatrix(0);
+  
+  
+  .nextend-widget-always {
+    -webkit-perspective: 1; /* Fix for OSX Safari */
+  }
 
   .nextend-widget-hover {
+    -webkit-perspective: 1;
     visibility: hidden;
     opacity: 0;
     -webkit-transition: opacity 0.4s ease;

@@ -22,17 +22,6 @@ class NextendGeneratorAbstract {
 
     function initAdmin() {
 
-        $html = '';
-
-        for($i = 1; $i <= $this->_generatorgroup; $i++){
-            $html.= '<p class="nextend-variables">';
-            foreach($this->_variables AS $k => $v){
-                $html.='<span class="nextend-variable nextend-variable-hastip" title="'.$v.' for '.$i.'. record in group" onClick="selectText(this);">{|'.$k.'-'.$i.'|}</span> ';
-            }
-            $html.= "</p>";
-        }
-        $html.='<style>.nextend-variables{line-height: 20px; font-size: 13px;}.nextend-variable{margin: 0 5px;}</style>';
-
         $js = NextendJavascript::getInstance();
 
         $js->addLibraryJs('jquery', '
@@ -51,7 +40,7 @@ class NextendGeneratorAbstract {
                     selection.addRange(range);
                 }
             }
-            $("#generatorvariables").html("'.str_replace('"','\"', $html).'");
+            $("#generatorvariables").html("'.str_replace('"','\"', $this->generateList()).'");
             $("#generatorvariables .nextend-variables > span").qtip({
                 position: {
                     my: "bottom center",
@@ -59,5 +48,19 @@ class NextendGeneratorAbstract {
                 }
             });
         ');
+    }
+    
+    function generateList(){
+        $html = '';
+
+        for($i = 1; $i <= $this->_generatorgroup; $i++){
+            $html.= '<p class="nextend-variables">';
+            foreach($this->_variables AS $k => $v){
+                $html.='<span class="nextend-variable nextend-variable-hastip" title="'.$v.' for '.$i.'. record in group" onClick="selectText(this);">{|'.$k.'-'.$i.'|}</span> ';
+            }
+            $html.= "</p>";
+        }
+        $html.='<style>.nextend-variables{line-height: 20px; font-size: 13px;}.nextend-variable{margin: 0 5px;}</style>';
+        return $html;
     }
 }

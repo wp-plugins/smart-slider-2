@@ -15,6 +15,10 @@
     transition:background-position 0.2s ease-in;  
 }
 
+.x-rtl .nextend-onoff{
+    float: right;
+}
+
 .nextend-onoff.nextend-onoff-on{
     background-position: 0 0;
 }

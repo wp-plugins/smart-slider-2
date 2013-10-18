@@ -73,7 +73,7 @@ class NextendSmartsliderAdminModelSlides extends NextendModel {
 
         $db = NextendDatabase::getInstance();
 
-        $query = 'INSERT INTO #__nextend_smartslider_slides (title, slide, description, thumbnail, background, published, publish_up, publish_down, first, generator, slider, ordering) VALUES (';
+        $query = 'INSERT INTO #__nextend_smartslider_slides (title, slide, description, thumbnail, background, published, publish_up, publish_down, first, generator, params, slider, ordering) VALUES (';
 
         $query.=$db->quote($slide['title']);
         $query.=','.$db->quote($base64 ? base64_decode($slide['slide']) : $slide['slide']);
@@ -98,6 +98,10 @@ class NextendSmartsliderAdminModelSlides extends NextendModel {
         unset($slide['first']);
         unset($slide['generator']);
         unset($slide['publishdates']);
+        
+        
+        $query.=','.$db->quote(json_encode($slide));
+        
         $query.=',' . $db->quote($sliderid);
         $query.=',' . ($this->getMaxOrdering($sliderid)+1);
         $query.=');';
@@ -130,6 +134,9 @@ class NextendSmartsliderAdminModelSlides extends NextendModel {
         unset($slide['published']);
         unset($slide['background']);
         unset($slide['publishdates']);
+        unset($slide['generator']);
+        
+        $query.=',params='.$db->quote(json_encode($slide));
         
         $query.=' WHERE id = '.$db->quote($id);
         $db->setQuery($query);

@@ -76,6 +76,11 @@
   text-transform: uppercase;
 }
 
+.x-rtl .nextend-form .nextend-configurator-button{
+    float: right;
+    margin: 2px 20px 2px 0;
+}
+
 #nextend-configurator-button:HOVER,
 .nextend-form .nextend-configurator-button:HOVER{
   background: #dee1e8; /* Old browsers */

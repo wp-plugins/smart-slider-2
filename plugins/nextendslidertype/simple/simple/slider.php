@@ -34,7 +34,7 @@ if ($flux[0]) {
             <?php endif; ?>
 
             <?php foreach ($this->_slides AS $slide): ?>
-                <div class="<?php echo $slide['classes']; ?> smart-slider-bg-colored" style="<?php echo $slide['style']; ?>">
+                <div class="<?php echo $slide['classes']; ?> smart-slider-bg-colored" style="<?php echo $slide['style']; ?>"<?php echo $slide['link']; ?>>
                     <?php if (!$this->_backend && !$flux[0] && $slide['bg']): ?>
                         <img src="<?php echo $slide['bg']; ?>" class="nextend-slide-bg"/>
                     <?php endif; ?>
@@ -103,7 +103,8 @@ $controls = NextendParse::parse($this->_sliderParams->get('controls', '0|*|0'));
             controls: {
                 scroll: <?php echo intval($controls[0]); ?>,
                 touch: '<?php echo $controls[1]; ?>'
-            }
+            },
+            blockrightclick: <?php echo intval($this->_sliderParams->get('blockrightclick', 0)); ?>
         });
     });
 </script>

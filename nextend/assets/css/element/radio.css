@@ -16,6 +16,10 @@
     font-weight: normal;
 }
 
+.x-rtl .nextend-radio-option{
+    float: right;
+}
+
 .nextend-radio-option:HOVER{
     background-position: 0 -25px;
 }

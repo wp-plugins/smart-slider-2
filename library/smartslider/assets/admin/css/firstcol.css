@@ -7,6 +7,7 @@
     float: left;
     width: 24%;
     background: #FAFBFD;
+    overflow: hidden;
 }
 
 #smartslider-admin.smartslider-advanced-layers-advanced-active .smartslider-firstcol{
@@ -156,7 +157,7 @@
 }
 
 #smartslider-admin .smartslider-firstcol .smartslider-slides-list li a.smartslider-button-link{
-    padding: 5px 0 4px;
+    padding: 5px 84px 4px 0;
     width: auto;    
     text-shadow: 1px 1px 1px white;
 }

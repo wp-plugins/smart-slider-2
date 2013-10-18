@@ -30,6 +30,7 @@
         <param label="Slider types with full version" type="trial" name="trial" src="http://www.nextendweb.com/demo/smartslider2/trial/slidertype.png" />
         <param name="type" translateable="1" type="slidertype" label="Type" default="simple" file="slider.xml"
                description="Slider_type_defines_the_look_of_the_slider_Click_on_the_configure_button_for_more_options_for_the_selected_slider_type"/>
+        <param type="onoff" name="fadeonload" label="Fade-in on load" default="1" description="After the images loaded on the slider, the slider fades in." />
         <param type="onoff" name="playfirstlayer" label="Play_animation_on_first_load" default="0" description="On_first_load_If_enabled_the_layer_animations_will_play_on_the_first_slide" />
         <param type="onoff" name="mainafterout" label="Play_out_animations" default="1" description="Defines_whether_to_play_the_layer_out_animations_or_not_If_switched_off_the_the_slider_reaction_for_events_next_previous_etc_are_far_better" />
         <param type="onoff" name="inaftermain" label="Play_layer_in_after_main_animation_finished" default="1" description="If_switched_off_the_layer_in_animations_will_start_when_the_main_animation_starts_If_enabled_layer_in_animations_will_play_after_the_main_animation_finished" />
@@ -41,6 +42,7 @@
                 <option value="vertical">Vertical</option>
             </param>
         </param>
+        <param type="onoff" name="blockrightclick" label="Block right click" default="0" description="" />
 
         <param name="cache" type="mixed" label="Cache" default="0|*|1440" description="Slider_cache_which_can_speed_up_the_loading_of_the_slider_We_suggest_to_turn_on_when_you_are_using_generators">
             <param type="onoff" label="Enabled"/>

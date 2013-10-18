@@ -159,7 +159,8 @@ class NextendSlider {
                 array_unshift($slides, array(
                     'id' => 0,
                     'title' => '{_slidetitle}',
-                    'slide' => $smartsliderlayout
+                    'slide' => $smartsliderlayout,
+                    'params' => ''
                 ));
             } else if (NextendRequest::getCmd('controller') == 'slides') {
                 $currentlyedited = NextendRequest::getInt('slideid');
@@ -180,6 +181,11 @@ class NextendSlider {
         }
         nextendimport('nextend.image.color');
         for ($i = 0; $i < count($slides); $i++) {
+        
+            $params = new NextendData();
+            $params->loadJSON($slides[$i]['params']);
+            $slides[$i]['params'] = $params;
+            
             $slides[$i]['classes'] = 'smart-slider-canvas';
             if (!isset($slides[$i]['background'])) $slides[$i]['background'] = 'ffffff00|*|';
             $bg = (array)NextendParse::parse($slides[$i]['background']);
@@ -195,6 +201,14 @@ class NextendSlider {
             $slides[$i]['bg'] = false;
             if (isset($bg[1]) && $bg[1] != '') {
                     $slides[$i]['bg'] = $bg[1];
+            }
+            
+            $link = $params->get('link', '');
+            if($link){
+                $slides[$i]['link'] = ' onclick="'.htmlspecialchars(strpos($link, 'javascript:') === 0 ? $link : 'window.location=\''.JRoute::_($link, false).'\'').'" ';
+                $slides[$i]['style'].='cursor:pointer;';
+            }else{
+                $slides[$i]['link'] = '';
             }
             
         }
@@ -237,7 +251,36 @@ class NextendSlider {
         
         echo $this->parseSlider($slider);
 
-        $this->addCSS();
+        $size = $this->addCSS();
+        $responsive = (array)NextendParse::parse($this->_sliderParams->get('responsive', '0|*|0'));
+        
+        if( !$this->_backend && $this->_sliderParams->get('fadeonload', 1) && ((isset($responsive[0]) && $responsive[0]) || (isset($responsive[1]) && $responsive[1]))){
+            echo '<div id="'.$id.'-placeholder" >';
+            
+            $im = imagecreatetruecolor($size[0]+$size[3], $size[1]);
+            imagesavealpha($im, true);
+            imagealphablending($im, false);
+            $trans = imagecolorallocatealpha($im, 255, 0, 0, 127);
+            imagefilledrectangle($im, 0, 0, $size[0]+$size[3], $size[1], $trans);
+            ob_start();
+            imagepng($im);
+            imagedestroy($im);
+            $img = base64_encode(ob_get_clean());
+            echo '<img style="width:100%; max-width: '.(intval($this->_sliderParams->get('simpleresponsivemaxwidth', 30000))+$size[3]).'px;" src="data:image/png;base64, '.$img.'" />';
+            
+            $im = imagecreatetruecolor($size[0]+$size[3], $size[2]);
+            imagesavealpha($im, true);
+            imagealphablending($im, false);
+            $trans = imagecolorallocatealpha($im, 255, 0, 0, 127);
+            imagefilledrectangle($im, 0, 0, $size[0]+$size[3], $size[2], $trans);
+            ob_start();
+            imagepng($im);
+            imagedestroy($im);
+            $img = base64_encode(ob_get_clean());
+            echo '<img style="width:100%;" src="data:image/png;base64, '.$img.'" />';
+            
+            echo '</div>';
+        }
     }
     
     function parseSlider($slider){
@@ -296,6 +339,9 @@ class NextendSlider {
             $context
         ), $this->getId());
         $css->generateCSS($this->getId());
+        
+        $m = explode('px ', $context['margin']);
+        return array(intval($context['width']),intval($context['height']), $m[0]+$m[2], $m[1]+$m[3]);
     }
 
     function addJs() {

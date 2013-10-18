@@ -112,7 +112,7 @@
         switchToItemTab: function () {
             this.views.removeClass('active');
             this.views.eq(2).addClass('active');
-            this.toolboxviews.parent().css('marginLeft', '-200%');
+            this.toolboxviews.parent().css((window.nextendDir == 'rtl' ? 'marginRight' : 'marginLeft'), (window.nextendDir == 'rtl' ? '0' : '-200%'));
             this.layers.parent.switchToEdit();
             $('#smartslider-admin').removeClass('smartslider-layer-mode-active');
             $('#smartslider-admin').addClass('smartslider-item-mode-active');

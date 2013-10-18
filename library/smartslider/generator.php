@@ -87,6 +87,19 @@ class NextendSmartsliderGenerator {
                 $slide[$k] = $v;
             }
         }
+        
+        unset($slidedata['title']);
+        unset($slidedata['slide']);
+        unset($slidedata['description']);
+        unset($slidedata['thumbnail']);
+        unset($slidedata['background']);
+        unset($slidedata['published']);
+        unset($slidedata['first']);
+        unset($slidedata['generator']);
+        unset($slidedata['publishdates']);
+        
+        $slide['params'] = json_encode($slidedata);
+        
         $this->_slidePointer++;
         return $slide;
     }
