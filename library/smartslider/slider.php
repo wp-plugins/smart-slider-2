@@ -204,7 +204,7 @@ class NextendSlider {
             }
             
             $link = $params->get('link', '');
-            if($link){
+            if(!$this->_backend && $link){
                 $slides[$i]['link'] = ' onclick="'.htmlspecialchars(strpos($link, 'javascript:') === 0 ? $link : 'window.location=\''.JRoute::_($link, false).'\'').'" ';
                 $slides[$i]['style'].='cursor:pointer;';
             }else{
@@ -255,31 +255,37 @@ class NextendSlider {
         $responsive = (array)NextendParse::parse($this->_sliderParams->get('responsive', '0|*|0'));
         
         if( !$this->_backend && $this->_sliderParams->get('fadeonload', 1) && ((isset($responsive[0]) && $responsive[0]) || (isset($responsive[1]) && $responsive[1]))){
-            echo '<div id="'.$id.'-placeholder" >';
-            
-            $im = imagecreatetruecolor($size[0]+$size[3], $size[1]);
-            imagesavealpha($im, true);
-            imagealphablending($im, false);
-            $trans = imagecolorallocatealpha($im, 255, 0, 0, 127);
-            imagefilledrectangle($im, 0, 0, $size[0]+$size[3], $size[1], $trans);
-            ob_start();
-            imagepng($im);
-            imagedestroy($im);
-            $img = base64_encode(ob_get_clean());
-            echo '<img style="width:100%; max-width: '.(intval($this->_sliderParams->get('simpleresponsivemaxwidth', 30000))+$size[3]).'px;" src="data:image/png;base64, '.$img.'" />';
-            
-            $im = imagecreatetruecolor($size[0]+$size[3], $size[2]);
-            imagesavealpha($im, true);
-            imagealphablending($im, false);
-            $trans = imagecolorallocatealpha($im, 255, 0, 0, 127);
-            imagefilledrectangle($im, 0, 0, $size[0]+$size[3], $size[2], $trans);
-            ob_start();
-            imagepng($im);
-            imagedestroy($im);
-            $img = base64_encode(ob_get_clean());
-            echo '<img style="width:100%;" src="data:image/png;base64, '.$img.'" />';
-            
-            echo '</div>';
+            if($size[0]+$size[3] > 0 && $size[1] > 0 && function_exists('imagecreatetruecolor')){
+                echo '<div id="'.$id.'-placeholder" >';
+                
+                $im = imagecreatetruecolor($size[0]+$size[3], $size[1]);
+                imagesavealpha($im, true);
+                imagealphablending($im, false);
+                $trans = imagecolorallocatealpha($im, 255, 0, 0, 127);
+                imagefilledrectangle($im, 0, 0, $size[0]+$size[3], $size[1], $trans);
+                ob_start();
+                imagepng($im);
+                imagedestroy($im);
+                $img = base64_encode(ob_get_clean());
+                echo '<img style="width:100%; max-width: '.(intval($this->_sliderParams->get('simpleresponsivemaxwidth', 30000))+$size[3]).'px;" src="data:image/png;base64, '.$img.'" />';
+                
+                if($size[2] > 0){
+                    $im = imagecreatetruecolor($size[0]+$size[3], $size[2]);
+                    imagesavealpha($im, true);
+                    imagealphablending($im, false);
+                    $trans = imagecolorallocatealpha($im, 255, 0, 0, 127);
+                    imagefilledrectangle($im, 0, 0, $size[0]+$size[3], $size[2], $trans);
+                    ob_start();
+                    imagepng($im);
+                    imagedestroy($im);
+                    $img = base64_encode(ob_get_clean());
+                    echo '<img style="width:100%;" src="data:image/png;base64, '.$img.'" />';
+                }
+                
+                echo '</div>';
+            }else{
+                echo '<style>#'.$id.' .nextend-slider-fadeload{position: relative !important;}</style>';
+            }
         }
     }
     
