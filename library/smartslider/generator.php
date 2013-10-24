@@ -78,13 +78,13 @@ class NextendSmartsliderGenerator {
         $slide = array();
         if ($static) {
             foreach ($slidedata AS $k => $v) {
-                $slide[$k] = $this->replaceText(
+                $slidedata[$k] = $slide[$k] = $this->replaceText(
                     preg_replace_callback('/(data\-itemvalues=")([^"]*)/S', array($this, 'onAttributeData'), $v)
                 );
             }
         } else {
             foreach ($slidedata AS $k => $v) {
-                $slide[$k] = $v;
+                $slidedata[$k] = $slide[$k] = $v;
             }
         }
         

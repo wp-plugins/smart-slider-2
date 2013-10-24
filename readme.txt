@@ -4,7 +4,7 @@ Tags: slider, slide, layer slider, responsive, gallery, auto, autoplay, carousel
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
 Tested up to: 3.6.1
-Stable tag: 2.1.12
+Stable tag: 2.1.13
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -36,7 +36,7 @@ Smart Slider 2 comes with an intuitive interface for backend, which makes easy f
 * More than 20 layer animations (slide, fade, roll, bounce, Ken Burns etc.)
 * Plus 12 items to build better sliders (image, paragraph, youtube, vimeo, fade, flipper, flipper, HTML, caption etc.)
 * Plus 8 widget to customize your slider (vertical and horizontal thumbnail, gallery, bars, extra arrows and bullets, autoplay button and indicator, shadows and if it's not enough you can create own HTML)
-* 6 new slider generators (WordPress Post, Facebook, Twitter, Flickr, Instagram, YouTube, if you need more write us)
+* 7 new slider generators (WordPress Post, NextGen Gallery, Facebook, Twitter, Flickr, Instagram, YouTube, if you need more write us)
 * and last but not least personal support!
 
 
@@ -101,6 +101,13 @@ If you installed this version, then you have to deactivate and delete it, then i
 4. Screenshot from the backend, which will help you through the set up process with easily understandable features.
 
 == Changelog ==
+
+= 2.1.13 =
+* Feature: Cache time now can be static
+* Fix: JRoute error
+* Fix: Old jQuery on WordPress 3.4 and lower
+* Fix: Shadow widget path
+* Fix: Widget javascript error fixed
 
 = 2.1.12 =
 * Fix: image generation error fixed when no margin defined

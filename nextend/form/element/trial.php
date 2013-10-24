@@ -11,6 +11,6 @@ class NextendElementTrial extends NextendElement {
             if($imagewp) $image = $imagewp;
         }
 
-        return "<a href='http://www.nextendweb.com/smart-slider#pricing' target='_blank'><img src='".NextendXmlGetAttribute($this->_xml, 'src')."' /></a>";
+        return "<a href='http://www.nextendweb.com/smart-slider#pricing' target='_blank'><img src='".$image."' /></a>";
     }
 }

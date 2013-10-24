@@ -2,7 +2,7 @@
 global $nextend;
 
 $nextend = array(
-    'cachetime' => 31536000,
+    'cachetime' => 'static',
     'cachepath' => null,
     'gzip' => 0,
     'debuglng' => 0

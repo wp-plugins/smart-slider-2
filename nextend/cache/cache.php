@@ -47,9 +47,14 @@ class NextendCache{
     }
     
     function getCache(){
-        $time = time();
-        $currentcachetime = $time-$time%$this->_cacheTime;
-        $folder = $this->_path.$this->_prename.$currentcachetime.DIRECTORY_SEPARATOR;
+        if($this->_cacheTime == 'static' || $this->_cacheTime == 0){
+            $folder = $this->_path.'static'.DIRECTORY_SEPARATOR;
+            $currentcachetime = 0;
+        }else{
+            $time = time();
+            $currentcachetime = $time-$time%$this->_cacheTime;
+            $folder = $this->_path.$this->_prename.$currentcachetime.DIRECTORY_SEPARATOR;
+        }
         $this->createCacheSubFolder($folder, $currentcachetime);
         $hash = $this->createHash();
         $cachefile = $folder.$hash.'.'.$this->_filetype;
@@ -86,11 +91,13 @@ class NextendCache{
     
     function createCacheSubFolder($path, $currentcachetime){
         if(NextendFilesystem::existsFolder($path)) return;
-        $previouscachetime = $currentcachetime-$this->_cacheTime;
-        $remove = NextendFilesystem::folders($this->_path);
-        if($remove !== false){
-            for($i = 0; $i < count($remove) && $remove[$i] != $this->_prename.$previouscachetime; $i++){
-                NextendFilesystem::deleteFolder($this->_path.$remove[$i]);
+        if($this->_cacheTime != 'static' && $this->_cacheTime != 0){
+            $previouscachetime = $currentcachetime-$this->_cacheTime;
+            $remove = NextendFilesystem::folders($this->_path);
+            if($remove !== false){
+                for($i = 0; $i < count($remove) && $remove[$i] != $this->_prename.$previouscachetime; $i++){
+                    NextendFilesystem::deleteFolder($this->_path.$remove[$i]);
+                }
             }
         }
         if(NextendFilesystem::createFolder($path)) return;

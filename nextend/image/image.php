@@ -13,9 +13,15 @@ class NextendImage extends NextendCache {
         $this->_subfolder = 'image' . DIRECTORY_SEPARATOR;
         parent::NextendCache();
         $this->_filetype = 'png';
-        $time = time();
-        $currentcachetime = $time - $time % $this->_cacheTime;
-        $this->_folder = $this->_path . $this->_prename . $currentcachetime . DIRECTORY_SEPARATOR;
+        
+        if($this->_cacheTime == 'static' || $this->_cacheTime == 0){
+            $this->_folder = $this->_path . 'static' . DIRECTORY_SEPARATOR;
+            $currentcachetime = 0;
+        }else{
+            $time = time();
+            $currentcachetime = $time - $time % $this->_cacheTime;
+            $this->_folder = $this->_path . $this->_prename . $currentcachetime . DIRECTORY_SEPARATOR;
+        }
         $this->createCacheSubFolder($this->_folder, $currentcachetime);
     }
     

@@ -32,10 +32,12 @@ class NextendCacheLess extends NextendCache{
     function parseFile($content, $path, $i){
         $this->_less->setVariables($this->_context[$i]);
         return 
-            preg_replace('/d: ;/', '',
-                preg_replace('#url\([\'"]([^"\'\)]+)[\'"]\)#', 'url('.NextendFilesystem::pathToAbsoluteURL(dirname($path)).'/$1)', 
-                  $this->_less->compile($content)
-                )
+            preg_replace('/;;/', ';',
+              preg_replace('/d: ;/', '',
+                  preg_replace('#url\([\'"]([^"\'\)]+)[\'"]\)#', 'url('.NextendFilesystem::pathToAbsoluteURL(dirname($path)).'/$1)', 
+                    $this->_less->compile($content)
+                  )
+              )
             );
     }
     

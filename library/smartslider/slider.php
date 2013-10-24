@@ -205,7 +205,7 @@ class NextendSlider {
             
             $link = $params->get('link', '');
             if(!$this->_backend && $link){
-                $slides[$i]['link'] = ' onclick="'.htmlspecialchars(strpos($link, 'javascript:') === 0 ? $link : 'window.location=\''.JRoute::_($link, false).'\'').'" ';
+                $slides[$i]['link'] = ' onclick="'.htmlspecialchars(strpos($link, 'javascript:') === 0 ? $link : 'window.location=\''.(nextendIsJoomla() ? JRoute::_($link, false) : $link).'\'').'" ';
                 $slides[$i]['style'].='cursor:pointer;';
             }else{
                 $slides[$i]['link'] = '';

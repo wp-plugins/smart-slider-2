@@ -19,7 +19,12 @@ class NextendJavascriptjQuery {
             $instance = new NextendJavascriptjQuery();
             $instance->addJsLibraryFile('njQuery.js');
             if(nextendIsWordPress()){
-                wp_enqueue_script('jquery');
+                global $wp_version;
+                if (version_compare($wp_version, '3.5', 'ge')) {
+                    wp_enqueue_script('jquery');
+                }else{
+                    $instance->addJsLibraryFile('jQuery.js');
+                }
             }else{
                 $instance->addJsLibraryFile('jQuery.js');
             }
