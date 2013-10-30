@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root translate="1">
-    <params name="bullettext" label="text bullet settings" hidetitle="1">
+    <params name="bulletnumbers" label="numbers bullet settings" hidetitle="1">
         <param type="mixed" name="bulletposition" label="Position" default="left|*|0|*|%|*|bottom|*|5|*|%">
             <param type="list" label="Horizontal" mixedstyle="clear: both;" style="width:70px;" translateable="1">
                 <option value="left">Left</option>
@@ -32,8 +32,8 @@
             <option value="right">Right</option>
         </param>
         <param type="cssimagelist" name="bullet" label="Bullet" folder="bullets"
-               prefix="nextend-bullet nextend-bullet-text nextend-bullet-text-">
-            <![CDATA[<div class="nextend-bullet-container {class}"><div class="{class}"><span>First Slide</span></div><div class="{class} active"><span>Second Slide</span></div><div class="{class}"><span>Third Slide</span></div></div>]]>
+               prefix="nextend-bullet nextend-bullet-numbers nextend-bullet-numbers-">
+            <![CDATA[<div class="nextend-bullet-container {class}"><div class="{class}"><span>1</span></div><div class="{class} active"><span>2</span></div><div class="{class}"><span>3</span></div></div>]]>
         </param>         
         <param name="bulletbackground" type="color" label="Background" alpha='1' default="00000060" />        
         <param name="bulletbackgroundhover" type="color" label="Background_hover" alpha='1' default="7670C7ff" />

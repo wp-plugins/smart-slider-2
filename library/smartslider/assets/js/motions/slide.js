@@ -43,7 +43,8 @@
             var coords = this.getCoords(this.options.mode, this.options.parallaxIn, false);
             var left = this.layer[0].origLeftPercent / 100 * this.options.width;
             var top = this.layer[0].origTopcent / 100 * this.options.height;
-            this.layer.css('left', left + coords.origX)
+            this.layer.css('visibility', 'hidden')
+            .css('left', left + coords.origX)
                 .css('top', top + coords.origY);
         },
         _animateIn: function () {

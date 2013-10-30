@@ -30,7 +30,10 @@
         <param label="Slider types with full version" type="trial" name="trial" src="http://www.nextendweb.com/demo/smartslider2/trial/slidertype.png" />
         <param name="type" translateable="1" type="slidertype" label="Type" default="simple" file="slider.xml"
                description="Slider_type_defines_the_look_of_the_slider_Click_on_the_configure_button_for_more_options_for_the_selected_slider_type"/>
-        <param type="onoff" name="fadeonload" label="Fade-in on load" default="1" description="After the images loaded on the slider, the slider fades in." />
+        <param type="mixed" name="fadeonload" label="Fade-in" default="1|*|0" description="After the images loaded on the slider or the page scrolled to the slider, the slider fades in.">
+            <param type="onoff" label="on load"/>
+            <param type="onoff" label="on scroll"/>
+        </param>
         <param type="onoff" name="playfirstlayer" label="Play_animation_on_first_load" default="0" description="On_first_load_If_enabled_the_layer_animations_will_play_on_the_first_slide" />
         <param type="onoff" name="mainafterout" label="Play_out_animations" default="1" description="Defines_whether_to_play_the_layer_out_animations_or_not_If_switched_off_the_the_slider_reaction_for_events_next_previous_etc_are_far_better" />
         <param type="onoff" name="inaftermain" label="Play_layer_in_after_main_animation_finished" default="1" description="If_switched_off_the_layer_in_animations_will_start_when_the_main_animation_starts_If_enabled_layer_in_animations_will_play_after_the_main_animation_finished" />
@@ -51,11 +54,25 @@
             </param>
         </param>
     </params>
+    <params name="slides" label="Slides">
+        <param type="onoff" name="randomize" label="Randomize slides" default="0" description="" />
+    </params>
     <params name="autoplay" label="Autoplay settings - full version">
         <param name="autoplay" type="mixed" label="Autoplay" default='0|*|5000' description="If_enabled_the_slides_will_automatically_change_after_the_defined_interval">
             <param type="onoff" label="Enabled"/>
             <param type="text" label="Interval" style="width:70px;">
                 <unit>ms</unit>
+            </param>
+        </param>
+        <param name="autoplayfinish" type="mixed" label="Finish autoplay on" default='0|*|loop|*|current' description="If the count 0, the autoplay repeat forever">
+            <param type="text" style="width: 30px;" label="Count"/>
+            <param type="switcher" label="ampnbsp">
+                <unit value="loop">loop's</unit>
+                <unit value="slide">slide(s)'s</unit>
+            </param>
+            <param type="switcher" label="ampnbsp">
+                <unit value="current">last slide</unit>
+                <unit value="next">next slide</unit>
             </param>
         </param>
         <param name="stopautoplay" type="mixed" label="Stop_autoplay_on" default='1|*|1|*|1' description="Defines_when_to_stop_the_autoplay">

@@ -131,6 +131,53 @@ class NextendImage extends NextendCache {
         }
     }
     
+    function resizeImage($image, $w, $h){
+        $w = intval($w);
+        $h = intval($h);
+        
+        $cachefile = $this->_folder . 'resize' . md5($image) . $w .'_'. $h . '.' . $this->_filetype;
+        if (!NextendFilesystem::existsFile($cachefile)) {
+            if($image && $w >= 1 && $h >= 1){
+                if(strpos($image, 'http') === 0){   //url
+                }else{
+                    if(!NextendFilesystem::existsFile($image)){
+                        $image = NextendFilesystem::getBasePath().$image;
+                    }
+                }
+                if(is_readable($image)){
+                    $orig = null;
+                    switch(exif_imagetype($image)){
+                        case IMAGETYPE_JPEG:
+                          $orig = imagecreatefromjpeg($image);
+                          break;
+                        case IMAGETYPE_PNG:
+                          $orig = imagecreatefrompng($image);
+                          break;
+                    }
+                    if($orig){
+                        $this->createIm($w, $h);
+                        $ow = imagesx($orig);
+                        $oh = imagesy($orig);
+                        $ratioX = $ow /$w;
+                        $ratioY = $oh /$h;
+                        if($ratioX > $ratioY){
+                            $ow = $ratioY*$w;
+                        }else{
+                            $oh = $ratioX*$h;
+                        }
+                        imagecopyresampled($this->_im, $orig, 0, 0, 0, 0, $w, $h, $ow, $oh);
+                        $this->saveIm($cachefile);
+                        imagedestroy($orig);
+                        return NextendFilesystem::pathToAbsoluteURL($cachefile);
+                    }
+                }
+            }else{
+                return $image;
+            }
+        }
+        return NextendFilesystem::pathToAbsoluteURL($cachefile);
+    }
+    
     function createIm($x, $y) {
 
         $this->_im = imagecreatetruecolor($x, $y);

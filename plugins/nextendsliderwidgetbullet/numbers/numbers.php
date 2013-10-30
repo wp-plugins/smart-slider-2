@@ -2,16 +2,16 @@
 
 nextendimport('nextend.image.color');
 
-class plgNextendSliderWidgetBulletText extends NextendPluginBase {
+class plgNextendSliderWidgetBulletNumbers extends NextendPluginBase {
 
-    var $_name = 'text';
+    var $_name = 'numbers';
 
     function onNextendbulletList(&$list) {
         $list[$this->_name] = $this->getPath();
     }
 
     function getPath() {
-        return dirname(__FILE__) . DIRECTORY_SEPARATOR . 'text' . DIRECTORY_SEPARATOR;
+        return dirname(__FILE__) . DIRECTORY_SEPARATOR . 'numbers' . DIRECTORY_SEPARATOR;
     }
 
     static function render($slider, $id, $params) {
@@ -26,7 +26,7 @@ class plgNextendSliderWidgetBulletText extends NextendPluginBase {
             $displayclass = 'nextend-widget-' . $display[1] . ' ';
 
             $css = NextendCss::getInstance();
-            $css->addCssFile(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'text' . DIRECTORY_SEPARATOR . 'style.css');
+            $css->addCssFile(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'numbers' . DIRECTORY_SEPARATOR . 'style.css');
 
             $color = $params->get('bulletbackground', '00000060');
             $rgba = NextendColor::hex2rgba($color);
@@ -61,7 +61,7 @@ class plgNextendSliderWidgetBulletText extends NextendPluginBase {
             }
 
             $info = pathinfo($bullet);
-            $class = 'nextend-bullet nextend-bullet-text nextend-bullet-text-' . basename($bullet, '.' . $info['extension']);
+            $class = 'nextend-bullet nextend-bullet-numbers nextend-bullet-numbers-' . basename($bullet, '.' . $info['extension']);
             
             $class.= ' nextend-bullet-'.$params->get('bulletorientation', 'horizontal');
         
@@ -90,12 +90,12 @@ class plgNextendSliderWidgetBulletText extends NextendPluginBase {
                 $class.=' bullet-bar-elegant';
                 break;
             }
-
+            
             $html .= '<div style="' . $style . '" class="'.$displayclass.'"><div class="nextend-bullet-container ' . $class . '">';
             $i = 0;
             foreach ($slider->_slides AS $slide) {
                 $html .= '<div onclick="njQuery(\'#'.$id.'\').smartslider(\'goto\','.$i.',false);" data-thumbnail="'.$slide['thumbnail'].'"  class="' . $class . ($slide['first'] ? ' active' : ''). '"><span class="'.$params->get('fontclassnumber', 'sliderfont7').'">
-                ' .$slide['title']. '
+                ' .($i+1). '
                 </span></div>';
                 $i++;
             }
@@ -152,7 +152,7 @@ class plgNextendSliderWidgetBulletText extends NextendPluginBase {
                                 width: 12,
                                 height: 6
                             },
-                            classes: "nextend-bullet-text-thumbnail"
+                            classes: "nextend-bullet-numbers-thumbnail"
                         },
                         content: {
                             text: function(e, api) {
@@ -166,28 +166,28 @@ class plgNextendSliderWidgetBulletText extends NextendPluginBase {
 
             $html .= '</div></div>
               <style>
-              .nextend-bullet-container .nextend-bullet-text.nextend-bullet{                
+              .nextend-bullet-container .nextend-bullet-numbers.nextend-bullet{                
                 background:'.$rgbacss.';
               }
-              .nextend-bullet-container .nextend-bullet-text.nextend-bullet.active,
-              .nextend-bullet-container .nextend-bullet-text.nextend-bullet:HOVER{
+              .nextend-bullet-container .nextend-bullet-numbers.nextend-bullet.active,
+              .nextend-bullet-container .nextend-bullet-numbers.nextend-bullet:HOVER{
                 background:'.$rgbacsshover.';
               }
-              .nextend-bullet-container.nextend-bullet.nextend-bullet-text.bullet-bar-simple-rounded,              
-              .nextend-bullet-container.nextend-bullet.nextend-bullet-text.bullet-bar-elegant-rounded,
-              .nextend-bullet-container.nextend-bullet.nextend-bullet-text.bullet-bar-simple,              
-              .nextend-bullet-container.nextend-bullet.nextend-bullet-text.bullet-bar-elegant{              
+              .nextend-bullet-container.nextend-bullet.nextend-bullet-numbers.bullet-bar-simple-rounded,              
+              .nextend-bullet-container.nextend-bullet.nextend-bullet-numbers.bullet-bar-elegant-rounded,
+              .nextend-bullet-container.nextend-bullet.nextend-bullet-numbers.bullet-bar-simple,              
+              .nextend-bullet-container.nextend-bullet.nextend-bullet-numbers.bullet-bar-elegant{              
                 background:'.$rgbacssborderbar.';
               }
-              .nextend-bullet-text-thumbnail .qtip-content{
+              .nextend-bullet-numbers-thumbnail .qtip-content{
                 width:'.$thumbnailsize[0].'px;                
                 height:'.$thumbnailsize[1].'px;
                 padding: 4px;
               }         
-              .nextend-bullet-text-thumbnail .qtip-content img{
+              .nextend-bullet-numbers-thumbnail .qtip-content img{
                 box-shadow: 0 0px 0px 1px RGBA(255,255,255,.2);
               }
-              .nextend-bullet-text-thumbnail{
+              .nextend-bullet-numbers-thumbnail{
                 background: '.$rgbacssthumbnail.';
               }     
               </style>
@@ -198,4 +198,4 @@ class plgNextendSliderWidgetBulletText extends NextendPluginBase {
     }
 
 }
-NextendPlugin::addPlugin('nextendsliderwidgetbullet', 'plgNextendSliderWidgetBulletText');
+NextendPlugin::addPlugin('nextendsliderwidgetbullet', 'plgNextendSliderWidgetBulletNumbers');

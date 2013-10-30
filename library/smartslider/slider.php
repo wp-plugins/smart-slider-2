@@ -60,6 +60,10 @@ class NextendSlider {
             } else {
                 $this->_slides = $this->slides();
             }
+            if($this->_sliderParams->get('randomize', 0)){
+                shuffle($this->_slides);
+                $this->_activeSlide = 0;
+            }
         }
         if (count($this->_slides) === 0) {
             if (NextendSmartSliderSettings::get('debugmessages', 1))
@@ -212,8 +216,6 @@ class NextendSlider {
             }
             
         }
-        if (isset($slides[$this->_activeSlide]))
-            $slides[$this->_activeSlide]['classes'] .= ' smart-slider-slide-active';
 
         return $slides;
     }
@@ -233,8 +235,18 @@ class NextendSlider {
         }
         
         $widgets = new NextendSliderWidgets($this, $id);
+        
+        if (isset($this->_slides[$this->_activeSlide]))
+            $this->_slides[$this->_activeSlide]['classes'] .= ' smart-slider-slide-active';
 
-        $sliderClasses = (!$this->_backend && $this->_sliderParams->get('fadeonload', 1) ? 'nextend-slider-fadeload ' : '');
+        $fadeonload = (array)NextendParse::parse($this->_sliderParams->get('fadeonload', '1|*|0'));
+        if(!isset($fadeonload[1])){
+            $fadeonload[1] = 0;
+        }else if($fadeonload[1]){
+            $fadeonload[0] = 1;
+        }
+                
+        $sliderClasses = (!$this->_backend && $fadeonload[0] ? 'nextend-slider-fadeload ' : '');
 
         ob_start();
         include($this->_typePath . 'slider.php');
@@ -254,7 +266,7 @@ class NextendSlider {
         $size = $this->addCSS();
         $responsive = (array)NextendParse::parse($this->_sliderParams->get('responsive', '0|*|0'));
         
-        if( !$this->_backend && $this->_sliderParams->get('fadeonload', 1) && ((isset($responsive[0]) && $responsive[0]) || (isset($responsive[1]) && $responsive[1]))){
+        if( !$this->_backend && $fadeonload[0] && ((isset($responsive[0]) && $responsive[0]) || (isset($responsive[1]) && $responsive[1]))){
             if($size[0]+$size[3] > 0 && $size[1] > 0 && function_exists('imagecreatetruecolor')){
                 echo '<div id="'.$id.'-placeholder" >';
                 
@@ -284,8 +296,10 @@ class NextendSlider {
                 
                 echo '</div>';
             }else{
-                echo '<style>#'.$id.' .nextend-slider-fadeload{position: relative !important;}</style>';
+                echo '<style>#'.$id.' .nextend-slider-fadeload{position: static !important;}</style>';
             }
+        }else{
+            echo '<style>#'.$id.'.nextend-slider-fadeload{position: static !important;}</style>';
         }
     }
     

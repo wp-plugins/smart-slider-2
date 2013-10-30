@@ -12,6 +12,7 @@
   font-family: 'Montserrat', Arial, sans-serif;
 }
 
+#nextend-fontmanager-lightbox,
 #content-box .nextend-window{
   z-index:101;
 }

@@ -18,9 +18,12 @@
                 playfirstlayer: 0,
                 mainafterout: 1,
                 inaftermain: 1,
+                fadeonscroll: 0,
                 autoplay: 0,
                 autoplayConfig: {
                     duration: 5000,
+                    counter: 0,
+                    autoplayToSlide: 0,
                     stopautoplay: {
                         click: 1,
                         mouseenter: 1,
@@ -122,21 +125,42 @@
 
             if (window.ssadmin !== 1) {
                 _this._animating = true;
+                
                 $(this).on('load.first', function () {
                     $(this).off('load.first');
-                    _this.$slider.addClass('nextend-loaded');
-                    $('#'+_this.id+'-placeholder').remove();
                     
-                    _this._animating = false;
-                    if (_this.options.playfirstlayer) {
-                        var canvas = $(_this.slideList[_this._active]);
-                        canvas.on('ssanimationsended.first',function () {
-                            $(this).off('ssanimationsended.first');
-                        }).trigger('ssanimatelayersin');
+                    var show = function(){
+                        _this.$slider.addClass('nextend-loaded');
+                        $('#'+_this.id+'-placeholder').remove();
+                        
+                        _this._animating = false;
+                        if (_this.options.playfirstlayer) {
+                            var canvas = $(_this.slideList[_this._active]);
+                            canvas.on('ssanimationsended.first',function () {
+                                $(this).off('ssanimationsended.first');
+                            }).trigger('ssanimatelayersin');
+                        }
+                        _this.startAutoplay();
+                    };
+                    
+                    if(_this.options.fadeonscroll){
+                        var w = $(window),
+                            t = _this.$slider.offset().top+_this.$slider.outerHeight()/2;
+                        if(w.scrollTop()+w.height() > t){
+                            show();
+                        }else{
+                            w.on('scroll.'+_this.id, function(){
+                                if(w.scrollTop()+w.height() > t){
+                                    w.off('scroll.'+_this.id);
+                                    show();
+                                }
+                            });
+                        }
+                    }else{
+                        show();
                     }
-
-                    _this.startAutoplay();
                 });
+                
                 if (this.options.responsive.downscale || this.options.responsive.upscale) {
                     this.storeDefaults();
                     this.onResize();
@@ -458,22 +482,24 @@
                         _this.indicatorProgress = j;
                     },
                     complete: function () {
+                        _this.options.autoplayConfig.counter++;
                         _this.next();
                         _this.indicatorEl.data('animating', false);
                         _this.indicatorEl.stop(true);
                         _this.indicatorProgress = 0;
-                        _this.reStartAutoPlay();
+                        if(!_this.options.autoplayConfig.autoplayToSlide || _this.options.autoplayConfig.counter < _this.options.autoplayConfig.autoplayToSlide-1) _this.reStartAutoPlay();
                     }
                 });
                 this.indicatorEl.data('animating', true);
             } else {
 
                 this.autoplayTimer = setTimeout(function () {
+                    this.options.autoplayConfig.counter++;
                     _this.next();
                     _this.indicatorEl.stop(true);
 
                     _this.indicator.refresh(100);
-                    _this.reStartAutoPlay();
+                    if(!_this.options.autoplayConfig.autoplayToSlide || _this.options.autoplayConfig.counter < _this.options.autoplayConfig.autoplayToSlide-1) _this.reStartAutoPlay();
                 }, duration);
             }
         },

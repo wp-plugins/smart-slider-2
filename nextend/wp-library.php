@@ -73,7 +73,10 @@ if (!defined('NEXTENDLIBRARY')) {
     }
     function nextend_wp_loaded() {
         setNextend('safemode', 0);
-        if(!getNextend('safemode', 0)) ob_start("nextend_render_end");
+        if(!getNextend('safemode', 0)){
+            ob_start("nextend_render_end");
+            ob_start();
+        }
     }
 }
 ?>

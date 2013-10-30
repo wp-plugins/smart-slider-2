@@ -62,6 +62,7 @@
 
 .smart-slider-layer .ui-resizable-handle{
     display: none !important;
+    background-image: none;
 }
 
 .smart-slider-layer .ui-resizable-n{

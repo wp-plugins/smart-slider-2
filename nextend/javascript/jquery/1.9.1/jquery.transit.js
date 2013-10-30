@@ -68,6 +68,7 @@
     // Check for the browser's transitions support.
     support.transition = getVendorPropertyName('transition');
     support.transitionDelay = getVendorPropertyName('transitionDelay');
+    support.transitionProperty = getVendorPropertyName('transitionProperty');
     support.transform = getVendorPropertyName('transform');
     support.transformOrigin = getVendorPropertyName('transformOrigin');
     support.transform3d = checkTransform3dSupport();
@@ -79,6 +80,7 @@
         'otransitionend',
         'oTransitionEnd'
     ];
+    var transitionEnd = support.transitionEnd = eventNames[support.transition] || null;
 
     // Populate jQuery's `$.support` with the vendor prefixes we know.
     // As per [jQuery's cssHooks documentation](http://api.jquery.com/jQuery.cssHooks/),
@@ -711,7 +713,9 @@
             var properties = this.style[support.transitionProperty];
 
             if (properties) {
-                properties = properties.replace(/\s*/g, '').split(',');
+                properties = properties.replace(/-([a-z])/gi, function(s, group1) {
+				    return group1.toUpperCase();
+				}).replace(/\s*/g, '').split(',');
 
                 var style = window.getComputedStyle(this),
                     css = {};
