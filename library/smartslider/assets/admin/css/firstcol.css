@@ -51,6 +51,11 @@
     text-shadow: 1px 1px 1px white;
 }
 
+#smartslider-admin .smartslider-firstcol .smartslider-button a{
+    font-size: 14px;
+    line-height: 35px;
+}
+
 #smartslider-admin .smartslider-firstcol .smartslider-button a.smartslider-button-link{
   color: #76808e;
 }
@@ -104,6 +109,17 @@
     text-shadow:0 0 1px rgba(0, 0, 0, 0.5); 
 }
 
+#smartslider-admin .smartslider-firstcol .smartslider-button.smartslider-import a{
+    font-size: 10px;
+}
+
+#smartslider-admin .smartslider-firstcol .smartslider-button.smartslider-import .smartslider-icon{
+    margin-left: 0;
+    margin-right: 0;
+}
+
+
+
 #smartslider-admin .smartslider-firstcol .smartslider-slides-list{
     list-style-type: none;
     padding: 6px 0 7px;
@@ -118,6 +134,7 @@
     line-height: 16px;
     position: relative;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+    padding: 0;
 }
 
 
@@ -235,4 +252,53 @@
 
 #smartslider-admin .smart-slider-item-container{
     cursor: move;
+}
+
+#smartslider-admin .qtip-nextend{
+    background-color: #465364;
+}
+
+#smartslider-admin .qtip-nextend .qtip-content{
+    padding: 0 0;
+    border-radius: 3px;
+    overflow:hidden;
+}
+
+#smartslider-admin .sidebar-tooltip-menu{
+    list-style-type: none;
+    padding: 0;   
+}
+
+#smartslider-admin .sidebar-tooltip-menu li{
+    position: relative;
+    padding: 0;
+    margin: 0;
+}
+
+#smartslider-admin .sidebar-tooltip-menu li a{
+    display: block;
+    height: 26px;
+    color: #b3becf;
+    text-shadow: 0 1px 1px RGBA(0,0,0,0.5);
+    font-size: 12px;
+    line-height: 26px;
+    padding: 0 18px 0 26px;
+}
+
+#smartslider-admin .sidebar-tooltip-menu li a:HOVER,
+#smartslider-admin .sidebar-tooltip-menu li a:ACTIVE,
+#smartslider-admin .sidebar-tooltip-menu li a:LINK,
+#smartslider-admin .sidebar-tooltip-menu li a:visited{
+    text-decoration: none;
+}
+
+#smartslider-admin .sidebar-tooltip-menu li a:HOVER,
+#smartslider-admin .sidebar-tooltip-menu li a:ACTIVE{
+    color: #E5E7E9;
+    background: #333e4a;
+    box-shadow: inset 0 1px 2px RGBA(0,0,0,0.2);
+}
+
+#smartslider-admin .smartslider-firstcol .smartslider-slides-list li a.smartslider-button-link{
+    padding: 5px 84px 4px 10px;
 }

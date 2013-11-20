@@ -100,6 +100,7 @@
         },
         setInStart: function () {
             this.layers.each(function () {
+                $(this).data('motionout').setOutStart();
                 $(this).data('motionin').setInStart();
             });
             return this;

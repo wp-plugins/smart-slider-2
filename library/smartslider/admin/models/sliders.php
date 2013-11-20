@@ -96,6 +96,27 @@ class NextendSmartsliderAdminModelSliders extends NextendModel {
         return $db->insertid();
     }
 
+    function import($slider) {
+        if (!isset($slider['title']))
+            return false;
+        if ($slider['title'] == '')
+            $slider['title'] = 'New slider';
+
+        $db = NextendDatabase::getInstance();
+
+        $query = 'INSERT INTO #__nextend_smartslider_sliders (title, type, generator, slide, params) VALUES (';
+
+        $query .= $db->quote($slider['title']);
+        $query .= ',' . $db->quote($slider['type']);
+        $query .= ',' . $db->quote($slider['generator']);
+        $query .= ',' . $db->quote($slider['slide']);
+        $query .= ',' . $db->quote($slider['params']);
+        $query .= ');';
+        $db->setQuery($query);
+        $db->query();
+        return $db->insertid();
+    }
+
     function save($id, $slider) {
         if (!isset($slider['title']) || $id <= 0)
             return false;
@@ -209,6 +230,11 @@ class NextendSmartsliderAdminModelSliders extends NextendModel {
         $db->query();
     }
 
+    function deleteslides($id) {
+        $slidesModel = $this->getModel('slides');
+        $slidesModel->deleteBySlider($id);
+    }    
+
     function duplicate($id) {
 
         $db = NextendDatabase::getInstance();
@@ -245,6 +271,11 @@ class NextendSmartsliderAdminModelSliders extends NextendModel {
             $slide['slider'] = $newsliderid;
             $slidesModel->create($newsliderid, $slide, false);
         }
+        
+        $font = NextendSmartSliderStorage::get('font'.$id);
+        if($font){
+            NextendSmartSliderStorage::set('font'.$newsliderid, $font);
+        }
 
         return $newsliderid;
 
@@ -253,6 +284,28 @@ class NextendSmartsliderAdminModelSliders extends NextendModel {
     function redirectToCreate() {
         header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider&action=create'));
         exit;
+    }
+    
+    function exportSlider($id){
+        nextendimport('nextend.externals.zip_lib');
+        $zip = new NextendZipFile();
+        $slider = $this->getSlider($id);
+        $title = preg_replace('/[^a-zA-Z0-9]/', '_', $slider['title']).'.smart';
+        unset($slider['id']);
+        $zip->addFile(serialize($slider), 'slider.ss2');
+        
+        $slidesModel = $this->getModel('slides');
+        $slides = $slidesModel->getSlides($id);
+        for($i = 0; $i < count($slides); $i++){
+            unset($slides[$i]['id']);
+            unset($slides[$i]['slider']);
+        }
+        $zip->addFile(serialize($slides), 'slides.ss2');
+        
+        $fonts = NextendSmartSliderFontSettings::getAll($id);
+        $zip->addFile(serialize($fonts), 'fonts.ss2');
+        
+        return array($title, $zip->file());
     }
 
 }

@@ -10,8 +10,8 @@ class NextendSmartsliderAdminViewSliders_Settings extends NextendView {
     }
 
     function fontAction($tpl) {
-        $this->xml = 'font';
-        $this->render($tpl);
+        $this->xml = 'font';        
+        $this->render('font');
     }
 
     function joomlaAction($tpl) {

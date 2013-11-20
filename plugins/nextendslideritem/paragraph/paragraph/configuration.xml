@@ -11,5 +11,8 @@
         </param>
         <param name="css" type="textarea" label="CSS" default="" />
         <param name="class" type="text" label="Custom_css_class" default="" />
+        <param name="onmouseenter" type="text" label="Event on mouseenter" description="JavaScript code to run on the event" default=""/>
+        <param name="onmouseclick" type="text" label="Event on mouseclick" description="JavaScript code to run on the event" default=""/>
+        <param name="onmouseleave" type="text" label="Event on mouseleave" description="JavaScript code to run on the event" default=""/>
     </params>
 </root>

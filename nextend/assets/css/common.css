@@ -1,3 +1,7 @@
+#smartslider-admin .clearfix{
+    clear: none;
+}
+
 .clearfix:after {
 	content: ".";
 	display: block;

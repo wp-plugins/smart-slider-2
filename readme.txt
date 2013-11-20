@@ -3,8 +3,8 @@ Contributors: nextendweb
 Tags: slider, slide, layer slider, responsive, gallery, auto, autoplay, carousel, image rotation, image slider, images, photo slider, jquery slider, pictures, shortcode, slideshow, thumbnails, widgets, nextend, responsive slider, horizontal slider, vertical slider, accordion slider, fade slider, layout, youtube, video, flickr, facebook, twitter, instagram, images from folder
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
-Tested up to: 3.6.1
-Stable tag: 2.1.14
+Tested up to: 3.7.1
+Stable tag: 2.1.16
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -37,12 +37,12 @@ Smart Slider 2 comes with an intuitive interface for backend, which makes easy f
 * Plus 12 items to build better sliders (image, paragraph, youtube, vimeo, fade, flipper, flipper, HTML, caption etc.)
 * Plus 8 widget to customize your slider (vertical and horizontal thumbnail, gallery, bars, extra arrows and bullets, autoplay button and indicator, shadows and if it's not enough you can create own HTML)
 * 7 new slider generators (WordPress Post, NextGen Gallery, Facebook, Twitter, Flickr, Instagram, YouTube, if you need more write us)
+* Import and export sliders - our demo sliders also available
 * and last but not least personal support!
 
 
 #### Installation and tutorial video
 Please switch the video quality to 1080p for best experience!
-
 * Installation of Smart Slider 2 - 00:00
 * Place the slider into a post via shortcode - 00:30
 * Create the slider - 01:15
@@ -91,6 +91,13 @@ Yes you can use multiple slider widgets and slider shortcodes.
 = 7. How to upgrade to FULL version of the slider? =
 If you installed this version, then you have to deactivate and delete it, then install the FULL slider version! Our system keep your previously created sliders.
 
+= 8. How to include a slider in a post or a page? =
+`[smartslider2 slider="Here comes the slider id"]`
+Or you can get the shortcode - [View](http://www.nextendweb.com/wp-content/uploads/2013/09/shortcodemethod.png)
+
+= 9. How to include a slider into header.php or other PHP files? =
+`<?php echo do_shortcode('[smartslider2 slider="Here comes the slider id"]'); ?>`
+Or you can get the shortcode - [View](http://www.nextendweb.com/wp-content/uploads/2013/09/shortcodemethod.png)
 
 
 == Screenshots ==
@@ -101,6 +108,18 @@ If you installed this version, then you have to deactivate and delete it, then i
 4. Screenshot from the backend, which will help you through the set up process with easily understandable features.
 
 == Changelog ==
+
+= 2.1.16 =
+* New sample sliders in free versions
+* Font manager improvements - slider specific font sets
+* Slider/Slide/Font export and import
+* Modified edit interface on the backend
+* Vimeo improvements
+* YouTube improvements in OSX Firefox
+* New item options for onclick onmouseenter and onmouseleave JavaScript events
+* Improvements in animation system - no more stucked layers
+* Improvements in Gallery widget
+* Some other smaller improvements in JavaScript files
 
 = 2.1.14 =
 * New item: Shapes

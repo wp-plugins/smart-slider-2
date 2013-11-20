@@ -18,7 +18,7 @@ class NextendSlider {
     var $_generatorParams;
     var $_generatorSlideParams;
     var $_slides;
-    var $_activeSlide;
+    var $_activeSlide = 0;
 
     function NextendSlider($path, $backend = false) {
 
@@ -249,8 +249,36 @@ class NextendSlider {
         $sliderClasses = (!$this->_backend && $fadeonload[0] ? 'nextend-slider-fadeload ' : '');
 
         ob_start();
+        if(!$this->_backend && $fadeonload[0]){
+            echo '<style type="text/css">div#'.$id.'.nextend-slider-fadeload{position: absolute; opacity: 0;}</style>';
+        }
         include($this->_typePath . 'slider.php');
         $slider = ob_get_clean();
+        
+        
+        if(!$this->_backend){
+            NextendPlugin::callPlugin('nextendslideritem', 'onNextendSliderRender', array(&$slider, $id));
+            
+            $slider = preg_replace( '/data-itemvalues=".*?"/', '', $slider ); // Remove unnecessary attributes...
+            $slider = preg_replace( '/data-item=".*?"/', '', $slider ); // Remove unnecessary attributes...
+            $slider = preg_replace( '/data-leave=""/', '', $slider ); // Remove unnecessary attributes...
+            $slider = preg_replace( '/data-enter=""/', '', $slider ); // Remove unnecessary attributes...
+            $slider = preg_replace( '/data-click=""/', '', $slider ); // Remove unnecessary attributes...
+        
+            if(nextendIsJoomla()){
+                if(version_compare(JVERSION, '1.6.0', 'ge')){
+                    $dispatcher = JDispatcher::getInstance();
+          			     JPluginHelper::importPlugin('content');
+                    $article = new stdClass();
+                    $article->text = $slider;
+                    $_p = array();
+                    $dispatcher->trigger('onContentPrepare', array('com_smartslider2', &$article, &$_p, 0));
+                    if(!empty($article->text)) $slider = $article->text;
+                }
+            }elseif(nextendIsWordPress()){
+                $slider = do_shortcode($slider);
+            }
+        }
 
         $slider = str_replace(array('{{id}}', 'nextend-smart-slider-0'), $this->getId(), $slider);
 
@@ -334,7 +362,7 @@ class NextendSlider {
 
         nextendimport('nextend.parse.font');
         $fonts = 0;
-        foreach (NextendSmartSliderFontSettings::getAll() AS $k => $v) {
+        foreach (NextendSmartSliderFontSettings::getAll($this->_sliderid) AS $k => $v) {
             preg_match('/sliderfont(custom)?([0-9]*)$/', $k, $matches);
             if (count($matches)) {
                 $context['font' . $fonts] = '~".' . $matches[0] . '"';
@@ -360,7 +388,24 @@ class NextendSlider {
         ), $this->getId());
         $css->generateCSS($this->getId());
         
-        $m = explode('px ', $context['margin']);
+        if(strpos($context['margin'], '%')){
+			$m = explode('% ', $context['margin']);
+			$m[1] = $m[1]/100*intval($context['width']);
+			$m[3] = $m[3]/100*intval($context['width']);
+			$m[0] = $m[0]/100*intval($context['height']);
+			$m[2] = $m[2]/100*intval($context['height']);
+		}else{
+			$m = explode('px ', $context['margin']);
+		}
+		
+		$addcss = (array)NextendParse::parse(NextendSmartSliderSettings::get('externalcssfile'));
+		if($this->_backend && count($addcss)){
+			foreach($addcss as $cssfile)
+			{
+				$css->addCssFile($cssfile);
+			}
+		}
+		
         return array(intval($context['width']),intval($context['height']), $m[0]+$m[2], $m[1]+$m[3]);
     }
 

@@ -32,4 +32,15 @@ class NextendSmartSliderStorage {
         self::$cache[$key] = $value;
     }
 
+    static function delete($key) {
+        $db = NextendDatabase::getInstance();
+        $sql = '';
+        if(self::get($key) !== null){
+            $sql = "DELETE FROM #__nextend_smartslider_storage WHERE " . $db->quoteName('key') . " = ".$db->quote($key);
+            $db->setQuery($sql);
+            $db->query();
+            unset(self::$cache[$key]);
+        }
+    }
+
 }

@@ -57,6 +57,21 @@ class NextendSmartsliderAdminControllerSliders extends NextendSmartsliderAdminCo
         };
     }
 
+    function deleteslidesAction() {
+        if ($this->canDo('slide.delete')) {
+            if ($sliderid = NextendRequest::getInt('sliderid')) {
+                $slidersModel = $this->getModel('sliders');
+                $slidersModel->deleteslides($sliderid);
+                header('LOCATION: ' . $_SERVER["HTTP_REFERER"]);
+                exit;
+            }
+            header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider'));
+            exit;
+        } else {
+            $this->noaccess();
+        };
+    }
+
     function duplicateAction() {
         if ($this->canDo('slider.create')) {
             if ($this->canDo('slider.create') && $sliderid = NextendRequest::getInt('sliderid')) {
@@ -82,7 +97,7 @@ class NextendSmartsliderAdminControllerSliders extends NextendSmartsliderAdminCo
 
             if (NextendRequest::getInt('save')) {
                 if ($sliderid = $slidersModel->saveGenerator(NextendRequest::getInt('sliderid'), NextendRequest::getVar('generator', ''), NextendRequest::getVar('slide', ''))) {
-                    header('LOCATION: ' . $this->route('controller=sliders&view==sliders_generator&action=generator&sliderid=' . $sliderid));
+                    header('LOCATION: ' . $this->route('controller=sliders&view=sliders_generator&action=generator&sliderid=' . $sliderid));
                     exit;
                 }
             }
@@ -140,6 +155,79 @@ class NextendSmartsliderAdminControllerSliders extends NextendSmartsliderAdminCo
             $this->display('default', 'full');
         }else if(nextendIsWordpress()){
             $this->display('default', 'fullwordpress');
+        }
+    }
+    
+    function exportAction() {
+        if ($this->canDo('slider.edit')) {
+            $id = NextendRequest::getInt('sliderid', 0);
+            if ($id) {
+                $slidersModel = $this->getModel('sliders');
+				ob_clean();
+                $file = $slidersModel->exportSlider($id);
+                
+                header('Content-Description: Smart Slider 2 Export');
+                header('Content-Type: application/octet-stream');
+                header('Content-Disposition: attachment; filename="'.basename($file[0]).'"'); //<<< Note the " " surrounding the file name
+                header('Content-Transfer-Encoding: binary');
+                header('Connection: Keep-Alive');
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+                header('Pragma: public');
+                if (function_exists('mb_strlen')) {
+                    header('Content-Length: ' . mb_strlen($file[1], '8bit'));
+                } else {
+                    header('Content-Length: ' . strlen($file[1]));
+                }
+                echo $file[1];
+                exit;
+            }
+        } else {
+            $this->noaccess();
+        }
+    }
+    
+    function importAction() {
+        if ($this->canDo('slider.edit')) {
+            if(isset($_FILES['file'])){
+                $zip = new ZipArchive;
+                if(is_file($_FILES['file']['tmp_name'])){
+                    $res = $zip->open($_FILES['file']['tmp_name']);
+                    if ($res === TRUE) {
+                        $slider = $zip->getFromName('slider.ss2');
+                        if($slider){
+                        
+                            $slidersModel = $this->getModel('sliders');
+                            $sliderid = $slidersModel->import(unserialize($slider));
+                            NextendMessage::success('Success', '1 Slider imported!');
+                            if($sliderid){
+                                $slides = $zip->getFromName('slides.ss2');
+                                if($slides){
+                                    $slidesModel = $this->getModel('slides');
+                                    $slides = unserialize($slides);
+                                    foreach($slides AS $slide){
+                                        $slide['slider'] = $sliderid;
+                                        $slidesModel->create($sliderid, $slide, false);
+                                    }
+                                    NextendMessage::success('Success', count($slides).' Slide(s) imported!');
+                                }
+                                $fonts = $zip->getFromName('fonts.ss2');
+                                if($fonts){
+                                    NextendSmartSliderStorage::set('font'.$sliderid, json_encode(unserialize($fonts)));
+                                    NextendMessage::success('Success', '1 font set imported!');
+                                }
+                            }
+                        }
+                    }else{
+                        NextendMessage::error('Error', 'There was an error in the uploaded file');
+                    }
+                }else{
+                    NextendMessage::error('Error', 'There was an error in the uploaded file');
+                }
+            }
+            $this->display('default','import');
+        } else {
+            $this->noaccess();
         }
     }
 

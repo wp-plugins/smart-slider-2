@@ -480,15 +480,15 @@ window.flux = {
                 domPrefixes = ['Webkit', 'Moz', 'O', 'Ms'];
 
             // Does the current browser support CSS Transitions?
-            if (window.Modernizr && Modernizr.csstransitions !== undefined)
-                flux.browser.supportsTransitions = Modernizr.csstransitions;
+            if (window.nModernizr && nModernizr.csstransitions !== undefined)
+                flux.browser.supportsTransitions = nModernizr.csstransitions;
             else {
                 flux.browser.supportsTransitions = this.supportsCSSProperty('Transition');
             }
 
             // Does the current browser support 3D CSS Transforms?
-            if (window.Modernizr && Modernizr.csstransforms3d !== undefined)
-                flux.browser.supports3d = Modernizr.csstransforms3d;
+            if (window.nModernizr && nModernizr.csstransforms3d !== undefined)
+                flux.browser.supports3d = nModernizr.csstransforms3d;
             else {
                 // Custom detection when Modernizr isn't available
                 flux.browser.supports3d = this.supportsCSSProperty("Perspective");

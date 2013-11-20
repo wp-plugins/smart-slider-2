@@ -65,69 +65,7 @@ class NextendSmartsliderAdminModelLayouts extends NextendModel {
                 </h1>
         </div></div><div data-parallaxout="0.45" data-delayout="0" data-easingout="linear" data-durationout="500" data-animationout="0" data-playoutafter="0" data-parallaxin="0.45" data-delayin="0" data-easingin="linear" data-durationin="500" data-animationin="0" data-name="Layer #2" class="smart-slider-layer" style="top: 30%; left: 10%; width: 38%; height: 59.967%; position: absolute; z-index: 3; display: block;" data-animation="slide"><div style="" class="smart-slider-items" data-item="paragraph" data-itemvalues="{&quot;content&quot;:&quot;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.&quot;,&quot;fontclass&quot;:&quot;sliderfont6&quot;,&quot;css&quot;:&quot;&quot;,&quot;class&quot;:&quot;&quot;}"><p class="sliderfont6 " style="">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.</p></div></div><div data-parallaxout="0.45" data-delayout="0" data-easingout="linear" data-durationout="500" data-animationout="0" data-playoutafter="0" data-parallaxin="0.45" data-delayin="0" data-easingin="linear" data-durationin="500" data-animationin="0" data-name="Layer #2 - copy" class="smart-slider-layer" style="top: 10%; left: 52%; width: 38%; height: 80%; position: absolute; z-index: 4; display: block;" data-animation="slide"><div style="" class="smart-slider-items" data-item="youtube" data-itemvalues="{&quot;youtubeurl&quot;:&quot;http://www.youtube.com/watch?v=cGET38O6IJ4&quot;,&quot;defaultimage&quot;:&quot;maxresdefault&quot;,&quot;autoplay&quot;:&quot;1&quot;,&quot;theme&quot;:&quot;dark&quot;}">
         <img src="//img.youtube.com/vi/cGET38O6IJ4/maxresdefault.jpg" style="width: 100%; height: 100%;">
-        <div id="nextend-element-d934cGET38O6IJ4" data-youtubecode="cGET38O6IJ4" data-autoplay="1" data-theme="dark" style="position: absolute; top:0; left: 0; display: none; width: 100%; height: 100%;"></div>
-        <script type="text/javascript">
-            if(!window.ssadmin){
-                if(typeof window.youtubeplayers == "undefined"){
-                    window.youtubeplayers = [];
-                    var tag = document.createElement("script");
-                    tag.src = "//www.youtube.com/iframe_api";
-                    var firstScriptTag = document.getElementsByTagName("script")[0];
-                    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-                    function onYouTubeIframeAPIReady() {
-                        njQuery(document).ready(function() {
-                            for(var i = 0; i < window.youtubeplayers.length; i++){
-                                ssInitYoutubePlayer(window.youtubeplayers[i]);
-                            }
-                        });
-                    }
-
-                    function ssInitYoutubePlayer(node){
-                        if(node.substring(0, 2) == "{{") return;
-                        var player = njQuery("#"+node),
-                            parent = player.closest(".smart-slider-layer");
-                        var playerobj = new YT.Player(player.attr("id"), {
-                            videoId: player.data("youtubecode"),
-                            playerVars: {
-                                enablejsapi: 1,
-                                origin: window.location.protocol+"//"+window.location.host,
-                                autoplay: player.data("autoplay"),
-                                theme: player.data("theme"),
-                                modestbranding: 1,
-                                wmode: "opaque"
-                            },
-                            events: {
-                                onStateChange: function(state){
-                                    switch(state.data){
-                                        case YT.PlayerState.PLAYING:
-                                            njQuery("#nextend-smart-slider-0").trigger("ssplaystarted");
-                                            break;
-                                        //case YT.PlayerState.PAUSED:
-                                        case YT.PlayerState.ENDED:
-                                            njQuery("#nextend-smart-slider-0").trigger("ssplayended");
-                                            break;
-                                    }
-                                }
-                            }
-                        });
-                        var player = njQuery("#"+node)
-                        //if(!window.ssadmin){
-                        player.css("display", "block").prev().css("display", "none");
-                        parent.closest(".smart-slider-canvas").on("ssoutanimationstart", function(){
-                            if(playerobj && playerobj.pauseVideo) playerobj.pauseVideo();
-                        });
-                        //}
-                    }
-                }
-                if(typeof YT === "undefined"){
-                    window.youtubeplayers.push("nextend-element-d934cGET38O6IJ4");
-                }else{
-                    njQuery(document).ready(function() {
-                        ssInitYoutubePlayer("nextend-element-d934cGET38O6IJ4");
-                    });
-                }
-            }
-        </script>
+        <div id="nextend-element-d934cGET38O6IJ4" data-youtubecode="cGET38O6IJ4" data-autoplay="1" data-theme="dark" style="position: absolute; top:0; left: 0; display: none; width: 100%; height: 100%;"><!--smartslideryoutubeitem,nextend-element-d934,cGET38O6IJ4--></div>
         </div></div>'
             ),
             array(
@@ -138,69 +76,7 @@ class NextendSmartsliderAdminModelLayouts extends NextendModel {
                 'class' => 'full-youtube',
                 'slide' => '<div data-parallaxout="0.45" data-delayout="0" data-easingout="linear" data-durationout="500" data-animationout="0" data-playoutafter="0" data-parallaxin="0.45" data-delayin="0" data-easingin="linear" data-durationin="500" data-animationin="0" data-name="Layer #1" class="smart-slider-layer" style="top: 0%; left: 0%; width: 100%; height: 100%; position: absolute; z-index: 1;" data-animation="slide"><div style="" class="smart-slider-items" data-item="youtube" data-itemvalues="{&quot;youtubeurl&quot;:&quot;http://www.youtube.com/watch?v=cGET38O6IJ4&quot;,&quot;defaultimage&quot;:&quot;maxresdefault&quot;,&quot;autoplay&quot;:&quot;1&quot;,&quot;theme&quot;:&quot;dark&quot;}">
         <img src="//img.youtube.com/vi/cGET38O6IJ4/maxresdefault.jpg" style="width: 100%; height: 100%;">
-        <div id="nextend-element-cda8cGET38O6IJ4" data-youtubecode="cGET38O6IJ4" data-autoplay="1" data-theme="dark" style="position: absolute; top:0; left: 0; display: none; width: 100%; height: 100%;"></div>
-        <script type="text/javascript">
-            if(!window.ssadmin){
-                if(typeof window.youtubeplayers == "undefined"){
-                    window.youtubeplayers = [];
-                    var tag = document.createElement("script");
-                    tag.src = "//www.youtube.com/iframe_api";
-                    var firstScriptTag = document.getElementsByTagName("script")[0];
-                    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-                    function onYouTubeIframeAPIReady() {
-                        njQuery(document).ready(function() {
-                            for(var i = 0; i < window.youtubeplayers.length; i++){
-                                ssInitYoutubePlayer(window.youtubeplayers[i]);
-                            }
-                        });
-                    }
-
-                    function ssInitYoutubePlayer(node){
-                        if(node.substring(0, 2) == "{{") return;
-                        var player = njQuery("#"+node),
-                            parent = player.closest(".smart-slider-layer");
-                        var playerobj = new YT.Player(player.attr("id"), {
-                            videoId: player.data("youtubecode"),
-                            playerVars: {
-                                enablejsapi: 1,
-                                origin: window.location.protocol+"//"+window.location.host,
-                                autoplay: player.data("autoplay"),
-                                theme: player.data("theme"),
-                                modestbranding: 1,
-                                wmode: "opaque"
-                            },
-                            events: {
-                                onStateChange: function(state){
-                                    switch(state.data){
-                                        case YT.PlayerState.PLAYING:
-                                            njQuery("#nextend-smart-slider-0").trigger("ssplaystarted");
-                                            break;
-                                        //case YT.PlayerState.PAUSED:
-                                        case YT.PlayerState.ENDED:
-                                            njQuery("#nextend-smart-slider-0").trigger("ssplayended");
-                                            break;
-                                    }
-                                }
-                            }
-                        });
-                        var player = njQuery("#"+node)
-                        //if(!window.ssadmin){
-                        player.css("display", "block").prev().css("display", "none");
-                        parent.closest(".smart-slider-canvas").on("ssoutanimationstart", function(){
-                            if(playerobj && playerobj.pauseVideo) playerobj.pauseVideo();
-                        });
-                        //}
-                    }
-                }
-                if(typeof YT === "undefined"){
-                    window.youtubeplayers.push("nextend-element-cda8cGET38O6IJ4");
-                }else{
-                    njQuery(document).ready(function() {
-                        ssInitYoutubePlayer("nextend-element-cda8cGET38O6IJ4");
-                    });
-                }
-            }
-        </script>
+        <div id="nextend-element-cda8cGET38O6IJ4" data-youtubecode="cGET38O6IJ4" data-autoplay="1" data-theme="dark" style="position: absolute; top:0; left: 0; display: none; width: 100%; height: 100%;"><!--smartslideryoutubeitem,nextend-element-cda8,cGET38O6IJ4--></div>
         </div></div>'
             ),
             array(

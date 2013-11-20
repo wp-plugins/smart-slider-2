@@ -81,9 +81,15 @@ class NextendSmartsliderAdminModelSlides extends NextendModel {
         $query.=','.$db->quote($slide['thumbnail']);
         $query.=','.$db->quote($slide['background']);
         $query.=','.$db->quote(isset($slide['published']) ? $slide['published'] : 0);
-        $date = explode('|*|',$slide['publishdates']);
-        $query.=','.$db->quote(isset($date[0]) ? $date[0] : '');
-        $query.=','.$db->quote(isset($date[1]) ? $date[1] : '');
+        
+        if(isset($slide['publishdates'])){
+            $date = explode('|*|',$slide['publishdates']);
+            $query.=','.$db->quote(isset($date[0]) ? $date[0] : '');
+            $query.=','.$db->quote(isset($date[1]) ? $date[1] : '');
+        }else{
+            $query.=','.$db->quote($slide['publish_up']);
+            $query.=','.$db->quote($slide['publish_down']);
+        }
         
         $query.=','.$db->quote(isset($slide['first']) ? $slide['first'] : 0);
         $query.=','.$db->quote(isset($slide['generator']) ? $slide['generator'] : 0);

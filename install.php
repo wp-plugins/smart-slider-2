@@ -42,11 +42,21 @@ function NextendSplitSql($sql){
   return $queries;
 }
 
-
-$query = str_replace('#__', $wpdb->prefix, file_get_contents(dirname(__FILE__).'/install.sql'));
-$queries = NextendSplitSql($query);
-foreach($queries AS $query){
-    $wpdb->query($query);
+if(defined('MULTISITE') && MULTISITE){
+    $blogs = function_exists('wp_get_sites') ? wp_get_sites(array('network_id' => $wpdb->siteid)) : get_blog_list( 0, 'all' );
+    foreach($blogs AS $blog){
+        $query = str_replace('#__', $wpdb->get_blog_prefix($blog['blog_id']), file_get_contents(dirname(__FILE__).'/install.sql'));
+        $queries = NextendSplitSql($query);
+        foreach($queries AS $query){
+            if(trim($query) != '') $wpdb->query($query);
+        }
+    }
+}else{
+    $query = str_replace('#__', $wpdb->prefix, file_get_contents(dirname(__FILE__).'/install.sql'));
+    $queries = NextendSplitSql($query);
+    foreach($queries AS $query){
+        if(trim($query) != '') $wpdb->query($query);
+    }
 }
 
 if(NEXTEND_SMART_SLIDER2_BASE == 'nextend-smart-slider2-full'){

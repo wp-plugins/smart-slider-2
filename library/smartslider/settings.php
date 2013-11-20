@@ -50,27 +50,27 @@ class NextendSmartSliderLayoutSettings {
 
 class NextendSmartSliderFontSettings {
 
-    static $settings = null;
+    static $settings = array();
 
-    static function getAll() {
-        if (self::$settings === null) {
-            self::$settings = json_decode(NextendSmartSliderStorage::get('font'), true);
-            if (self::$settings === null)
-                self::$settings = array();
+    static function getAll($id = 0) {
+        if (!isset(self::$settings[$id])) {
+            self::$settings[$id] = json_decode(NextendSmartSliderStorage::get('font'.($id ? $id : '')), true);
+            if (self::$settings[$id] === null)
+                self::$settings[$id] = self::getAll();
         }
-        return self::$settings;
+        return self::$settings[$id];
     }
 
-    static function get($key, $default = null) {
-        if (self::$settings === null)
-            self::getAll();
-        if (!array_key_exists($key, self::$settings))
+    static function get($key, $default = null, $id = 0) {
+        if (!isset(self::$settings[$id]))
+            self::getAll($id);
+        if (!array_key_exists($key, self::$settings[$id]))
             return $default;
-        return self::$settings[$key];
+        return self::$settings[$id][$key];
     }
     
-    static function initAdminFonts(){
-        $data = self::getAll();
+    static function initAdminFonts($id = 0){
+        $data = self::getAll($id);
         $GLOBALS['nextendfontmatrix'] = array();
         if (is_array($data)) {
             foreach ($data AS $k => $v) {
@@ -81,7 +81,6 @@ class NextendSmartSliderFontSettings {
             }
         }
     }
-
 }
 
 class NextendSmartSliderJoomlaSettings {

@@ -9,8 +9,9 @@ $accessSliderDelete = $this->canDo('slider.delete');
 $accessSlideCreate = $this->canDo('slide.create');
 $accessSlideEdit = $this->canDo('slide.edit');
 $accessSlideDelete = $this->canDo('slide.delete');
+$accessCore = $this->canDo('core.admin');
 
-$j15 = version_compare(JVERSION, '1.6.0', 'ge') || nextendIsWordPress() ? false : true;
+$j15 = nextendIsWordPress() || version_compare(JVERSION, '1.6.0', 'ge') ? false : true;
 
 $isJ = nextendIsJoomla();
 $isWP = nextendIsWordPress();
@@ -18,12 +19,24 @@ $isWP = nextendIsWordPress();
 if ($accessSliderCreate) :
     ?>
     <div class="smartslider-button-wrap">
-        <div
-            class="smartslider-button smartslider-createslider smartslider-button-grey smartslider-button-blue-active smartslider-icon-container <?php echo NextendRequest::getCmd('view') == 'sliders_slider' && NextendRequest::getCmd('action') == 'create' ? 'active' : ''; ?>">
+        <table style="width: 100%;">
+        <tr>
+        <td>
+        <div class="smartslider-button smartslider-createslider smartslider-button-grey smartslider-button-blue-active smartslider-icon-container <?php echo NextendRequest::getCmd('view') == 'sliders_slider' && NextendRequest::getCmd('action') == 'create' ? 'active' : ''; ?>">
             <a class="smartslider-button-link"
                href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=create'); ?>"><span
                     class="smartslider-icon smartslider-icon-add"></span><?php echo NextendText::_('Create_slider'); ?></a>
         </div>
+        </td>
+        <td style="width: 80px;">
+        <div class="smartslider-button smartslider-import smartslider-button-grey smartslider-button-blue-active smartslider-icon-container <?php echo NextendRequest::getCmd('view') == 'sliders_slider' && NextendRequest::getCmd('action') == 'import' ? 'active' : ''; ?>" style="margin-left: 0;">
+            <a class="smartslider-button-link"
+               href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=import'); ?>"><span
+                    class="smartslider-icon smartslider-icon-import"></span><?php echo NextendText::_('Import'); ?></a>
+        </div>
+        </td>
+        </tr>
+        </table>
     </div>
 <?php endif; ?>
 <div style="clear: both;"></div>
@@ -42,36 +55,103 @@ $sliders = $slidersModel->getSliders();
 
         $generator = json_decode($slider['generator'], true);
         if ($generator && isset($generator['enabled']) && $generator['enabled']) {
-            $c .= ' nextend-slider-generator-enabled ';
+            $generator = true;
+        }else{
+            $generator = false;
         }
 
         ?>
         <dt class="<?php echo $c; ?> smartslider-button-blue-active smartslider-icon-container <?php echo $active ? 'subactive' : ''; ?> <?php echo $active && NextendRequest::getCmd('controller') == 'sliders' ? 'active' : ''; ?>">
             <a class="smartslider-button-link"
                href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=edit&sliderid=' . $slider['id']); ?>"><?php echo $slider['title']; ?></a>
-            <?php if ($accessSliderDelete): ?>
-                <a onclick="return confirm('<?php echo NextendText::_('Are_you_sure_that_you_want_to_delete_the_slider_and_all_the_related_slides'); ?>')"
-                   class="smartslider-icon smartslider-icon-trash nextend-element-hastip" title="<?php echo NextendText::_('Delete'); ?>"
-                   href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=delete&sliderid=' . $slider['id']); ?>">Delete
-                    slider</a>
-            <?php endif; ?>
-            <?php if ($accessSliderCreate): ?>
-                <a class="smartslider-icon smartslider-icon-duplicate nextend-element-hastip" title="<?php echo NextendText::_('Duplicate'); ?>"
-                   href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=duplicate&sliderid=' . $slider['id']); ?>">Duplicate
-                    slider</a>
-            <?php endif; ?>
-            <?php if ($accessModuleCreate): ?>
-                <a class="smartslider-icon smartslider-icon-module nextend-element-hastip" <?php if($isWP){ ?>onmouseenter="njQuery(this).qtip('api').set('hide.fixed', true);" onclick="return false;" <?php } ?>  title="<?php echo ($isWP ? htmlspecialchars('[smartslider2 slider="'.$slider['id'].'"]') : NextendText::_('Create_module')); ?>"
-                   target="_blank"
-                   href="<?php echo $isJ ? $this->route('controller=sliders&view=sliders_slider&action=createmodule&sliderid=' . $slider['id']) : ''; ?>#">Create
-                    module from this slider</a>
-            <?php endif; ?>
-            <?php if ($accessSliderEdit): ?>
-                <a class="smartslider-icon smartslider-icon-generator nextend-element-hastip"
-                   title="<?php echo NextendText::_('Generator'); ?><?php if ($j15) echo NextendText::_('__Not_available_in_Joomla_15_Please_upgrade_your_Joomla') ?>"<?php if ($j15) echo ' onclick="return false;" ' ?>
-                   href="<?php echo $this->route('controller=sliders&view=sliders_generator&action=generator&sliderid=' . $slider['id']); ?>">Create
-                    or edit generator</a>
-            <?php endif; ?>
+               
+            <div class="tooltip-actions" style="display: none;">
+                <ul class="sidebar-tooltip-menu">
+
+                    <?php if ($accessSliderEdit): ?>
+                        <li class="smartslider-icon-container">
+                            <a href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=edit&sliderid=' . $slider['id']); ?>">
+                                <span class="smartslider-qtip-icon create_slider"></span>
+                                <?php echo NextendText::_('Edit slider'); ?>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                    
+                    <?php if (!$j15 && $accessSliderEdit): ?>
+                        <li class="smartslider-icon-container">
+                            <a href="<?php echo $this->route('controller=sliders&view=sliders_generator&action=generator&sliderid=' . $slider['id']); ?>">
+                                <span class="smartslider-qtip-icon generator"></span>
+                                <?php echo NextendText::_('Generator'); ?>
+                                <?php if ($generator): ?>
+                                    <span class="smartslider-qtip-icon activegreen"></span>
+                                <?php endif; ?>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                    
+                    <?php if ($accessCore): ?>
+                        <li class="smartslider-icon-container">
+                            <a href="<?php echo $this->route('controller=settings&view=sliders_settings&action=font&sliderid=' . $slider['id']); ?>">
+                                <span class="smartslider-qtip-icon fontsettings"></span>
+                                <?php echo NextendText::_('Slider fonts'); ?>
+                                <?php if (NextendSmartSliderStorage::get('font'.$slider['id'])): ?>
+                                    <span class="smartslider-qtip-icon activegreen"></span>
+                                <?php endif; ?>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                    
+                    <?php if ($accessModuleCreate): ?>
+                        <?php if($isWP): ?>
+                            <li class="smartslider-icon-container">
+                                <a href="" onclick="var w = window.open(',', 'popup', 'toolbar = no, status = no,width=600,height=200'); w.document.write('Posts and Pages:<?php echo htmlspecialchars('<br>[smartslider2 slider="'.$slider['id'].'"]')."<br /><br />PHP:<br>".htmlspecialchars('echo do_shortcode(""[smartslider2 slider="'.$slider['id'].'"]"");'); ?>'.replace(/&quot;&quot;/g, '\'')); return false;">
+                                    <span class="smartslider-qtip-icon shortcode"></span>
+                                    <?php echo NextendText::_('Get Shortcode'); ?>
+                                </a>
+                            </li>
+                        <?php else: ?>						
+                            <li class="smartslider-icon-container">
+                                <a href="<?php echo $this->route('controller=sliders&view=sliders_generator&action=createmodule&sliderid=' . $slider['id']); ?>">
+                                    <span class="smartslider-qtip-icon shortcode"></span>
+                                    <?php echo NextendText::_('Create_module'); ?>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                    <?php if ($accessSliderCreate): ?>
+                        <li class="smartslider-icon-container">
+                            <a href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=duplicate&sliderid=' . $slider['id']); ?>">
+                                <span class="smartslider-qtip-icon duplicate"></span>
+                                <?php echo NextendText::_('Duplicate'); ?>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                    <?php if ($accessSliderEdit): ?>
+                        <li class="smartslider-icon-container">
+                            <a href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=export&sliderid=' . $slider['id']); ?>">
+                                <span class="smartslider-qtip-icon export"></span>
+                                <?php echo NextendText::_('Export'); ?>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                    <?php if ($accessSlideDelete): ?>
+                        <li class="smartslider-icon-container">
+                            <a onclick="return confirm('Are you sure that you want to delete all the slides of this slider?')" href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=deleteslides&sliderid=' . $slider['id']); ?>">
+                                <span class="smartslider-qtip-icon subdelete"></span>
+                                <?php echo NextendText::_('Delete slides'); ?>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                    <?php if ($accessSliderEdit): ?>
+                        <li class="smartslider-icon-container">
+                            <a onclick="return confirm('Are you sure that you want to delete the this slider?')" href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=delete&sliderid=' . $slider['id']); ?>">
+                                <span class="smartslider-qtip-icon delete"></span>
+                                <?php echo NextendText::_('Delete'); ?>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
 
             <?php if ($active && NextendRequest::getCmd('controller') != 'sliders'): ?>
                 <span class="smartslider-arrowdown-border"></span>
@@ -120,17 +200,27 @@ $sliders = $slidersModel->getSliders();
                                 <span class="smartslider-icon smartslider-icon-ordering"></span>
                                 <?php echo $slide['title']; ?>
                             </a>
-                            <?php if ($accessSlideDelete) : ?>
-                                <a onclick="return confirm('Are you sure that you want to delete the slide?')"
-                                   class="smartslider-icon smartslider-icon-trash nextend-element-hastip" title="<?php echo NextendText::_('Delete'); ?>"
-                                   href="<?php echo $this->route('controller=slides&view=sliders_slides&action=delete&sliderid=' . $slider['id'] . '&slideid=' . $slide['id']); ?>">Delete
-                                    slide</a>
-                            <?php endif; ?>
+                            <div class="tooltip-actions" style="display: none;">
+                                <ul class="sidebar-tooltip-menu">
+                                    <?php if ($accessSlideEdit): ?>
+                                        <li class="smartslider-icon-container">
+                                            <a href="<?php echo $this->route('controller=slides&view=sliders_slides&action=duplicate&sliderid=' . $slider['id'] . '&slideid=' . $slide['id']); ?>">
+                                                <span class="smartslider-qtip-icon duplicate"></span>
+                                                <?php echo NextendText::_('Duplicate'); ?>
+                                            </a>
+                                        </li>
+                                    <?php endif; ?>
+                                    <?php if ($accessSlideDelete): ?>
+                                        <li class="smartslider-icon-container">
+                                            <a onclick="return confirm('Are you sure that you want to delete the slide?')" href="<?php echo $this->route('controller=slides&view=sliders_slides&action=delete&sliderid=' . $slider['id'] . '&slideid=' . $slide['id']); ?>">
+                                                <span class="smartslider-qtip-icon subdelete"></span>
+                                                <?php echo NextendText::_('Delete'); ?>
+                                            </a>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
+                            </div>
                             <?php if ($accessSlideEdit) : ?>
-                                <a class="smartslider-icon smartslider-icon-duplicate nextend-element-hastip"
-                                   title="<?php echo NextendText::_('Duplicate'); ?>"
-                                   href="<?php echo $this->route('controller=slides&view=sliders_slides&action=duplicate&sliderid=' . $slider['id'] . '&slideid=' . $slide['id']); ?>">Duplicate
-                                    slide</a>
                                 <?php if ($slide['first']): ?>
                                     <a class="smartslider-icon smartslider-icon-starred nextend-element-hastip"
                                        title="<?php echo NextendText::_('First_slide'); ?>"
@@ -166,3 +256,41 @@ $sliders = $slidersModel->getSliders();
     endforeach;
     ?>
 </dl>
+<script type="text/javascript">
+njQuery(window).ready(function(){
+    var lis = njQuery('.smartslider-sliders-list > dt, .smartslider-slides-list > li');
+    
+    lis.each(function(){
+        njQuery(this).qtip({
+            position: {
+                container: njQuery('#smartslider-admin'),
+                my: "left top",
+                at: "right center",
+                adjust: {
+                    y: -6
+                }
+            },
+            content: {
+                text: njQuery(this).find('.tooltip-actions') 
+            },
+            show: {
+                solo: true
+            },
+            hide: {
+                fixed: true,
+                delay: 400/*,
+                event: false*/
+            },
+            style: {
+                classes: 'qtip-nextend',
+                tip: {
+                    mimic: 'left center',
+                    width: 12,
+                    height: 6,
+                    offset: 10
+                }
+            }
+        });
+    });
+});
+</script>

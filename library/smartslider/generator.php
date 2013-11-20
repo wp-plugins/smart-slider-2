@@ -23,8 +23,8 @@ class NextendSmartsliderGenerator {
         if (class_exists('Tidy')) {
             $this->_tidy = true;
         }
-        $this->_tidyInputEncoding = NextendSmartSliderSettings::get('tidy-input-encoding', 'urf8');
-        $this->_tidyOutputEncoding = NextendSmartSliderSettings::get('tidy-output-encoding', 'urf8');
+        $this->_tidyInputEncoding = NextendSmartSliderSettings::get('tidy-input-encoding', 'utf8');
+        $this->_tidyOutputEncoding = NextendSmartSliderSettings::get('tidy-output-encoding', 'utf8');
 
         $this->_generateslides = NextendParse::parse($this->_generator->get('generateslides'));
         $this->_number = intval($this->_generateslides[0]);

@@ -23,7 +23,7 @@
             });
         },
         _setInStart: function () {
-            this.layer.css(this.options.startCSS);
+            this.layer.css('visibility', 'hidden').css(this.options.startCSS);
         },
         _animateIn: function () {
             this._animate(this.options.animationin, $.extend({}, this.options.startCSS), $.extend({}, this.options.endCSS), 'hidden', 'block', 'block', this.options.animate + ' ' + this.options.animateIn, this.options.intervalIn, this.options.easingIn, this.options.delayIn, this.options.parallaxIn, 'onAnimateInEnd');
@@ -378,6 +378,161 @@
             transformOrigin: 'top right',
             x: 70,
             scale: 1.5
+        },
+        reset: {
+            x: 0,
+            scale: 1
+        },
+        parallax: ['x']
+    });
+	
+	
+	
+	
+	
+	
+	
+    scope.ssAnimationManager.addAnimation('zoomoutfromtop', scope.ssAnimationTransit, {
+        startCSS: {
+            transformOrigin: 'top',
+            x: 0,
+            scale: 1.5
+        },
+        endCSS: {
+            transformOrigin: 'top',
+            x: 0,
+            scale: 1.0
+        },
+        reset: {
+            x: 0,
+            scale: 1
+        },
+        parallax: ['x']
+    });
+	
+    scope.ssAnimationManager.addAnimation('zoomoutfromleft', scope.ssAnimationTransit, {
+        startCSS: {
+            transformOrigin: 'left',
+            x: 0,
+            scale: 1.5
+        },
+        endCSS: {
+            transformOrigin: 'left',
+            x: 0,
+            scale: 1.0
+        },
+        reset: {
+            x: 0,
+            scale: 1
+        },
+        parallax: ['x']
+    });
+	
+    scope.ssAnimationManager.addAnimation('zoomoutfrombottom', scope.ssAnimationTransit, {
+        startCSS: {
+            transformOrigin: 'bottom',
+            x: 0,
+            scale: 1.5
+        },
+        endCSS: {
+            transformOrigin: 'bottom',
+            x: 0,
+            scale: 1.0
+        },
+        reset: {
+            x: 0,
+            scale: 1
+        },
+        parallax: ['x']
+    });
+	
+    scope.ssAnimationManager.addAnimation('zoomoutfromright', scope.ssAnimationTransit, {
+        startCSS: {
+            transformOrigin: 'right',
+            x: 0,
+            scale: 1.5
+        },
+        endCSS: {
+            transformOrigin: 'right',
+            x: 0,
+            scale: 1.0
+        },
+        reset: {
+            x: 0,
+            scale: 1
+        },
+        parallax: ['x']
+    });
+	
+	
+	
+	
+	
+
+    scope.ssAnimationManager.addAnimation('zoomoutfromrighttop', scope.ssAnimationTransit, {
+        startCSS: {
+            transformOrigin: 'top right',
+            x: 0,
+            scale: 1.5
+        },
+        endCSS: {
+            transformOrigin: 'top right',
+            x: 0,
+            scale: 1.0
+        },
+        reset: {
+            x: 0,
+            scale: 1
+        },
+        parallax: ['x']
+    });
+	
+    scope.ssAnimationManager.addAnimation('zoomoutfromlefttop', scope.ssAnimationTransit, {
+        startCSS: {
+            transformOrigin: 'top left',
+            x: 0,
+            scale: 1.5
+        },
+        endCSS: {
+            transformOrigin: 'top left',
+            x: 0,
+            scale: 1.0
+        },
+        reset: {
+            x: 0,
+            scale: 1
+        },
+        parallax: ['x']
+    });
+	
+    scope.ssAnimationManager.addAnimation('zoomoutfromleftbottom', scope.ssAnimationTransit, {
+        startCSS: {
+            transformOrigin: 'bottom left',
+            x: 0,
+            scale: 1.5
+        },
+        endCSS: {
+            transformOrigin: 'bottom left',
+            x: 0,
+            scale: 1.0
+        },
+        reset: {
+            x: 0,
+            scale: 1
+        },
+        parallax: ['x']
+    });
+	
+    scope.ssAnimationManager.addAnimation('zoomoutfromrightbottom', scope.ssAnimationTransit, {
+        startCSS: {
+            transformOrigin: 'bottom right',
+            x: 0,
+            scale: 1
+        },
+        endCSS: {
+            transformOrigin: 'bottom right',
+            x: 0,
+            scale: 1.0
         },
         reset: {
             x: 0,

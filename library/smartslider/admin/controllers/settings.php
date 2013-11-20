@@ -30,6 +30,22 @@ class NextendSmartsliderAdminControllerSettings extends NextendSmartsliderAdminC
         $this->defaultAction('font');
     }
 
+    function clearfontsAction() {
+        if ($this->canDo('core.admin')) {
+            $sliderid = NextendRequest::getInt('sliderid');
+            $settingsModel = $this->getModel('settings');
+            if ($sliderid) {
+                if ($settingsModel->clearfonts($sliderid)) {
+                    header('LOCATION: ' . $this->route('controller=settings&view=sliders_settings&action=font&sliderid='.$sliderid));
+                    exit;
+                }
+            }
+            $this->display($form, 'default');
+        }else{
+            $this->noaccess();
+        }
+    }
+
     function joomlaAction() {
         if(nextendIsJoomla()) $this->defaultAction('joomla');
     }

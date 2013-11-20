@@ -44,6 +44,7 @@
             };
             var d = {};
             d.data = dojo.toJson(data);
+            d.get = dojo.toJson(this.URLToArray(location.href));
             if(typeof this.form.extra != 'undefined'){
                 dojo.mixin(d, this.form.extra);
             }
@@ -72,6 +73,15 @@
         error: function(){
             window.nextendajax--;
             alert('There was an error with the AJAX call. Please refresh the page!');
+        },
+        URLToArray: function(url) {
+            var request = {};
+            var pairs = url.substring(url.indexOf('?') + 1).split('&');
+            for (var i = 0; i < pairs.length; i++) {
+                var pair = pairs[i].split('=');
+                request[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+            }
+            return request;
         }
     });
 })(ndojo);

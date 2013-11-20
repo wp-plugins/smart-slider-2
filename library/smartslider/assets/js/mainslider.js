@@ -57,9 +57,9 @@
             this.options.syncAnimations = this.options.mainafterout;
 
             this.$slider = $el;
-            if (this.options.translate3d && Modernizr && Modernizr.csstransforms3d) {
-                this.$slider.css(Modernizr.prefixed('transform'), 'translate3d(0,0,0)');
-                this.$slider.css(Modernizr.prefixed('perspective'), '1000');
+            if (this.options.translate3d && nModernizr && nModernizr.csstransforms3d) {
+                this.$slider.css(nModernizr.prefixed('transform'), 'translate3d(0,0,0)');
+                this.$slider.css(nModernizr.prefixed('perspective'), '1000');
             }
             
             if(this.options.blockrightclick && window.ssadmin !== 1){
@@ -133,6 +133,8 @@
                         _this.$slider.addClass('nextend-loaded');
                         $('#'+_this.id+'-placeholder').remove();
                         
+                        _this.$slider.trigger('loaded');
+                        
                         _this._animating = false;
                         if (_this.options.playfirstlayer) {
                             var canvas = $(_this.slideList[_this._active]);
@@ -168,6 +170,11 @@
                     $(window).on('resize', function () {
                         _this.onResize();
                     });
+                    if(typeof artxJQuery != "undefined"){
+                        artxJQuery(window).on('responsive', function () {
+                            _this.onResize();
+                        });
+                    }
                 } else {
                     this.$slider.waitForImages(function () {
                         $(_this).trigger('load');
@@ -182,6 +189,7 @@
                 this.initWidgets();
                 this.initScroll();
                 this.initTouch();
+				this.initEvents();
 
             } else {
                 $(this).trigger('load');
@@ -258,19 +266,39 @@
                 allowPageScroll: (mode == 'horizontal' ? 'vertical' : 'horizontal')
             });
         },
-        next: function () {
+    		initEvents: function(){
+    			this.$slider.find("*[data-click]").each(function(){
+    				var thisme = $(this);
+    				if(thisme.data('click')!=""){
+    					thisme.on("click", function(){eval(thisme.data('click'));});
+    				}
+    			});
+    			this.$slider.find("*[data-enter]").each(function(){
+    				var thisme = $(this);
+    				if(thisme.data('enter')!=""){
+    					thisme.on("mouseenter", function(){eval(thisme.data('enter'));});
+    				}
+    			});
+    			this.$slider.find("*[data-leave]").each(function(){
+    				var thisme = $(this);
+    				if(thisme.data('leave')!=""){
+    					thisme.on("mouseleave", function(){eval(thisme.data('leave'));});
+    				}
+    			});
+    		},
+        next: function (autoplay) {
             var i = this._active + 1;
             if (i === this.slideList.length)
                 i = 0;
-            return this.changeTo(i, false);
+            return this.changeTo(i, false, autoplay);
         },
-        previous: function () {
+        previous: function (autoplay) {
             var i = this._active - 1;
             if (i < 0)
                 i = this.slideList.length - 1;
-            return this.changeTo(i, true);
+            return this.changeTo(i, true, autoplay);
         },
-        changeTo: function (i, reversed) {
+        changeTo: function (i, reversed, autoplay) {
             if (window.ssadmin || i === this._active || this._animating)
                 return false;
             if (!this.options.syncAnimations) {
@@ -483,7 +511,7 @@
                     },
                     complete: function () {
                         _this.options.autoplayConfig.counter++;
-                        _this.next();
+                        _this.next(true);
                         _this.indicatorEl.data('animating', false);
                         _this.indicatorEl.stop(true);
                         _this.indicatorProgress = 0;
@@ -495,7 +523,7 @@
 
                 this.autoplayTimer = setTimeout(function () {
                     this.options.autoplayConfig.counter++;
-                    _this.next();
+                    _this.next(true);
                     _this.indicatorEl.stop(true);
 
                     _this.indicator.refresh(100);

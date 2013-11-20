@@ -32,6 +32,11 @@ $this->loadFragment('secondcolstart');
     <input name="save" value="1" type="hidden" />
 </form>
 
+<?php
+global $ss2sliderafterform;
+echo $ss2sliderafterform;
+?>
+
 <?php if(NextendSmartSliderSettings::get('guides', 1) ): ?>
 <ol id="nextend-guide-default" style="display: none;">
   

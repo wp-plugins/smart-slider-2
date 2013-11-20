@@ -24,24 +24,29 @@ $this->loadFragment('firstcolend');
 $this->loadFragment('secondcolstart');
 ?>
 
-    <form id="smartslider-form" action="" onsubmit="return (parseInt(njQuery('#generateslidesgeneratorgenerateslides_1').val()) == 1 && parseInt(njQuery('#generateslidesgeneratorgenerateslides_2').val()) == 0 ? confirm('\'Generate slides\' without static switch will delete and generate your dynamic slides. Are you sure?') : true)" method="post">
-        <?php
-        $slidersModel = $this->getModel('sliders');
-        $slider = $slidersModel->getSlider(NextendRequest::getInt('sliderid'));
+<form id="smartslider-form" action="" onsubmit="return (parseInt(njQuery('#generateslidesgeneratorgenerateslides_1').val()) == 1 && parseInt(njQuery('#generateslidesgeneratorgenerateslides_2').val()) == 0 ? confirm('\'Generate slides\' without static switch will delete and generate your dynamic slides. Are you sure?') : true)" method="post">
+    <?php
+    $slidersModel = $this->getModel('sliders');
+    $slider = $slidersModel->getSlider(NextendRequest::getInt('sliderid'));
 
-        $smartslidergenerator = (array)json_decode($slider['generator'], true);
+    $smartslidergenerator = (array)json_decode($slider['generator'], true);
 
-        $xml = $slidersModel->editGeneratorForm($smartslidergenerator);
+    $xml = $slidersModel->editGeneratorForm($smartslidergenerator);
 
-        $smartslidergeneratorslide = (array)json_decode($slider['slide'], true);
+    $smartslidergeneratorslide = (array)json_decode($slider['slide'], true);
 
 
-        $slidesModel = $this->getModel('slides');
-        $slidesModel->editForm($smartslidergeneratorslide);
-        ?>
-        <input name="sliderid" value="<?php echo NextendRequest::getInt('sliderid'); ?>" type="hidden"/>
-        <input name="save" value="1" type="hidden"/>
-    </form>
+    $slidesModel = $this->getModel('slides');
+    $slidesModel->editForm($smartslidergeneratorslide);
+    ?>
+    <input name="sliderid" value="<?php echo NextendRequest::getInt('sliderid'); ?>" type="hidden"/>
+    <input name="save" value="1" type="hidden"/>
+</form>
+
+<?php
+global $ss2sliderafterform;
+echo $ss2sliderafterform;
+?>
 
 <?php
 $css = NextendCss::getInstance();

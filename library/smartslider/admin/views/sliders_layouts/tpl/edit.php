@@ -31,6 +31,11 @@ $this->loadFragment('secondcolstart');
 </form>
 
 <?php
+global $ss2sliderafterform;
+echo $ss2sliderafterform;
+?>
+
+<?php
 $this->loadFragment('secondcolend');
 ?>
 

@@ -3,6 +3,7 @@
 nextendimportsmartslider2('nextend.smartslider.settings');
 nextendimport('nextend.mvc.controller');
 nextendimport('nextend.environment.request');
+nextendimport('nextend.message.message');
 
 class NextendSmartsliderAdminController extends NextendController {
 
@@ -22,6 +23,11 @@ class NextendSmartsliderAdminController extends NextendController {
             $this->message(NextendText::_('Access not allowed to this resource.'));
             return;
         };
+
+        nextendimport('nextend.css.css');
+        $css = NextendCss::getInstance();
+
+        $css->addCssLibraryFile('ni.css');
 
         $this->_baseControllerPath = dirname(__FILE__);
 

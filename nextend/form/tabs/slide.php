@@ -28,9 +28,6 @@ class NextendTabSlide extends NextendTab {
     function decorateGroupEnd() {
 
         echo "</div>";
-        ?>
-        <div class="smartslider-slide-advanced-layers"></div>
-        <?php
     }
 
     function decorateElement(&$el, $out, $i) {

@@ -5,7 +5,7 @@ nextendimport('nextend.form.element.textarea');
 class NextendElementSlide extends NextendElementTextarea {
 
     function fetchElement() {
-        global $smartslidercontroller;
+        global $smartslidercontroller, $ss2sliderafterform;
         $this->_value = htmlspecialchars($this->_form->get($this->_name, $this->_default), ENT_QUOTES);
         $this->_form->set($this->_name, $this->_value);
         
@@ -33,7 +33,8 @@ class NextendElementSlide extends NextendElementTextarea {
         $slider->render();
         echo "</div>";
         echo "<div id='smart-slider-layer-dummy' class='smart-slider-layer'></div>";
-        $html.= ob_get_clean();
+        echo '<div class="smartslider-slide-advanced-layers"></div>';
+        $ss2sliderafterform = ob_get_clean();
 
         $css = NextendCss::getInstance();
         $css->addCssLibraryFile('jqueryui/jquery.ui.resizable.css');

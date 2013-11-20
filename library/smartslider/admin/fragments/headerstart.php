@@ -20,7 +20,7 @@ $fonts = NextendFontsGoogle::getInstance();
 $fonts->addFont('Montserrat');
 ?>
 
-<div id="smartslider-admin" class="nextend-nowindow smartslider-advanced-layers-simple-active">
+<div id="smartslider-admin" class="nextend-nowindow smartslider-advanced-layers-simple-active ni">
 
     <div class="smartslider-head">
         <div class="smartslider-logo" style="cursor: pointer;" onclick="location.href='<?php echo $this->route('controller=sliders'); ?>';">

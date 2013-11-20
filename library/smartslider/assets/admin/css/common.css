@@ -172,7 +172,6 @@ a::-moz-focus-inner, a:focus, a:active, a:focus {
     padding: 8px 12px;
     width: auto;
     text-shadow: 0 1px 1px white;
-    margin-right: 80px;
 }
 
 #smartslider-admin .smartslider-firstcol .smartslider-list dt.active{

@@ -25,7 +25,7 @@ class NextendSmartsliderAdminModelSettings extends NextendModel {
                 $form->loadArray(NextendSmartSliderLayoutSettings::getAll());
                 break;
             case 'font':
-                $form->loadArray(NextendSmartSliderFontSettings::getAll());
+                $form->loadArray(NextendSmartSliderFontSettings::getAll(NextendRequest::getInt('sliderid')));
                 break;
             case 'joomla':
                 $form->loadArray(NextendSmartSliderJoomlaSettings::getAll());
@@ -44,8 +44,20 @@ class NextendSmartsliderAdminModelSettings extends NextendModel {
         if (isset($_REQUEST['namespace']) && isset($_REQUEST['settings'])) {
             if ($namespace == 'default')
                 $namespace = 'settings';
+            if($namespace == 'font' && NextendRequest::getInt('sliderid')) $namespace.= NextendRequest::getInt('sliderid');
             NextendSmartSliderStorage::set($namespace, json_encode($_REQUEST['settings']));
         }
+    }
+
+    function loadglobalfonts($sliderid) {
+        $this->clearfonts($sliderid);
+        if($sliderid) NextendSmartSliderStorage::set('font'.$sliderid, NextendSmartSliderStorage::get('font'));
+        return true;
+    }
+
+    function clearfonts($sliderid) {
+        if($sliderid) NextendSmartSliderStorage::delete('font'.$sliderid);
+        return true;
     }
 
 }
