@@ -4,7 +4,7 @@ Tags: slider, slide, layer slider, responsive, gallery, auto, autoplay, carousel
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
 Tested up to: 3.7.1
-Stable tag: 2.1.16
+Stable tag: 2.1.17
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -43,6 +43,7 @@ Smart Slider 2 comes with an intuitive interface for backend, which makes easy f
 
 #### Installation and tutorial video
 Please switch the video quality to 1080p for best experience!
+
 * Installation of Smart Slider 2 - 00:00
 * Place the slider into a post via shortcode - 00:30
 * Create the slider - 01:15
@@ -108,6 +109,9 @@ Or you can get the shortcode - [View](http://www.nextendweb.com/wp-content/uploa
 4. Screenshot from the backend, which will help you through the set up process with easily understandable features.
 
 == Changelog ==
+
+= 2.1.17 =
+* Some small fixes
 
 = 2.1.16 =
 * New sample sliders in free versions

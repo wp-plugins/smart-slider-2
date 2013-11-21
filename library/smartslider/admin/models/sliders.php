@@ -31,6 +31,7 @@ class NextendSmartsliderAdminModelSliders extends NextendModel {
     }
 
     function renderAddForm($data = array()) {
+        NextendSmartSliderFontSettings::initAdminFonts();
         return $this->editForm($data);
     }
 
@@ -47,6 +48,7 @@ class NextendSmartsliderAdminModelSliders extends NextendModel {
             $data = array();
         $data['title'] = $slider['title'];
         $data['type'] = $slider['type'];
+        NextendSmartSliderFontSettings::initAdminFonts($id);
         return $this->editForm($data);
     }
 

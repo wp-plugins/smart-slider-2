@@ -15,7 +15,7 @@ class NextendElementFontMatrixChooser extends NextendElementList {
         
         $this->_xml->addChild('option', 'None')->addAttribute('value', '');
         
-        if(count($GLOBALS['nextendfontmatrix'])){
+        if(isset($GLOBALS['nextendfontmatrix']) && count($GLOBALS['nextendfontmatrix'])){
             foreach($GLOBALS['nextendfontmatrix'] as $k => $v) {
                 $this->_xml->addChild('option', $v)->addAttribute('value', $k);
             }

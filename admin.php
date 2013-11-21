@@ -8,15 +8,6 @@ if(!function_exists('nextend_init_ajax')){
     }
 }
 
-function nextend_smart_slider2(){
-    nextendimportsmartslider2('nextend.smartslider.admin.controller');
-    
-    $controller = new NextendSmartsliderAdminController('com_smartslider2');
-    $controller->initBase();
-    $controller->run();
-}
-
-
 add_action( 'admin_head', 'nextend_smartslider2_icons' );
 function nextend_smartslider2_icons() {
 ?>
