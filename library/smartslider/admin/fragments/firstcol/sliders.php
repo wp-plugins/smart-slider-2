@@ -11,10 +11,12 @@ $accessSlideEdit = $this->canDo('slide.edit');
 $accessSlideDelete = $this->canDo('slide.delete');
 $accessCore = $this->canDo('core.admin');
 
-$j15 = nextendIsWordPress() || version_compare(JVERSION, '1.6.0', 'ge') ? false : true;
-
 $isJ = nextendIsJoomla();
 $isWP = nextendIsWordPress();
+$isMage = nextendIsMagento();
+
+$j15 = !$isJ || version_compare(JVERSION, '1.6.0', 'ge') ? false : true;
+
 
 if ($accessSliderCreate) :
     ?>
@@ -72,7 +74,7 @@ $sliders = $slidersModel->getSliders();
                         <li class="smartslider-icon-container">
                             <a href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=edit&sliderid=' . $slider['id']); ?>">
                                 <span class="smartslider-qtip-icon create_slider"></span>
-                                <?php echo NextendText::_('Edit slider'); ?>
+                                <?php echo NextendText::_('Edit_slider'); ?>
                             </a>
                         </li>
                     <?php endif; ?>
@@ -93,7 +95,7 @@ $sliders = $slidersModel->getSliders();
                         <li class="smartslider-icon-container">
                             <a href="<?php echo $this->route('controller=settings&view=sliders_settings&action=font&sliderid=' . $slider['id']); ?>">
                                 <span class="smartslider-qtip-icon fontsettings"></span>
-                                <?php echo NextendText::_('Slider fonts'); ?>
+                                <?php echo NextendText::_('Slider_fonts'); ?>
                                 <?php if (NextendSmartSliderStorage::get('font'.$slider['id'])): ?>
                                     <span class="smartslider-qtip-icon activegreen"></span>
                                 <?php endif; ?>
@@ -138,7 +140,7 @@ $sliders = $slidersModel->getSliders();
                         <li class="smartslider-icon-container">
                             <a onclick="return confirm('Are you sure that you want to delete all the slides of this slider?')" href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=deleteslides&sliderid=' . $slider['id']); ?>">
                                 <span class="smartslider-qtip-icon subdelete"></span>
-                                <?php echo NextendText::_('Delete slides'); ?>
+                                <?php echo NextendText::_('Delete_slides'); ?>
                             </a>
                         </li>
                     <?php endif; ?>

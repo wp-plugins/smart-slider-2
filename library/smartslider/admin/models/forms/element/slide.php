@@ -26,6 +26,9 @@ class NextendElementSlide extends NextendElementTextarea {
         }else if(nextendIsWordpress()){
             nextendimportsmartslider2('nextend.smartslider.wordpress.slider');
             $slider = new NextendSliderWordpress(intval($_GET['sliderid']), $params, dirname(__FILE__), true);
+        }else if(nextendIsMagento()){
+            nextendimportsmartslider2('nextend.smartslider.magento.slider');
+            $slider = new NextendSliderMagento(intval($_GET['sliderid']), $params, dirname(__FILE__), true);
         }
         
         ob_start();
@@ -33,7 +36,7 @@ class NextendElementSlide extends NextendElementTextarea {
         $slider->render();
         echo "</div>";
         echo "<div id='smart-slider-layer-dummy' class='smart-slider-layer'></div>";
-        echo '<div class="smartslider-slide-advanced-layers"></div>';
+        echo '<div class="smartslider-slide-advanced-layers" style="min-width: 1600px;"></div>';
         $ss2sliderafterform = ob_get_clean();
 
         $css = NextendCss::getInstance();

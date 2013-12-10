@@ -180,10 +180,19 @@ class NextendCss {
     function generateAjaxCSS($loadedCSS) {
         $css = '';
         if (count($this->_cssFiles)) {
-            foreach ($this->_cssFiles AS $file) {
-                if (!in_array($file, $loadedCSS)) {
-                    $css .= preg_replace('#url\([\'"]([^"\'\)]+)[\'"]\)#', 'url(' . NextendFilesystem::pathToAbsoluteURL(dirname($file)) . '/$1)', NextendFilesystem::readFile($file));
+            $lesscache = $this->_lesscache;
+            foreach ($this->_cssFiles AS $k => $file) {
+                if (!in_array($k, $loadedCSS)) {
+                    if(is_array($file)){
+                        $lesscache->addContext($file[1], $file[2]);
+                    }else{
+                        $css .= preg_replace('#url\([\'"]([^"\'\)]+)[\'"]\)#', 'url(' . NextendFilesystem::pathToAbsoluteURL(dirname($k)) . '/$1)', NextendFilesystem::readFile($k));
+                    }
                 }
+            }
+            if ($lesscache) {
+                $lessfile = NextendFilesystem::absoluteURLToPath($lesscache->getCache());
+                $css .= preg_replace('#url\([\'"]([^"\'\)]+)[\'"]\)#', 'url(' . NextendFilesystem::pathToAbsoluteURL(dirname($lessfile)) . '/$1)', NextendFilesystem::readFile($lessfile));
             }
         }
         $css .= $this->_css;

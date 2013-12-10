@@ -14,14 +14,22 @@ class NextendTextAbstract2{
     
     static function l($file, $folder = null, $lng = null){
         if(!$folder) $folder = self::$folder;
-        $f = $folder.($lng ? $lng : self::$lng).'/'.$file.'.ini';
+        if(!$lng) $lng = self::$lng;
+        $f = $folder.$lng.'/'.$file.'.ini';
         if(!isset(self::$loadedfiles[$f])){
+            if($lng != 'en'){
+                self::l($file, $folder, 'en');
+                $lngs = explode('_', $lng);
+                if(count($lngs) == 2){
+                    self::l($file, $folder, $lngs[0]);
+                }
+            }
+            
             if(NextendFilesystem::fileexists($f)){
-                self::$translated+=parse_ini_file($f);
+                self::$translated = parse_ini_file($f) + self::$translated;
                 self::$loadedfiles[$f] = true;
-            }else if($lng != 'en_GB'){
-                self::$loadedfiles[$f] = false;
-                self::l($file, $folder, 'en_GB');
+            }else{
+                self::$loadedfiles[$f] = 0;
             }
         }
     }

@@ -1,5 +1,4 @@
 <?php
-NextendText::l('fontmanager');
         
 class NextendFontmanager{
     

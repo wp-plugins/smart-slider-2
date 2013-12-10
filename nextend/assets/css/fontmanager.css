@@ -1,5 +1,5 @@
 #nextend-fontmanager-panel{
-  margin: 0;
+    margin: 0;
 }
 
 #nextend-fontmanager-lightbox .nextend-window-container{
@@ -21,7 +21,7 @@
 }
 
 #nextend-fontmanager-panel .nextend-form{
-  margin: 10px 20px;
+    margin: 10px 20px;
 }
 
 #nextend-fontmanager-cleartab,
@@ -44,24 +44,25 @@
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e6e9ed',GradientType=0 ); /* IE6-9 */      
     text-shadow: 0 1px 1px white;
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3) inset, 0 0 0 1px rgba(0, 0, 0, 0.25) inset, 0 -3px 5px rgba(0, 0, 0, 0.05) inset;  
-    border-radius: 3px;
+    border-radius: 3px;    
+    font-weight: 600;
 }
 
 #nextend-fontmanager-cleartab{
-  margin-right: 20px;
+    margin-right: 20px;
 }
 
 #nextend-fontmanager-tabs .nextend-tab:HOVER{
-  background: #dee1e8; /* Old browsers */
-  background: -moz-linear-gradient(top, #fbfcfe 0%, #dee1e8 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fbfcfe), color-stop(100%,#dee1e8)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #fbfcfe 0%,#dee1e8 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #fbfcfe 0%,#dee1e8 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, #fbfcfe 0%,#dee1e8 100%); /* IE10+ */
-  background: linear-gradient(top, #fbfcfe 0%,#dee1e8 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbfcfe', endColorstr='#dee1e8',GradientType=0 ); /* IE6-9 */ 
+    background: #dee1e8; /* Old browsers */
+    background: -moz-linear-gradient(top, #fbfcfe 0%, #dee1e8 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fbfcfe), color-stop(100%,#dee1e8)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #fbfcfe 0%,#dee1e8 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #fbfcfe 0%,#dee1e8 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #fbfcfe 0%,#dee1e8 100%); /* IE10+ */
+    background: linear-gradient(top, #fbfcfe 0%,#dee1e8 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbfcfe', endColorstr='#dee1e8',GradientType=0 ); /* IE6-9 */ 
 }
-  
+
 #nextend-fontmanager-tabs .nextend-tab.selected{
     color: #fff;
     text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
@@ -107,13 +108,14 @@
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f8fa', endColorstr='#dee1e8',GradientType=0 ); /* IE6-9 */    
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     text-shadow: 0 1px 1px white;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3) inset, 0 -5px 10px rgba(0, 0, 0, 0.05) inset;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3) inset, 0 -5px 10px rgba(0, 0, 0, 0.05) inset;    
+    font-weight: 600;
 }
 
 .fontcolorpickerinput{
-  float:right;
-  margin-top: -47px;
-  margin-right: 21px;
+    float:right;
+    margin-top: -47px;
+    margin-right: 21px;
 }
 
 #nextend-fontmanager-preview{
@@ -124,7 +126,7 @@
 }
 
 #nextend-fontmanager-panel .nextend-horizontal-tab label{
-  color: #6C7581;
-  font-size: 10px;
-  font-family: 'Montserrat',Arial,sans-serif;
+    color: #6C7581;
+    font-size: 10px;
+    font-family: 'Open Sans', Arial, sans-serif;
 }

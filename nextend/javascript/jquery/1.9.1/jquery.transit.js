@@ -610,9 +610,43 @@
 
         // Compute delay until callback.
         // If this becomes 0, don't bother setting the transition property.
-        var work = $.transit.enabled && support.transition;
-        var i = work ? (parseInt(duration, 10) + parseInt(delay, 10)) : 0;
+        //var work = $.transit.enabled && support.transition;
+        var i = $.transit.enabled ? (parseInt(duration, 10) + parseInt(delay, 10)) : 0;
 
+
+        if(!support.transition && i > 0){
+            var end = self.data('sstransit');
+            if(end){
+                var s = 0,
+                    e = 1;
+                if(end == 'onAnimateOutEnd'){
+                    s = 1;
+                    e = 0;
+                }
+                theseProperties.opacity = s;
+                self.css(theseProperties);     
+                var fn = function (next) {     
+                    self.stop().animate({opacity: e}, {
+                        duration: i,
+                        easing: easing,
+                        complete: function(){
+                            self.data('sstransit', null);      
+                            if (callback) {
+                                callback.apply(self);
+                            }
+                        }                 
+                    });
+                    if (next) {
+                        next();
+                    }
+                };
+    
+                callOrQueue(self, queue, fn);
+                return self;
+            }
+            i = 0;
+        }
+        
         // If there's nothing to do...
         if (i === 0) {
             var fn = function (next) {

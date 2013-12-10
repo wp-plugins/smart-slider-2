@@ -57,7 +57,7 @@
             this.timeout = setTimeout(function () {
                 var layer = $this.layer,
                     percent = 0;
-                if (animation && animation.length > 0) {
+                if (nModernizr.csstransitions && animation && animation.length > 0) {
                     for (var i = 0; i < animation.length; i++) {
                         layer.css('visibility', 'visible').transition(
                             animation[i].css,
@@ -67,6 +67,7 @@
                         percent = animation[i].percent;
                     }
                 }
+                layer.data('sstransit', endfn);
                 layer.css('visibility', 'visible').transition(
                     endcss,
                     interval * (100 - percent) / 100,

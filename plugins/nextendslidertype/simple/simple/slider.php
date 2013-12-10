@@ -7,9 +7,9 @@ $backgroundimagecss = '';
 if ($backgroundimage && $backgroundimage != '-1') $backgroundimagecss = 'background-image: url(' . $backgroundimage . ');';
 
 
-$flux = (array)NextendParse::parse($this->_sliderParams->get('simplebackgroundanimation', '0|*|bars'));
+$flux = (array)NextendParse::parse($this->_sliderParams->get('simplebackgroundanimation', '0|*|bars||blocks'));
 $flux[0] = $this->_backend ? 0 : intval($flux[0]);
-$flux[1] = 'bars';
+if (!isset($flux[1])) $flux[1] = 'bars';
 $flux[1] = (array)$flux[1];
 if ($flux[0]) {
     $js->addLibraryJsFile('jquery', dirname(__FILE__) . DIRECTORY_SEPARATOR . 'flux.jquery.js');
@@ -19,8 +19,7 @@ if ($flux[0]) {
     window['<?php echo $id; ?>-onresize'] = [];
 </script>
 
-<div id="<?php echo $id; ?>"
-     style="font-size: <?php echo intval($this->_sliderParams->get('globalfontsize', 14)); ?>px;">
+<div id="<?php echo $id; ?>" class="<?php echo $sliderClasses; ?>" style="font-size: <?php echo intval($this->_sliderParams->get('globalfontsize', 14)); ?>px;">
     <div class="smart-slider-border1" style="<?php echo $backgroundimagecss . $this->_sliderParams->get('simpleslidercss', ''); ?>">
         <div class="smart-slider-border2">
             <?php if ($flux[0]): ?>
@@ -44,9 +43,6 @@ if ($flux[0]) {
                     <div class="smart-slider-canvas-inner">
                         <?php echo $slide['slide']; ?>
                     </div>
-                    <?php if(nextendIsJoomla()){ ?>
-                        <div style="position: absolute; right: 10px; bottom: 10px;z-index: 100000;"><img src="http://www.nextendweb.com/demo/smartslider2/trial/watermark.png" /></div>
-                    <?php } ?>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -57,55 +53,26 @@ if ($flux[0]) {
 </div>
 
 <?php
-$responsive = NextendParse::parse($this->_sliderParams->get('responsive', '0|*|0'));
 
-$animation = explode('||', 'horizontal');
+$properties['type'] = 'ssSimpleSlider';
+$properties['animation'] = explode('||', $this->_sliderParams->get('simpleanimation', 'no'));
+
 $animationproperties = NextendParse::parse($this->_sliderParams->get('simpleanimationproperties', '1500|*|0|*|easeInOutQuint|*|0.45'));
+$properties['animationSettings'] = array(
+    'duration' => intval($animationproperties[0]),
+    'delay' => intval($animationproperties[1]),
+    'easing' => $animationproperties[2],
+    'parallax' => floatval($animationproperties[3])
+);
 
-$controls = NextendParse::parse($this->_sliderParams->get('controls', '0|*|0'));
+$properties['flux'] = $flux;
 
+$properties['responsive']['maxwidth'] = intval($this->_sliderParams->get('fullpageresponsivemaxwidth', 3000));
 
 ?>
 <script type="text/javascript">
     njQuery(document).ready(function () {
-        njQuery('#<?php echo $id; ?>').smartslider({
-            type: 'ssSimpleSlider',
-            translate3d: <?php echo intval(NextendSmartSliderSettings::get('translate3d', 1)); ?>,
-            playfirstlayer: <?php echo intval($this->_sliderParams->get('playfirstlayer', 0)); ?>,
-            mainafterout: <?php echo intval($this->_sliderParams->get('mainafterout', 1)); ?>,
-            inaftermain: <?php echo intval($this->_sliderParams->get('inaftermain', 1)); ?>,
-            animation: <?php echo json_encode($animation); ?>,
-            animationSettings: {
-                duration: <?php echo intval($animationproperties[0]); ?>,
-                delay: <?php echo intval($animationproperties[1]); ?>,
-                easing: '<?php echo $animationproperties[2]; ?>',
-                parallax: <?php echo floatval($animationproperties[3]); ?>
-            },
-            flux: <?php echo json_encode($flux); ?>,
-            autoplay: 0,
-            autoplayConfig: {
-                duration: 0,
-                stopautoplay: {
-                    click: 0,
-                    mouseenter: 0,
-                    slideplaying: 0
-                },
-                resumeautoplay: {
-                    mouseleave: 0,
-                    slideplayed: 0
-                }
-            },
-            responsive: {
-                downscale: <?php echo intval($responsive[0]); ?>,
-                upscale: <?php echo intval($responsive[1]); ?>,
-                maxwidth: <?php echo intval($this->_sliderParams->get('simpleresponsivemaxwidth', 3000)); ?>
-            },
-            controls: {
-                scroll: <?php echo intval($controls[0]); ?>,
-                touch: '<?php echo $controls[1]; ?>'
-            },
-            blockrightclick: <?php echo intval($this->_sliderParams->get('blockrightclick', 0)); ?>
-        });
+        njQuery('#<?php echo $id; ?>').smartslider(<?php echo json_encode($properties); ?>);
     });
 </script>
 <div style="clear: both;"></div>

@@ -4,7 +4,7 @@ Tags: slider, slide, layer slider, responsive, gallery, auto, autoplay, carousel
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
 Tested up to: 3.7.1
-Stable tag: 2.1.17
+Stable tag: 2.2.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -109,6 +109,17 @@ Or you can get the shortcode - [View](http://www.nextendweb.com/wp-content/uploa
 4. Screenshot from the backend, which will help you through the set up process with easily understandable features.
 
 == Changelog ==
+
+= 2.2.0 =
+* Important note: You might need to resposition your Arrow widgets vertically!
+* Feature: Variables in widget positions. Read more: http://www.nextendweb.com/wiki/smart-slider-documentation/widget-variables/
+* Feature: Keyboard arrows are added to control the slides
+* Feature: Windows 8 touch support added
+* Feature: Tablet and mobile slider definitions in shortcode
+* Fix: Thumbnail and bar font fixed in responsive mode
+* Fix: Swipe delay between swipes
+* Fix: Thumbnail widget fixed 
+* Language: French language added. Read more: http://www.nextendweb.com/wiki/smart-slider-documentation/translation/
 
 = 2.1.17 =
 * Some small fixes

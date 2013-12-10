@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root translate="1">
+<root translate="smartslider">
     <params name="bullettransition" label="Transition_bullet_settings" hidetitle="1">
         <param type="mixed" name="bulletposition" label="Position" default="left|*|0|*|%|*|bottom|*|5|*|%">
             <param type="list" label="Horizontal" mixedstyle="clear: both;" style="width:70px;" translateable="1">
@@ -22,6 +22,7 @@
                 <unit value="%">percent</unit>
             </param>
         </param>
+        <param type="text" name="bulletwidth" label="Width" default="100%" />
         <param name="bulletorientation" type="radio" label="Orientation" default="horizontal">
             <option value="horizontal">Horizontal</option>
             <option value="vertical">Vertical</option>
@@ -32,7 +33,7 @@
             <option value="right">Right</option>
         </param>
         <param type="cssimagelist" name="bullet" label="Bullet" folder="bullets"
-               prefix="nextend-bullet nextend-bullet-transition nextend-bullet-transition-">
+               prefix="nextend-bullet nextend-bullet-transition nextend-bullet-transition-" default="rectangle.png">
             <![CDATA[<div class="nextend-bullet-container {class}"><div class="{class}"></div><div class="{class} active"></div><div class="{class}"></div></div>]]>
         </param>          
         <param name="bulletbackground" type="color" label="Background" alpha='1' default="00000060" />        

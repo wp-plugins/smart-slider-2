@@ -4,6 +4,10 @@ nextendimportsmartslider2('nextend.smartslider.settings');
 nextendimport('nextend.mvc.controller');
 nextendimport('nextend.environment.request');
 nextendimport('nextend.message.message');
+nextendimport('nextend.language.language');
+
+NextendText::l('common');
+NextendText::l('common', nextendSubLibraryPath('smartslider').'languages/');
 
 class NextendSmartsliderAdminController extends NextendController {
 
@@ -12,10 +16,6 @@ class NextendSmartsliderAdminController extends NextendController {
     function NextendSmartsliderAdminController($key) {
         global $smartslidercontroller;
         $smartslidercontroller = $this;
-        
-        NextendText::l('slider', dirname(__FILE__).'/languages/');
-        
-        if(NextendSmartSliderSettings::get('guides', 1)) NextendText::l('guides', dirname(__FILE__).'/languages/');
         
         parent::NextendController($key);
         if(!$this->canDo('core.manage')){

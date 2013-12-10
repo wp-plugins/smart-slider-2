@@ -3,7 +3,7 @@ $action = NextendRequest::getCmd('action', 'default');
 $settings = array(
     array('id' => 'default', 'title' => NextendText::_('General_settings')),
     array('id' => 'layout', 'title' => NextendText::_('Layout_settings')),
-    array('id' => 'font', 'title' => NextendText::_('Global font'))
+    array('id' => 'font', 'title' => NextendText::_('Global_font'))
 );
 if(nextendIsJoomla()){
     $settings[] = array('id' => 'joomla', 'title' => NextendText::_('Joomla_settings'));

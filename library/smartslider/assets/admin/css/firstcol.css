@@ -49,6 +49,7 @@
     line-height: 35px;
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset, 0 0px 2px rgba(0, 0, 0, 0.1);
     text-shadow: 1px 1px 1px white;
+    font-weight: 600;
 }
 
 #smartslider-admin .smartslider-firstcol .smartslider-button a{
@@ -57,7 +58,7 @@
 }
 
 #smartslider-admin .smartslider-firstcol .smartslider-button a.smartslider-button-link{
-  color: #76808e;
+    color: #76808e;
 }
 
 #smartslider-admin .smartslider-firstcol .smartslider-button:HOVER,
@@ -85,16 +86,16 @@
 
 #smartslider-admin .smartslider-firstcol .smartslider-slides-list li.smartslider-button-grey:HOVER a,
 #smartslider-admin .smartslider-firstcol .smartslider-button:HOVER a.smartslider-button-link{
-  color: #68717d;
+    color: #68717d;
 }
 
 #smartslider-admin .smartslider-firstcol .smartslider-button:ACTIVE{  
-  box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.2) inset;
-  line-height: 37px;
+    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.2) inset;
+    line-height: 37px;
 }
 
 #smartslider-admin .smartslider-firstcol .smartslider-button:ACTIVE span.smartslider-icon.smartslider-icon-add{
-  margin-top: 7px;
+    margin-top: 7px;
 }
 
 #smartslider-admin .smartslider-firstcol .smartslider-button.active{
@@ -137,31 +138,12 @@
     padding: 0;
 }
 
-
-#smartslider-admin .smartslider-firstcol .smartslider-slides-list li.smartslider-slide a,
-#smartslider-admin .smartslider-firstcol .smartslider-slides-list li.smartslider-slide a span{
-  -webkit-transition: all 0.4s ease-out 0s;
-  -moz-transition: all 0.4s ease-out 0s;
-  -ms-transition: all 0.4s ease-out 0s;
-  -o-transition: all 0.4s ease-out 0s;
-  transition: all 0.4s ease-out 0s;
-}
-
-#smartslider-admin .smartslider-firstcol .smartslider-slides-list li.smartslider-slide:HOVER a span{
-  margin-right: 10px;
-}
-
-#smartslider-admin .smartslider-firstcol .smartslider-slides-list li.smartslider-slide.active:HOVER a span{
-  margin-right:0px;
-}
-
-
 #smartslider-admin .smartslider-firstcol .smartslider-slides-list li.smartslider-button-blue-active.active a{
-  text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
 }
 
 #smartslider-admin .smartslider-firstcol .smartslider-slides-list li.smartslider-slide.active:HOVER a{
-  color: #fff;
+    color: #fff;
 }
 
 #smartslider-admin .smartslider-firstcol .smartslider-slides-list li.smartslider-button-grey{ 
@@ -283,6 +265,7 @@
     font-size: 12px;
     line-height: 26px;
     padding: 0 18px 0 26px;
+    font-weight: 600;
 }
 
 #smartslider-admin .sidebar-tooltip-menu li a:HOVER,

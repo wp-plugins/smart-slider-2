@@ -1,4 +1,4 @@
-<root translate="1">
+<root translate="smartslider">
     <params label="Special_item_settings">
         <param name="skins" type="mixed" label="Special_items">
             <param type="skin" label="Choose_an_item">
@@ -206,8 +206,8 @@ transform:scale3d(1,1,1)
 
         <param name="html" type="textarea" label="HTML" default=""/>
         <param name="css" type="textarea" label="CSS" default=""/>
-        <param name="onmouseenter" type="text" label="Event on mouseenter" description="JavaScript code to run on the event" default=""/>
-        <param name="onmouseclick" type="text" label="Event on mouseclick" description="JavaScript code to run on the event" default=""/>
-        <param name="onmouseleave" type="text" label="Event on mouseleave" description="JavaScript code to run on the event" default=""/>
+        <param name="onmouseenter" type="text" label="Event_on_mouseenter" description="JavaScript_code_to_run_on_the_event" default=""/>
+        <param name="onmouseclick" type="text" label="Event_on_mouseclick" description="JavaScript_code_to_run_on_the_event" default=""/>
+        <param name="onmouseleave" type="text" label="Event_on_mouseleave" description="JavaScript_code_to_run_on_the_event" default=""/>
     </params>
 </root>

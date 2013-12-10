@@ -22,7 +22,7 @@ function nextendimportpath($file) {
 }
 
 function nextendIsJoomla() {
-    return !defined('ABSPATH') && defined('_JEXEC');
+    return (!defined('ABSPATH') || class_exists('wpj_loader')) && defined('_JEXEC');
 }
 
 function nextendIsWordPress() {

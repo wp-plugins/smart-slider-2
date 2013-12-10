@@ -24,6 +24,7 @@ $this->loadFragment('secondcolstart');
 
 <form id="smartslider-form" action="" method="post">
     <?php
+    NextendForm::tokenize();
     $settingsModel = $this->getModel('settings');
     $settingsModel->form($this->xml);
     ?>

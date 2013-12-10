@@ -1,4 +1,4 @@
-<root translate="1">
+<root translate="smartslider">
     <params name="imagetype" label="Fade_item_settings">
         <param name="imagefront" type="image" label="Front_image" default=""/>
         <param name="imageback" type="image" label="Back_image" default=""/>
@@ -15,8 +15,8 @@
         <param name="fadeclass" type="text" label="Class" default=""/>
         <param name="class" type="text" label="Custom_css_class" default=""/>
 		
-        <param name="onmouseenter" type="text" label="Event on mouseenter" description="JavaScript code to run on the event" default=""/>
-        <param name="onmouseclick" type="text" label="Event on mouseclick" description="JavaScript code to run on the event" default=""/>
-        <param name="onmouseleave" type="text" label="Event on mouseleave" description="JavaScript code to run on the event" default=""/>
+        <param name="onmouseenter" type="text" label="Event_on_mouseenter" description="JavaScript_code_to_run_on_the_event" default=""/>
+        <param name="onmouseclick" type="text" label="Event_on_mouseclick" description="JavaScript_code_to_run_on_the_event" default=""/>
+        <param name="onmouseleave" type="text" label="Event_on_mouseleave" description="JavaScript_code_to_run_on_the_event" default=""/>
     </params>
 </root>

@@ -40,7 +40,8 @@
                 },
                 controls: {
                     scroll: 0,
-                    touch: 0
+                    touch: 0,
+                    keyboard: 0
                 },
                 blockrightclick: 0
             };
@@ -48,7 +49,6 @@
                 w: 0,
                 h: 0
             };
-            
              
             var _this = this;
             this._parent = parent;
@@ -57,6 +57,9 @@
             this.options.syncAnimations = this.options.mainafterout;
 
             this.$slider = $el;
+            
+            this.initVariables();
+            
             if (this.options.translate3d && nModernizr && nModernizr.csstransforms3d) {
                 this.$slider.css(nModernizr.prefixed('transform'), 'translate3d(0,0,0)');
                 this.$slider.css(nModernizr.prefixed('perspective'), '1000');
@@ -176,6 +179,7 @@
                         });
                     }
                 } else {
+                    this.storeDefaults();
                     this.$slider.waitForImages(function () {
                         $(_this).trigger('load');
                     });
@@ -189,6 +193,7 @@
                 this.initWidgets();
                 this.initScroll();
                 this.initTouch();
+                this.initKeyboard();
 				this.initEvents();
 
             } else {
@@ -199,13 +204,54 @@
         
         },
         storeDefaults: function () {
-
+            this.variablesRefreshed();
         },
         onResize: function () {
             var _this = this;
             this.$slider.waitForImages(function () {
                 $(_this).trigger('load');
             });
+            //this.variablesRefreshed();
+        },
+        initVariables: function(){
+            this.variables = {};
+            this.variableEls = {
+                top: this.$slider.find('[data-sstop]'),
+                right: this.$slider.find('[data-ssright]'),
+                bottom: this.$slider.find('[data-ssbottom]'),
+                left: this.$slider.find('[data-ssleft]'),
+                width: this.$slider.find('[data-sswidth]'),
+                height: this.$slider.find('[data-ssheight]')
+            };
+            
+            this.widgets = {
+                previous: this.$slider.find('.nextend-arrow-previous'),
+                next: this.$slider.find('.nextend-arrow-next'),
+                bullet: this.$slider.find('.nextend-widget-bullet'),
+                autoplay: this.$slider.find('.nextend-autoplay-button'),
+                indicator: this.$slider.find('.nextend-indicator'),
+                bar: this.$slider.find('.nextend-bar'),
+                thumbnail: this.$slider.find('.nextend-thumbnail-container'),
+                shadow: this.$slider.find('.nextend-shadow'),
+                html: this.$slider.find('.nextend-widget-html'),
+            };
+        },
+        variablesRefreshed: function(){
+            for (var key in this.widgets) {
+                this.variables[key+'width'] = this.widgets[key].outerWidth();
+                this.variables[key+'height'] = this.widgets[key].outerHeight();
+          	}
+            
+            for (var key in this.variables) {
+                eval("var " + key + " = " + this.variables[key] + "");
+          	}
+            
+            for (var k in this.variableEls) {
+                for(var i = 0; i < this.variableEls[k].length;i++){
+                    var el = this.variableEls[k].eq(i);
+                    el.css(k, eval(el.data('ss'+k))+'px');
+                }
+            }
         },
         initWidgets: function () {
             var timeout = null,
@@ -246,24 +292,107 @@
             if (this.options.controls.touch == '0') return;
             var _this = this;
             var mode = this.options.controls.touch;
-            this.$slider.swipe({
+            var delayBetween = 500,
+                last = 0;
+            this.$slider.find('> div').eq(0).swipe({
                 swipe: function (event, direction, distance, duration, fingerCount) {
-                    if (mode == 'horizontal') {
-                        if (direction == 'right') {
-                            _this.previous();
-                        } else if (direction == 'left') {
-                            _this.next();
+                    var c = Date.now();
+                    if(last < c - delayBetween){
+                        if (mode == 'horizontal') {
+                            if (direction == 'right') {
+                                _this.previous();
+                            } else if (direction == 'left') {
+                                _this.next();
+                            }
+                        } else if (mode == 'vertical') {
+                            if (direction == 'down') {
+                                _this.previous();
+                            } else if (direction == 'up') {
+                                _this.next();
+                            }
                         }
-                    } else if (mode == 'vertical') {
-                        if (direction == 'down') {
-                            _this.previous();
-                        } else if (direction == 'up') {
-                            _this.next();
-                        }
+                        last = c;
                     }
                 },
                 fallbackToMouseEvents: false,
                 allowPageScroll: (mode == 'horizontal' ? 'vertical' : 'horizontal')
+            });
+            
+            if(typeof window.MSGesture !== 'undefined'){
+                var gesture = new MSGesture(),
+                    el = this.$slider.find('> div').get(0),
+                    start = {
+                        x: 0,
+                        y: 0
+                    };
+                gesture.target = el;
+                
+                if (mode == 'horizontal') {
+                    el.style['-ms-touch-action'] = 'pan-x';
+                    el.style['-ms-scroll-chaining'] = 'none';
+                    el.style['touch-action'] = 'pan-x';
+                    el.style['scroll-chaining'] = 'none';
+                } else if (mode == 'vertical') {
+                    el.style['-ms-touch-action'] = 'pan-y';
+                    el.style['-ms-scroll-chaining'] = 'none';
+                    el.style['touch-action'] = 'pan-y';
+                    el.style['scroll-chaining'] = 'none';
+                }
+                
+                var eventType = '';
+                if (window.navigator.pointerEnabled) {
+                    eventType = "pointerdown";
+                } else if (window.navigator.msPointerEnabled) {
+                    eventType = "MSPointerDown";
+                }
+                if(eventType){
+                    el.addEventListener(eventType, function (evt) {
+                        gesture.addPointer(evt.pointerId);
+                    });
+                }
+                
+                el.addEventListener("MSGestureStart", function(e){
+                    start.x = e.offsetX;
+                    start.y = e.offsetY;
+                }); 
+
+                el.addEventListener("MSGestureEnd", function(e){ 
+                    var zoom = document.documentElement.clientWidth / window.innerWidth;
+                    
+                    var hOffset = 10,
+                        vOffset = 10;  
+                    if (mode == 'horizontal') {
+                        if (start.x-hOffset >= e.offsetX) { 
+                            _this.next();
+                        } else if (start.x+hOffset <= e.offsetX) {
+                            _this.previous();
+                        }
+                    } else if (mode == 'vertical') {
+                        if (start.y-vOffset >= e.offsetY) { 
+                            _this.next();
+                        } else if (start.y+vOffset <= e.offsetY) {
+                            _this.previous();
+                        }
+                    }
+                });
+            }
+        },
+        initKeyboard: function () {
+            if (this.options.controls.keyboard == '0') return;
+            var _this = this;
+            var delayBetween = 500,
+                last = 0;
+                
+            $(document).keydown(function(e){
+                var c = Date.now();
+                if(last < c - delayBetween){
+                    if (e.keyCode == 37) { 
+                       _this.previous();
+                    }else if (e.keyCode == 39) { 
+                       _this.next();
+                    }
+                    last = c;
+                }
             });
         },
     		initEvents: function(){
@@ -553,3 +682,9 @@
     });
 
 })(njQuery, window);
+
+if (!Date.now) {
+    Date.now = function now() {
+        return new Date().getTime();
+    };
+}

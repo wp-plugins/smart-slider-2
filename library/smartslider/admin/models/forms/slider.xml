@@ -37,13 +37,14 @@
         <param type="onoff" name="playfirstlayer" label="Play_animation_on_first_load" default="0" description="On_first_load_If_enabled_the_layer_animations_will_play_on_the_first_slide" />
         <param type="onoff" name="mainafterout" label="Play_out_animations" default="1" description="Defines_whether_to_play_the_layer_out_animations_or_not_If_switched_off_the_the_slider_reaction_for_events_next_previous_etc_are_far_better" />
         <param type="onoff" name="inaftermain" label="Play_layer_in_after_main_animation_finished" default="1" description="If_switched_off_the_layer_in_animations_will_start_when_the_main_animation_starts_If_enabled_layer_in_animations_will_play_after_the_main_animation_finished" />
-        <param label="Controls" name="controls" type="mixed" default="0|*|0" description="Alternative_navigation_between_the_slides">
+        <param label="Controls" name="controls" type="mixed" default="0|*|0|*|0" description="Alternative_navigation_between_the_slides">
             <param type="onoff" label="Mouse_scroll"/>
             <param type="radio" label="Touch">
                 <option value="0">Disabled</option>
                 <option value="horizontal">Horizontal</option>
                 <option value="vertical">Vertical</option>
             </param>
+            <param type="onoff" label="Keyboard"/>
         </param>
         <param type="onoff" name="blockrightclick" label="Block right click" default="0" description="" />
 

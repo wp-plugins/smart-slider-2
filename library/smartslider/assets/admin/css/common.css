@@ -3,7 +3,7 @@ WordPress
 */
 
 #wpcontent #smartslider-admin{
-  margin: 20px 10px 0 0;
+    margin: 20px 10px 0 0;
 }
 
 #wpcontent .smartslider-toolbar-actions.scrolled{
@@ -12,9 +12,9 @@ WordPress
 /*
 Joomla 3.0
 */
-#smartslider-admin .nextend-form select{
-  font-family: Arial !important;
-}
+/*#smartslider-admin .nextend-form select{
+    font-family: Arial !important;
+}*/
 a::-moz-focus-inner, a:focus, a:active, a:focus {
     outline:none;
     border:0;
@@ -39,7 +39,7 @@ a::-moz-focus-inner, a:focus, a:active, a:focus {
 }
 
 #smartslider-admin dt{
-  font-weight: normal;
+    font-weight: 600;
 }
 
 #smartslider-admin thead th,
@@ -72,7 +72,7 @@ a::-moz-focus-inner, a:focus, a:active, a:focus {
     color: #7B828B;
     display: block;
     text-decoration: none;  
-    font-family: Montserrat;
+    font-family: 'Open Sans', Arial, sans-serif;
 }
 
 #smartslider-admin .smartslider-button-grey a.smartslider-button-link,
@@ -84,8 +84,9 @@ a::-moz-focus-inner, a:focus, a:active, a:focus {
 
 #smartslider-admin .smartslider-button-blue-active,
 #smartslider-admin .smartslider-button-blue-active a.smartslider-button-link{
-    text-decoration: none;  
-    font-family: Montserrat;
+    text-decoration: none; 
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 600;
 }
 
 
@@ -156,16 +157,11 @@ a::-moz-focus-inner, a:focus, a:active, a:focus {
 }
 
 #smartslider-admin .smartslider-firstcol .smartslider-list dt.subactive {
-  border-color: transparent;
+    border-color: transparent;
 }
 
 #smartslider-admin .smartslider-firstcol .smartslider-list dt a{
     color: #7e97b1;
-    -webkit-transition: all 0.4s ease-out 0s;
-    -moz-transition: all 0.4s ease-out 0s;
-    -ms-transition: all 0.4s ease-out 0s;
-    -o-transition: all 0.4s ease-out 0s;
-    transition: all 0.4s ease-out 0s;
 }
 
 #smartslider-admin .smartslider-firstcol .smartslider-list dt a.smartslider-button-link{
@@ -179,21 +175,13 @@ a::-moz-focus-inner, a:focus, a:active, a:focus {
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 -3px 5px rgba(0, 0, 0, 0.1) inset, 0 0 0 1px #1f65c5;
 }
 
-#smartslider-admin .smartslider-firstcol .smartslider-list dt:HOVER a{
-  margin-left: 10px;
-}
-
-#smartslider-admin .smartslider-firstcol .smartslider-list dt.subactive:HOVER a{
-  margin-left: 0px;
-}
-
 #smartslider-admin .smartslider-firstcol .smartslider-list dt.active:HOVER a{
-  margin-left: 0px;
-  color: #fff;
+    margin-left: 0px;
+    color: #fff;
 }
 
 #smartslider-admin .smartslider-firstcol .smartslider-list dt.active a{
-  text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);  
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);  
 }
 
 #smartslider-admin .smartslider-firstcol .smartslider-list > dt{

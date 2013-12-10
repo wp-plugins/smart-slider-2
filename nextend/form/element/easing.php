@@ -1,6 +1,5 @@
 <?php
 nextendimport('nextend.form.element.list');
-NextendText::l('easing');
 
 class NextendElementEasing extends NextendElementList {
     

@@ -15,6 +15,10 @@ class NextendCacheDataAbstract {
     function cache($group = '', $time = 1440, $callable = null, $params = null) {
 
     }
+
+    function check($group = '', $callable = null, $params = null) {
+
+    }
 }
 
 if (nextendIsJoomla()) {

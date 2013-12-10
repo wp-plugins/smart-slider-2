@@ -1,4 +1,4 @@
-<root translate="1">
+<root translate="smartslider">
     <params name="general" label="General_settings">
         <param type="onoff" label="Guides" name="guides" default="1" description="This_switcher_disables_the_guides_everywhere_in_Smart_Slider" />
         <param type="onoff" label="Frontend_debug_messages" name="debugmessages" default="1" description="This_switcher_disables_the_debug_messages_in_frontend" />
@@ -7,7 +7,7 @@
             <param type="text" label="From" />
             <param type="text" label="To" />
         </param>
-		<param type="text" name="externalcssfile" label="Additional CSS file(s)" description="If provided, additional CSS file(s) will be included and used on the backend. Multiple CSS files also can be included with the |*| divider." default="" />
+		<param type="text" name="externalcssfile" label="Additional_CSS_files" description="If_provided_additional_CSS_files_will_be_included_and_used_on_the_backend_Multiple_CSS_files_also_can_be_included_with_the__divider" default="" />
         <param type="onoff" name="jquery" label="Load_jQuery_on_frontend" description="If_you_choose_not_to_load_please_make_sure_that_jQuery_version_18_or_higher_loaded_on_your_frontend" default="1" />
         <param type="onoff" name="translate3d" label="Hardware_acceleration_on_sliders" default="1" description="If_you_see_flickers_in_some_browsers_you_can_try_to_disable_this" />
         <param type="text" label="Placeholder_for_images" name="placeholder" default="http://www.nextendweb.com/static/placeholder.png" />

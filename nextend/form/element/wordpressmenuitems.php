@@ -13,7 +13,7 @@ class NextendElementWordpressmenuitems extends NextendElementList {
         $items = wp_get_nav_menu_items( $this->_menutype, array() );
         $this->_xml->addChild('option', 'Root')->addAttribute('value', 0);
         $pre = array();
-        if (count($items)) {
+        if (is_array($items) && count($items)) {
             foreach ($items AS $item) {
                 if(!isset($pre[$item->ID])){
                     if(isset($pre[$item->menu_item_parent])){

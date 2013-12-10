@@ -1,4 +1,4 @@
-<root translate="1">
+<root translate="smartslider">
     <params name="imagetype" label="Youtube_item_settings">
         <param name="youtubeurl" type="text" label="Youtube_url" />
         <param name="defaultimage" type="list" label="Default_image" default="maxresdefault">

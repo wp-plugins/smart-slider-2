@@ -4,6 +4,7 @@ global $smartslidergeneratorslide;
 $this->loadFragment('headerstart');
 ?>
     <div class="smartslider-button smartslider-save" onclick="setTimeout(function(){njQuery('#smartslider-form').submit();}, 300);"><?php echo NextendText::_('Save'); ?></div>
+    <div class="smartslider-button smartslider-cancel" onclick="window.nextendsave=true;location.href='<?php echo $this->route('controller=sliders&view=sliders_slider&action=edit&sliderid=' . NextendRequest::getInt('sliderid')); ?>';"><?php echo NextendText::_('Cancel'); ?></div>
 <?php
 $this->loadFragment('headerend');
 ?>
@@ -26,6 +27,7 @@ $this->loadFragment('secondcolstart');
 
 <form id="smartslider-form" action="" onsubmit="return (parseInt(njQuery('#generateslidesgeneratorgenerateslides_1').val()) == 1 && parseInt(njQuery('#generateslidesgeneratorgenerateslides_2').val()) == 0 ? confirm('\'Generate slides\' without static switch will delete and generate your dynamic slides. Are you sure?') : true)" method="post">
     <?php
+    NextendForm::tokenize();
     $slidersModel = $this->getModel('sliders');
     $slider = $slidersModel->getSlider(NextendRequest::getInt('sliderid'));
 

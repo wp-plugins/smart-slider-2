@@ -1,23 +1,23 @@
 .nextend-subform > .nextend-list{
-  float: left;
+    float: left;
 }
 
 .x-rtl .nextend-subform > .nextend-list{
-  float: right;
+    float: right;
 }
 
 .nextend-subform .nextend-ajax{
-  display: none;
-  background: url('../../images/ajax-loader.gif') no-repeat center center;
-  float: left;
-  height: 16px;
-  width: 16px;
-  margin-left: 10px;
-  margin-top: 5px;
+    display: none;
+    background: url('../../images/ajax-loader.gif') no-repeat center center;
+    float: left;
+    height: 16px;
+    width: 16px;
+    margin-left: 10px;
+    margin-top: 5px;
 }
 
 .nextend-subform.nextend-ajax-active .nextend-ajax{
-  display: block;
+    display: block;
 }
 
 .nextend-subform.heightauto > .nextend-list > select{

@@ -32,7 +32,7 @@
     height: 100%;
     box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.1) inset, -2px 0 0 rgba(255, 255, 255, 0.1) inset, 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
     background: #333E4B;
-    
+
     /* IE10 Consumer Preview */ 
     background-image: -ms-linear-gradient(top, #4C5C71 0%, #333E4B 100%);
 

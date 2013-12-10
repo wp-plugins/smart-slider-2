@@ -170,6 +170,8 @@ class NextendImage extends NextendCache {
                         imagedestroy($orig);
                         return NextendFilesystem::pathToAbsoluteURL($cachefile);
                     }
+                }else{
+                    return $image;
                 }
             }else{
                 return $image;

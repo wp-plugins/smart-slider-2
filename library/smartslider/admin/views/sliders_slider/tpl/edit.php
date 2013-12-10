@@ -20,6 +20,7 @@ $this->loadFragment('secondcolstart');
 
 <form id="smartslider-form" action="" method="post">
     <?php
+    NextendForm::tokenize();
     $slidersModel = $this->getModel('sliders');
     $form = $slidersModel->renderEditForm(NextendRequest::getInt('sliderid'));
     ?>

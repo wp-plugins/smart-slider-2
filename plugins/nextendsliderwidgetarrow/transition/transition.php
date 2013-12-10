@@ -44,32 +44,56 @@ class plgNextendSliderWidgetArrowTransition extends NextendPluginBase {
 
                 $css = NextendCss::getInstance();
                 $css->addCssFile(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'transition' . DIRECTORY_SEPARATOR . 'style.css');
-
+                
+                $data = '';
                 $style = 'position: absolute;';
-                $previousposition = NextendParse::parse($params->get('previousposition', ''));
-                if (count($previousposition)) {
-                    $style .= $previousposition[0] . ':' . $previousposition[1] . $previousposition[2] . ';';
-                    $style .= $previousposition[3] . ':' . $previousposition[4] . $previousposition[5] . ';';
+                $position = NextendParse::parse($params->get('previousposition', ''));
+    
+                if (count($position)) {
+                    if(!is_numeric($position[1])){
+                        $data.= 'data-ss'.$position[0].'="'.$position[1].'" ';
+                    }else{
+                        $style .= $position[0] . ':' . $position[1] . $position[2] . ';';
+                    }
+                    
+                    if(!is_numeric($position[4])){
+                        $data.= 'data-ss'.$position[3].'="'.$position[4].'" ';
+                    }else{
+                        $style .= $position[3] . ':' . $position[4] . $position[5] . ';';
+                    }
                 }
+                
                 $info = pathinfo($previous);
-                $class = 'nextend-transition nextend-transition-previous nextend-transition-previous-' . basename($previous, '.' . $info['extension']);
-                $html .= '<div onclick="njQuery(\'#' . $id . '\').smartslider(\'previous\');" class="' . $displayclass . $class . '" style="' . $style . '"><div class="outer"></div><div class="inner"></div></div>';
+                $class = 'nextend-arrow-previous nextend-transition nextend-transition-previous nextend-transition-previous-' . basename($previous, '.' . $info['extension']);
+                $html .= '<div onclick="njQuery(\'#' . $id . '\').smartslider(\'previous\');" class="' . $displayclass . $class . '" style="' . $style . '" '.$data.'><div class="outer"></div><div class="inner"></div></div>';
             }
 
             if ($next && $next != -1) {
 
                 $css = NextendCss::getInstance();
                 $css->addCssFile(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'transition' . DIRECTORY_SEPARATOR . 'style.css');
-
+                
+                $data = '';
                 $style = 'position: absolute;';
-                $nextposition = NextendParse::parse($params->get('nextposition', ''));
-                if (count($nextposition)) {
-                    $style .= $nextposition[0] . ':' . $nextposition[1] . $nextposition[2] . ';';
-                    $style .= $nextposition[3] . ':' . $nextposition[4] . $nextposition[5] . ';';
+                $position = NextendParse::parse($params->get('nextposition', ''));
+    
+                if (count($position)) {
+                    if(!is_numeric($position[1])){
+                        $data.= 'data-ss'.$position[0].'="'.$position[1].'" ';
+                    }else{
+                        $style .= $position[0] . ':' . $position[1] . $position[2] . ';';
+                    }
+                    
+                    if(!is_numeric($position[4])){
+                        $data.= 'data-ss'.$position[3].'="'.$position[4].'" ';
+                    }else{
+                        $style .= $position[3] . ':' . $position[4] . $position[5] . ';';
+                    }
                 }
+                
                 $info = pathinfo($next);
-                $class = 'nextend-transition nextend-transition-next nextend-transition-next-' . basename($next, '.' . $info['extension']);
-                $html .= '<div onclick="njQuery(\'#' . $id . '\').smartslider(\'next\');" class="' . $displayclass . $class . '" style="' . $style . '"><div class="outer"></div><div class="inner"></div></div>
+                $class = 'nextend-arrow-next nextend-transition nextend-transition-next nextend-transition-next-' . basename($next, '.' . $info['extension']);
+                $html .= '<div onclick="njQuery(\'#' . $id . '\').smartslider(\'next\');" class="' . $displayclass . $class . '" style="' . $style . '" '.$data.'><div class="outer"></div><div class="inner"></div></div>
                   <style>
                    .nextend-transition.nextend-transition-previous .outer,
                    .nextend-transition.nextend-transition-next .outer{

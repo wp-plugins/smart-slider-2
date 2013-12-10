@@ -1,4 +1,4 @@
-<root translate="1">
+<root translate="smartslider">
     <params name="layer" label="Layers" hidetitle="1">
         <param name="layer" type="list" label="Active_layer" default="0" translateable="1">
             <option value="0">available_layers</option>

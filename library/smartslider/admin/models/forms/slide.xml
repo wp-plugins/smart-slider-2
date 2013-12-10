@@ -1,4 +1,4 @@
-<root translate="1">
+<root translate="smartslider">
     <params name="slide" label="Slide_settings">
         <param name="title" type="text" label="Name" default="Slide 1" />
         <param name="description" type="textarea" label="Description" default="" style2="height: 18px;" description="Used_in_some_widgets" />

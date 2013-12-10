@@ -21,7 +21,8 @@ $css->addCssLibraryFile('form.css');
 <?php NextendMessage::show(); ?>
 
 <form id="smartslider-form" action="" method="post" enctype="multipart/form-data" style="margin: 15px;">
-<label for="file"><h3>Choose the file to import a slider:</h3></label>
+    <?php NextendForm::tokenize(); ?>
+    <label for="file"><h3>Choose the file to import a slider:</h3></label>
     <input type="file" name="file" id="file" />
 </form>
 

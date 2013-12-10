@@ -150,10 +150,11 @@ class NextendSmartsliderAdminModelLayouts extends NextendModel {
 
         $db = NextendDatabase::getInstance();
 
-        $query = 'INSERT INTO #__nextend_smartslider_layouts (title, slide) VALUES (';
+        $query = 'INSERT INTO #__nextend_smartslider_layouts (title, slide, params) VALUES (';
 
         $query.=$db->quote($layout['title']);
         $query.=',' . $db->quote(base64_decode($layout['slide']));
+        $query.=',' . $db->quote('');
         unset($layout['title']);
         unset($layout['slide']);
         $query.=');';

@@ -23,7 +23,7 @@ class plgNextendSliderWidgetBulletNumbers extends NextendPluginBase {
 
             $display = NextendParse::parse($params->get('widgetbulletdisplay', '0|*|always'));
 
-            $displayclass = 'nextend-widget-' . $display[1] . ' ';
+            $displayclass = 'nextend-widget-bullet nextend-widget-' . $display[1] . ' ';
 
             $css = NextendCss::getInstance();
             $css->addCssFile(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'numbers' . DIRECTORY_SEPARATOR . 'style.css');
@@ -48,11 +48,29 @@ class plgNextendSliderWidgetBulletNumbers extends NextendPluginBase {
             $rgbacssthumbnail = 'RGBA('.$rgbathumbnail[0].','.$rgbathumbnail[1].','.$rgbathumbnail[2].','.round($rgbathumbnail[3]/127, 2).')';
             $colorhexthumbnail = substr($colorthumbnail, 0,6);
 
-            $style = 'position: absolute; width: 100%; visibility: hidden;z-index:10;';
-            $bulletposition = NextendParse::parse($params->get('bulletposition', ''));
-            if (count($bulletposition)) {
-                $style .= $bulletposition[0] . ':' . $bulletposition[1] . $bulletposition[2] . ';';
-                $style .= $bulletposition[3] . ':' . $bulletposition[4] . $bulletposition[5] . ';';
+            $data = '';
+            $style = 'position: absolute; visibility: hidden;z-index:10; line-height: 0;';
+            $position = NextendParse::parse($params->get('bulletposition', ''));
+
+            if (count($position)) {
+                if(!is_numeric($position[1])){
+                    $data.= 'data-ss'.$position[0].'="'.$position[1].'" ';
+                }else{
+                    $style .= $position[0] . ':' . $position[1] . $position[2] . ';';
+                }
+                
+                if(!is_numeric($position[4])){
+                    $data.= 'data-ss'.$position[3].'="'.$position[4].'" ';
+                }else{
+                    $style .= $position[3] . ':' . $position[4] . $position[5] . ';';
+                }
+            }
+            
+            $width = NextendParse::parse($params->get('bulletwidth', 'width'));
+            if(is_numeric($width) || $width == 'auto' || substr($width, -1) == '%'){
+                $style.= 'width:'.$width.';';
+            }else{
+                $data.= 'data-sswidth="'.$width.'" ';
             }
 
             $bulletalign = $params->get('bulletalign', 'center');
@@ -91,7 +109,7 @@ class plgNextendSliderWidgetBulletNumbers extends NextendPluginBase {
                 break;
             }
             
-            $html .= '<div style="' . $style . '" class="'.$displayclass.'"><div class="nextend-bullet-container ' . $class . '">';
+            $html .= '<div style="' . $style . '" class="'.$displayclass.'" '.$data.'><div class="nextend-bullet-container ' . $class . '">';
             $i = 0;
             foreach ($slider->_slides AS $slide) {
                 $html .= '<div onclick="njQuery(\'#'.$id.'\').smartslider(\'goto\','.$i.',false);" data-thumbnail="'.$slide['thumbnail'].'"  class="' . $class . ($slide['first'] ? ' active' : ''). '"><span class="'.$params->get('fontclassnumber', 'sliderfont7').'">

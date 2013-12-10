@@ -84,9 +84,13 @@ if(NEXTEND_SMART_SLIDER2_BASE == 'nextend-smart-slider2-full'){
         ob_start();
       	$result = $upgrader->install( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'nextend/nextend.zip');
         if(!$result){
-            echo 'Nextend library can NOT be installed automatically. Please install it manually from wp-contents/plugins/nextend-smart-slider2/nextend.zip<br />'.ob_get_clean();exit;
+            ob_clean();
+            echo 'It seems like that the WordPress installer can not write '.WP_PLUGIN_DIR;
+            echo '<br>Please install manually the following library plugin:  <a href="'.content_url('plugins/nextend-smart-slider2-full/nextend/nextend.zip').'">wp-contents/plugins/nextend-smart-slider2-full/nextend/nextend.zip</a> => Then you can activate this plugin!';
+            
+            exit;
         }else{
-            ob_end_clean();
+            ob_clean();
         }
     }
     

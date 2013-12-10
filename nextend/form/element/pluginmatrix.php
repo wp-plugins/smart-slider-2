@@ -1,7 +1,7 @@
 <?php
-nextendimport('nextend.form.element.list');
+nextendimport('nextend.form.element.hidden');
 
-class NextendElementPluginMatrix extends NextendElementList {
+class NextendElementPluginMatrix extends NextendElementHidden {
     
     var $_list = null;
     
@@ -14,19 +14,21 @@ class NextendElementPluginMatrix extends NextendElementList {
         $widgetTypes = $this->getOptions();
         
         $html.="<div class='nextend-pluginmatrix-views nextend-button-grey clearfix'>";
-        $active = 'active ';
+        $value = $this->_form->get($this->_name, 'arrow');
         foreach($widgetTypes AS $type => $v){
-            $html.="<div class='".$active."nextend-button-grey nextend-button-blue-active nextend-pluginmatrix-view nextend-pluginmatrix-view-".$type."'>
+            if($value == $type) $active = 'active ';
+            else $active = '';
+            $html.="<div onclick=\"njQuery('#".$this->_id."').val('".$type."')\" class='".$active."nextend-button-grey nextend-button-blue-active nextend-pluginmatrix-view nextend-pluginmatrix-view-".$type."'>
                 <div class='nextend-border'>";
             $html.=$v[0];
             $html.="</div></div>";
-            $active = '';
         }
         $html.="</div>";
         
         $html.="<div class='nextend-pluginmatrix-panes clearfix'>";
-        $active = 'active ';
         foreach($widgetTypes AS $type => $v){
+            if($value == $type) $active = 'active ';
+            else $active = '';
             $html.="<div class='".$active."nextend-pluginmatrix-pane nextend-pluginmatrix-pane-".$type."'>";
             
             $GLOBALS['nextendbuffer'] = '';
@@ -42,7 +44,6 @@ class NextendElementPluginMatrix extends NextendElementList {
             $html.= $GLOBALS['nextendbuffer'];
             
             $html.="</div>";
-            $active = '';
         }
         $html.="</div>";
         
@@ -65,7 +66,7 @@ class NextendElementPluginMatrix extends NextendElementList {
             })();
         ');
  
-        return $html;
+        return $html.parent::fetchElement();
     }
     
     function getOptions(){

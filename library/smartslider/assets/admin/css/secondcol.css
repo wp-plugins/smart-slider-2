@@ -18,13 +18,14 @@
     top: -1px;
     height: 40px;
     width: 130px;
+    font-weight: 700;
     text-align: center;
     line-height: 40px;
     border: 1px solid #205995;
     color: #ffffff;
     text-shadow: 1px 1px 0 RGBA(0,0,0,0.5);
     font-size: 14px;
-    font-family: 'Montserrat';
+    font-family: 'Open Sans', Arial, sans-serif;
     cursor: pointer;
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
     background: #1D6ADD;
@@ -88,17 +89,18 @@
     color: #ffffff;
     text-shadow: 1px 1px 0 RGBA(0,0,0,0.5);
     font-size: 12px;
-    font-family: 'Montserrat';
+    font-family: 'Open Sans', Arial, sans-serif;
     margin-bottom: 17px;
 }
 
 #nextend-pluginmatrix-sliderwidgets .nextend-pluginmatrix-views .nextend-border{
-  font-size: 13px;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 #smartslider-admin .nextend-pluginmatrix-views .nextend-pluginmatrix-view{
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
-  text-shadow: 1px 1px 0 white;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+    text-shadow: 1px 1px 0 white;
 }
 
 
@@ -123,8 +125,8 @@
 }
 
 #smartslider-admin .nextend-pluginmatrix-views .nextend-pluginmatrix-view.active{
-  text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.2) inset, 2px 1px 1px 0 rgba(0, 0, 0, 0.2) inset, -1px 0 1px 0 rgba(0, 0, 0, 0.2) inset;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.2) inset, 2px 1px 1px 0 rgba(0, 0, 0, 0.2) inset, -1px 0 1px 0 rgba(0, 0, 0, 0.2) inset;
 }
 
 

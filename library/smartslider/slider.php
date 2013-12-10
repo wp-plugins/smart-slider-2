@@ -247,7 +247,9 @@ class NextendSlider {
         }
                 
         $sliderClasses = (!$this->_backend && $fadeonload[0] ? 'nextend-slider-fadeload ' : '');
-
+        
+        $properties = $this->generateJSProperties();
+        
         ob_start();
         if(!$this->_backend && $fadeonload[0]){
             echo '<style type="text/css">div#'.$id.'.nextend-slider-fadeload{position: absolute; opacity: 0;}</style>';
@@ -329,6 +331,57 @@ class NextendSlider {
         }else{
             echo '<style>#'.$id.'.nextend-slider-fadeload{position: static !important;}</style>';
         }
+    }
+    
+    function generateJSProperties(){
+        $p = array();
+        
+        $p['translate3d'] = intval(NextendSmartSliderSettings::get('translate3d', 1));
+        $p['playfirstlayer'] = intval($this->_sliderParams->get('playfirstlayer', 0));
+        $p['mainafterout'] = intval($this->_sliderParams->get('mainafterout', 1));
+        $p['inaftermain'] = intval($this->_sliderParams->get('inaftermain', 1));
+        
+        $fadeonload = (array)NextendParse::parse($this->_sliderParams->get('fadeonload', '1|*|0'));
+        if(!isset($fadeonload[1])){
+            $fadeonload[1] = 0;
+        }else if($fadeonload[1]){
+            $fadeonload[0] = 1;
+        }
+        $p['fadeonscroll'] = intval($fadeonload[1]);
+
+        $p['autoplay'] =  0;
+        $p['autoplayConfig'] = array(
+            'duration' => 0,
+            'counter' => 0,
+            'autoplayToSlide' => 0,
+            'stopautoplay' => array(
+                'click' => 0,
+                'mouseenter' => 0,
+                'slideplaying' => 0
+            ),
+            'resumeautoplay' => array(
+                'mouseleave' => 0,
+                'slideplayed' => 0
+            )
+        );
+
+        $responsive = NextendParse::parse($this->_sliderParams->get('responsive', '0|*|0'));
+        $p['responsive'] = array(
+            'downscale' => intval($responsive[0]),
+            'upscale' => intval($responsive[1]),
+            'maxwidth' => intval($this->_sliderParams->get('simpleresponsivemaxwidth', 3000))
+        );
+        
+        $controls = NextendParse::parse($this->_sliderParams->get('controls', '0|*|0|*|0'));
+        if(!isset($controls[2])) $controls[2] = 0;
+        $p['controls'] = array(
+            'scroll' => intval($controls[0]),
+            'touch' => $controls[1],
+            'keyboard' => intval($controls[2])
+        );
+        $p['blockrightclick'] = intval($this->_sliderParams->get('blockrightclick', 0));
+        
+        return $p;
     }
     
     function parseSlider($slider){

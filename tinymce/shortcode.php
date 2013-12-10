@@ -51,7 +51,7 @@ function nextendsmartslider2_button_dialog(){
           $query = 'SELECT a.title, a.id FROM '.$wpdb->nextend_smartslider_sliders.' AS a';
           $smartsliders = $wpdb->get_results($query, ARRAY_A);
           ?>
-          <div id='nextend-smart-sliders-modal' title='Select a Slider'>Please choose a slider from the following list:</div>
+          <div id='nextend-smart-sliders-modal' title='Select a Slider' style="display:none;">Please choose a slider from the following list:</div>
           
           <script>
           (function(){

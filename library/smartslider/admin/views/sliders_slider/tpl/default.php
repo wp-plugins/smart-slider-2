@@ -41,57 +41,46 @@ $css->addCssLibraryFile('form.css');
       text-transform: uppercase;
       vertical-align: 1px;
   }
-  .nextend-element .nextend-text span{     color: #6C7581;     font-size: 12px;     font-weight: normal;     line-height: 11px;     text-shadow: 0 1px 1px white;   }     .nextend-element .nextend-text span a{     color: #6C7581;     font-size: 12px;     font-weight: normal;     line-height: 11px;     text-shadow: 0 1px 1px white;     text-decoration: none;   }   .nextend-element .nextend-text span a:HOVER{     color: #2485E3;   }   .nextend-tab .doc{     padding: 10px 20px 20px;     background-color: #EEF3F8;     border-bottom: 1px solid rgba(0, 0, 0, 0.1);   }   .nextend-tab .tutorial-videos{     padding: 20px;     background-color: #EEF3F8;     border-bottom: 1px solid rgba(0, 0, 0, 0.1);   }   .nextend-tab .tutorial-videos iframe{   }     .nextend-tab .tutorial-videos .video{     float: left;     margin: 0 50px 20px 0;   }   .nextend-tab .tutorial-videos span{       color: #6C7581;     font-size: 16px;     font-weight: normal;     line-height: 11px;     text-shadow: 0 1px 1px white;     text-align: center;     display: block;     margin-bottom: 10px;     font-family: 'Montserrat',Arial,sans-serif;   }     .nextend-tab .doc .categorycontainer .left,   .nextend-tab .doc .categorycontainer .right{     width: 48%;     float: left;     margin-left: 15px;     }    .nextend-tab .doc .categorycontainer{       color: #6C7581;     font-size: 12px;     font-weight: normal;     text-shadow: 0 1px 1px white;     font-family: 'Montserrat',Arial,sans-serif;   }   .nextend-tab .doc .categorycontainer dt{     font-size: 16px;     margin: 15px 0 5px;     font-weight: normal;   }     .nextend-tab .doc .categorycontainer dd,     .nextend-tab .doc .categorycontainer dl{     margin: 0;   }     .nextend-tab .doc .categorycontainer ul{     padding-left: 10px;   }   .nextend-tab .doc .categorycontainer li{     line-height: 20px;   }   .nextend-tab .doc .categorycontainer li a{         color: #738AA2;     font-size: 13px;     text-decoration: none;     text-shadow: 0 1px 1px white;   }   .nextend-tab .doc .categorycontainer li a:HOVER,     .nextend-tab .doc .categorycontainer li:HOVER{     color: #2485E3;   }      
+  .nextend-element .nextend-text span{     color: #6C7581;     font-size: 12px;     font-weight: normal;     line-height: 11px;     text-shadow: 0 1px 1px white;   }     .nextend-element .nextend-text span a{     color: #6C7581;     font-size: 12px;     font-weight: normal;     line-height: 11px;     text-shadow: 0 1px 1px white;     text-decoration: none;   }   .nextend-element .nextend-text span a:HOVER{     color: #2485E3;   }   .ni .doc{     padding: 10px 20px 20px;     background-color: #EEF3F8;     border-bottom: 1px solid rgba(0, 0, 0, 0.1);   }   .ni .tutorial-videos{     padding: 20px;     background-color: #EEF3F8;     border-bottom: 1px solid rgba(0, 0, 0, 0.1);   }   .ni .tutorial-videos iframe{   }     .ni .tutorial-videos .video{     float: left;     margin: 0 50px 20px 0;   }   .ni .tutorial-videos span{       color: #6C7581;     font-size: 16px;     font-weight: normal;     line-height: 11px;     text-shadow: 0 1px 1px white;     text-align: center;     display: block;     margin-bottom: 10px;     font-family: 'Open Sans',Arial,sans-serif;   }     .ni .doc .categorycontainer .left,   .ni .doc .categorycontainer .right{     width: 48%;     float: left;     margin-left: 15px;     }    .ni .doc .categorycontainer{       color: #6C7581;     font-size: 12px;     font-weight: normal;     text-shadow: 0 1px 1px white;     font-family: 'Open Sans',Arial,sans-serif;   }   .ni .doc .categorycontainer dt{     font-size: 16px;     margin: 15px 0 5px;     font-weight: normal;   }     .ni .doc .categorycontainer dd,     .ni .doc .categorycontainer dl{     margin: 0;   }     .ni .doc .categorycontainer ul{     padding-left: 10px;   }   .ni .doc .categorycontainer li{     line-height: 20px;   }   .ni .doc .categorycontainer li a{   font-weight: 600;      color: #738AA2;     font-size: 13px;     text-decoration: none;     text-shadow: 0 1px 1px white;   }   .ni .doc .categorycontainer li a:HOVER,     .ni .doc .categorycontainer li:HOVER{     color: #2485E3;   }      
   </style>     
-  <div class="nextend-form">         
-    <div class="nextend-tab"><h3>General information</h3>             
-      <table>                 
-        <tbody>                                
-          <tr class="odd">                         
-            <td class="nextend-label">                             
+  <div class="nextend-form">   
+    <div class="ni">
+		<h2>General information</h2>             
+      <table class="ni">                                 
+          <tr>                         
+            <td >                             
               <label for="slidertitle" id="slidertitle-lbl">Version Number               
               </label>                           </td>                         
-            <td class="nextend-element">                             
-              <div style="" class="nextend-text">                                 
-                <span>
-<?php
+            <td >      
+				<?php
                 if(nextendIsJoomla()){
                     preg_match('/<version>(.*?)<\\/version>/', file_get_contents(JPATH_ADMINISTRATOR.'/components/com_smartslider2/smartslider2.xml'),$out);
                     echo $out[1];
                 }else if(nextendIsWordpress()){
                     $plg = get_plugin_data( NEXTEND_SMART_SLIDER2.basename(NEXTEND_SMART_SLIDER2).'.php');
                     echo $plg['Version'];
-                }
-                                                    ?>                
-                </span>                             
-              </div>            </td>                     
+                }?>                
+			  </td>                     
           </tr>                                       
-          <tr class="even">                         
-            <td class="nextend-label">                             
+          <tr>                         
+            <td>                             
               <label for="slidertitle" id="slidertitle-lbl">Documentation               
               </label>                           </td>                         
-            <td class="nextend-element">                             
-              <div style="" class="nextend-text">                                 
-                <span>                  
+            <td >                      
                   <a href="http://www.nextendweb.com/wiki/smart-slider-documentation/">Read the documentation!</a>                
-                </span>                             
-              </div>            </td>                     
+        </td>                     
           </tr>                                       
-          <tr class="odd">                         
-            <td class="nextend-label">                             
+          <tr>                         
+            <td>                             
               <label for="slidertitle" id="slidertitle-lbl">Support               
               </label>                           </td>                         
-            <td class="nextend-element">                             
-              <div style="" class="nextend-text">                                 
-                <span>                  
-                  <a href="http://www.nextendweb.com/smart-slider#support">Write a support ticket!</a>                
-                </span>                             
-              </div>            </td>                     
+            <td>                       
+				<a href="http://www.nextendweb.com/smart-slider#support">Write a support ticket!</a>                
+			  </td>                     
           </tr>                          
         </tbody>             
-      </table>         
-    </div>              
-    <div class="nextend-tab"><h3>Documentation</h3>             
+      </table>               
+	  <h2>Documentation</h2>             
       <div class="doc">                 
         <div class='categorycontainer clearfix'>              
           <div class="left">            
@@ -128,6 +117,9 @@ $css->addCssLibraryFile('form.css');
                   </li>                  
                   <li>                  
                   <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/known-problems/">Known problems</a>                  
+                  </li>                  
+                  <li>                  
+                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/translation/">Translation</a>                  
                   </li>                
                 </ul>              
               </dd>            
@@ -156,7 +148,7 @@ $css->addCssLibraryFile('form.css');
                   </li>                  
                   <li>                  
                   <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/generator/">Generator</a>                  
-                  </li>                
+                  </li>             
                 </ul>              
               </dd>            
             </dl>            
@@ -181,7 +173,10 @@ $css->addCssLibraryFile('form.css');
                   </li>                  
                   <li>                  
                   <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/layout-settings/">Layout settings</a>                  
-                  </li>                
+                  </li>                    
+                  <li>                  
+                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/import-export/">Import and Export</a>                  
+                  </li>      
                 </ul>              
               </dd>            
             </dl>            
@@ -390,7 +385,7 @@ $css->addCssLibraryFile('form.css');
           </div>                          
         </div>           
       </div>                
-      <div class="nextend-tab"><h3>Tutorial videos</h3>               
+      <h2>Tutorial videos</h2>               
         <div class="tutorial-videos clearfix">                   
           <div class="video">                       
             <span>How to start             
@@ -410,9 +405,8 @@ $css->addCssLibraryFile('form.css');
             <iframe width="300" height="225" src="//www.youtube.com/embed/17iWpboc9JU" frameborder="0" allowfullscreen>            
             </iframe>                      
           </div>               
-        </div>           
-      </div>               
-    </div>     
+        </div>                        
+</div>   
 </form>
 <?php if(NextendSmartSliderSettings::get('guides', 1) ): ?>
 <ol id="nextend-guide-default" style="display: none;">     

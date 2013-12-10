@@ -15,8 +15,7 @@ class NextendForm extends NextendData {
     function NextendForm() {
         $this->_xml = null;
         $this->_tabs = array();
-        NextendText::l('form');
-        NextendText::l('unit');
+        NextendText::l('common');
         parent::NextendData();
         $this->loadQtip();
         
@@ -93,7 +92,9 @@ class NextendForm extends NextendData {
 
         echo "</div>";
         $fonts = NextendFontsGoogle::getInstance();
-        $fonts->addFont('Montserrat');
+        $fonts->addFont('Open Sans');
+        $fonts->addFont('Open Sans', 600);
+        $fonts->addFont('Open Sans', 700);
     }
     
     function loadXMLFile($file) {
@@ -102,8 +103,10 @@ class NextendForm extends NextendData {
         $this->_xmlfile = $file;
         $this->_xmlfolder = dirname($file).'/';
         $this->_root = dirname($file).DIRECTORY_SEPARATOR;
-        if(NextendXmlGetAttribute($this->_xml, 'translate')){
-            NextendText::l(basename($file, ".xml"), $this->_xmlfolder.'languages/');
+        
+        $translate = NextendXmlGetAttribute($this->_xml, 'translate');
+        if($translate){
+            NextendText::l('common', nextendSubLibraryPath($translate).'languages/');
         }
     }
     
@@ -120,6 +123,13 @@ class NextendForm extends NextendData {
             }
         }
         return null;
+    }
+    
+    static function tokenize(){
+        if(nextendIsMagento()){
+            $adminobj= new Mage_Adminhtml_Block_Template(); 
+            echo '<input name="form_key" type="hidden" value="'.$adminobj->getFormKey().'" />';
+        }
     }
 }
 ?>
