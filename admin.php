@@ -8,7 +8,11 @@ if(!function_exists('nextend_init_ajax')){
     }
 }
 
-add_action( 'admin_head', 'nextend_smartslider2_icons' );
+global $wp_version;
+if (version_compare($wp_version, '3.8', 'l')) {
+    add_action( 'admin_head', 'nextend_smartslider2_icons' );
+}
+
 function nextend_smartslider2_icons() {
 ?>
     <style type="text/css" media="screen">

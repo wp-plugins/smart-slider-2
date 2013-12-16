@@ -39,6 +39,9 @@
     {
         uaMatch = ' MSIE ';
         prefix = 'x-msie';
+    }else if(!!navigator.userAgent.match(/Trident/)){
+        uaMatch = ' rv:';
+        prefix = 'x-msie';
     }
     if (prefix)
     {

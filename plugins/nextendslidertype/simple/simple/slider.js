@@ -20,7 +20,7 @@
         },
         sizeInited: function () {
             if (this.options.flux[0]) {
-                this.flux = new flux.slider('.nextend-flux', {
+                this.flux = new flux.slider('#'+this.id+' .nextend-flux', {
                     transitions: this.options.flux[1],
                     width: this.slideDimension.w,
                     height: this.slideDimension.h,
@@ -37,15 +37,27 @@
 
             ss.data('ss-fontsize', parseInt(ss.css('fontSize')));
 
-            ss.data('ss-m-t', parseInt(ss.css('marginTop')));
-            ss.data('ss-m-r', parseInt(ss.css('marginRight')));
-            ss.data('ss-m-b', parseInt(ss.css('marginBottom')));
-            ss.data('ss-m-l', parseInt(ss.css('marginLeft')));
-            ss.data('ss-w', ss.width());
-            ss.data('ss-h', ss.height());
+            this.variables.margintop = parseInt(ss.css('marginTop'));
+            this.variables.marginright = parseInt(ss.css('marginRight'));
+            this.variables.marginbottom = parseInt(ss.css('marginBottom'));
+            this.variables.marginleft = parseInt(ss.css('marginLeft'));
+            
+            ss.data('ss-m-t', this.variables.margintop);
+            ss.data('ss-m-r', this.variables.marginright);
+            ss.data('ss-m-b', this.variables.marginbottom);
+            ss.data('ss-m-l', this.variables.marginleft);
+            
+            this.variables.outerwidth = ss.parent().width();
+            this.variables.outerheight = ss.parent().height();
+                
+            this.variables.width = ss.width();
+            this.variables.height = ss.height();
+            
+            ss.data('ss-w', this.variables.width);
+            ss.data('ss-h', this.variables.height);
 
             var smartsliderborder1 = this.smartsliderborder1 = ss.find('.smart-slider-border1');
-
+            
             smartsliderborder1.data('ss-w', smartsliderborder1.width());
             smartsliderborder1.data('ss-h', smartsliderborder1.height());
             smartsliderborder1.data('ss-p-t', parseInt(smartsliderborder1.css('paddingTop')));
@@ -54,12 +66,16 @@
             smartsliderborder1.data('ss-p-l', parseInt(smartsliderborder1.css('paddingLeft')));
 
             var canvases = this.smartslidercanvasinner = this.slideList.find('.smart-slider-canvas-inner');
-            canvases.data('ss-w', canvases.width());
-            canvases.data('ss-h', canvases.height());
-
+                
+            this.variables.canvaswidth = canvases.width();
+            this.variables.canvasheight = canvases.height();
+            
+            canvases.data('ss-w', this.variables.canvaswidth);
+            canvases.data('ss-h', this.variables.canvasheight);
+            
             this.slideList.css({
-                width: canvases.data('ss-w'),
-                height: canvases.data('ss-h')
+                width: this.variables.canvaswidth,
+                height: this.variables.canvasheight
             });
             
             this.imagesinited = false;
@@ -74,7 +90,7 @@
                 _this.$slider.trigger('imagesinited');
             });
 
-
+            this.variablesRefreshed();
         },
         onResize: function () {
             var _this = this,
@@ -104,10 +120,15 @@
 
             ss.css('fontSize', ss.data('ss-fontsize') * ratio + 'px');
 
-            ss.css('marginTop', parseInt(ss.data('ss-m-t') * ratio) + 'px');
-            ss.css('marginRight', parseInt(ss.data('ss-m-r') * ratio) + 'px');
-            ss.css('marginBottom', parseInt(ss.data('ss-m-b') * ratio) + 'px');
-            ss.css('marginLeft', parseInt(ss.data('ss-m-l') * ratio) + 'px');
+            this.variables.margintop = parseInt(ss.data('ss-m-t') * ratio);
+            this.variables.marginright = parseInt(ss.data('ss-m-r') * ratio);
+            this.variables.marginbottom = parseInt(ss.data('ss-m-b') * ratio);
+            this.variables.marginleft = parseInt(ss.data('ss-m-l') * ratio);
+
+            ss.css('marginTop', this.variables.margintop);
+            ss.css('marginRight', this.variables.marginright);
+            ss.css('marginBottom', this.variables.marginbottom);
+            ss.css('marginLeft', this.variables.marginleft);
 
             var smartsliderborder1 = this.smartsliderborder1;
 
@@ -120,7 +141,8 @@
             smartsliderborder1.width(parseInt(smartsliderborder1.data('ss-w') * ratio));
 
 
-            ss.width(smartsliderborder1.outerWidth(true));
+            this.variables.width = smartsliderborder1.outerWidth(true);
+            ss.width(this.variables.width);
 
 
             var canvases = this.smartslidercanvasinner;
@@ -155,11 +177,20 @@
             smartsliderborder1.css('fontSize', ss.data('ss-fontsize') * ratio2 + 'px');
 
             smartsliderborder1.height(canvasHeight);
-            ss.height(smartsliderborder1.outerHeight(true));
+            
+            this.variables.height = smartsliderborder1.outerHeight(true);
+            ss.height(this.variables.height);
 
             this.slideDimension.w = canvasWidth;
             this.slideDimension.h = canvasHeight;
 
+            this.variables.canvaswidth = canvasWidth;
+            this.variables.canvasheight = canvasHeight;
+            
+            
+            this.variables.outerwidth = ss.parent().width();
+            this.variables.outerheight = ss.parent().height();
+            
             
             this.slidebgList.width(oCanvasWidth);
             var bgfn = function () {
@@ -186,6 +217,8 @@
             this.$slider.waitForImages(function () {
                 $(_this).trigger('load');
             });
+            
+            this.variablesRefreshed();
         },
         animateOut: function (i, reversed) {
             var _this = this;
@@ -214,13 +247,23 @@
             }).trigger('ssinanimationstart');
 
             if (this.options.flux[0]) {
+                //make them synced
+                var ended = null,
+                endFN = function(){
+                    _this.mainanimationended();
+                    $slide.trigger('decrementanimation');
+                };
+                ended = function(){
+                    ended = endFN;
+                };
+                
                 $slide.trigger('incrementanimation');
                 this.__animateIn($slide, reversed,function () {
+                    ended();
                 }).animateIn();
                 this.flux.element.on('fluxTransitionEnd.ss', function (event) {
                     $(this).off('fluxTransitionEnd.ss');
-                    _this.mainanimationended();
-                    $slide.trigger('decrementanimation');
+                    ended();
                 });
                 this.flux.showImage(i);
             } else {

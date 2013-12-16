@@ -3,8 +3,8 @@ Contributors: nextendweb
 Tags: slider, slide, layer slider, responsive, gallery, auto, autoplay, carousel, image rotation, image slider, images, photo slider, jquery slider, pictures, shortcode, slideshow, thumbnails, widgets, nextend, responsive slider, horizontal slider, vertical slider, accordion slider, fade slider, layout, youtube, video, flickr, facebook, twitter, instagram, images from folder
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
-Tested up to: 3.7.1
-Stable tag: 2.2.0
+Tested up to: 3.8.0
+Stable tag: 2.2.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -27,6 +27,9 @@ Smart Slider 2 comes with an intuitive interface for backend, which makes easy f
 * 100% responsive with each items (touch screen support for mobile devices)
 * Total control over the design, customize the slider without HTML or CSS knowledge. Change color, font, arrow, bullet, background, link, position, size, etc.
 * Slide layout creator: save and load your own slide design
+
+#### What is included in the free version?
+You will be able to create new responsive sliders with simple slider type. You can add image, heading and button items into your slider also you can use slide background feature too. The main animations are limited to the horizontal animation, also the special background and the layer animations also limited. The free version will allow you to use arrow and bullet widgets.
 
 **Note: This plugin is provided as-is, but PAID version for this plugin is available with a ton of extra and new features!** [Upgrade to the Smart Slider 2 FULL version!](http://www.nextendweb.com/smart-slider/)
 
@@ -109,6 +112,16 @@ Or you can get the shortcode - [View](http://www.nextendweb.com/wp-content/uploa
 4. Screenshot from the backend, which will help you through the set up process with easily understandable features.
 
 == Changelog ==
+
+= 2.2.1 =
+* Feature: Autoplay and image item enabled in lite version
+* Feature: Resume autoplay on slide changed
+* Fix: WordPress 3.8 menu icon
+* Fix: Variables in widget fixed in lite versions
+* Fix: Conflict with some themes/templates where * selector defined
+* Fix: Facebook generator high res images in Post by page source
+* Fix: Accordion slider's font
+* Fix: Publish and unpublish dates are fixed on some MySQL versions
 
 = 2.2.0 =
 * Important note: You might need to resposition your Arrow widgets vertically!

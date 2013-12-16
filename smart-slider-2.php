@@ -3,7 +3,7 @@
 Plugin Name: Smart Slider 2
 Plugin URI: http://nextendweb.com/
 Description: The perfect all-in-one responsive slider solution for WordPress.
-Version: 2.2.0
+Version: 2.2.1
 Author: Nextend
 Author URI: http://www.nextendweb.com
 License: GPLv3 or later
@@ -40,7 +40,7 @@ function nextend_smart_slider2_activation(){
 
 add_action( 'admin_menu', 'nextend_smart_slider2_menu_page' );
 function nextend_smart_slider2_menu_page(){
-    add_menu_page( 'Smart Slider 2', 'Sliders', 'manage_options', 'nextend-smart-slider2', 'nextend_smart_slider2' );
+    add_menu_page( 'Smart Slider 2', 'Sliders', 'manage_options', 'nextend-smart-slider2', 'nextend_smart_slider2', 'dashicons-format-gallery');
 }
 
 function nextend_smart_slider2(){

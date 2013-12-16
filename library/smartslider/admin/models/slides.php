@@ -133,9 +133,19 @@ class NextendSmartsliderAdminModelSlides extends NextendModel {
         $query.=',thumbnail='.$db->quote($slide['thumbnail']);
         $query.=',background='.$db->quote($slide['background']);
         $query.=',published='.$db->quote($slide['published']);
-        $date = explode('|*|',$slide['publishdates']);
-        $query.=',publish_up='.(isset($date[0]) ? $db->quote($date[0]) : 'NULL');
-        $query.=',publish_down='.$db->quote(($date[1]) ? $db->quote($date[1]) : 'NULL');
+        
+        if(isset($slide['publishdates'])){
+            $date = explode('|*|',$slide['publishdates']);
+        }else{
+            $date[0] = $slide['publish_up'];
+            $date[1] = $slide['publish_down'];
+            unset($slide['publish_up']);
+            unset($slide['publish_down']);
+        }
+        $up = strtotime(isset($date[0]) ? $date[0] : '');
+        $query.=',publish_up='.$db->quote(date('Y-m-d H:i:s', ($up && $up > 0 ? $up : strtotime('-1 day'))));
+        $down = strtotime(isset($date[1]) ? $date[1] : '');
+        $query.=',publish_down='.$db->quote(date('Y-m-d H:i:s', ($down && $down > 0 ? $down : strtotime('+10 years'))));
         unset($slide['title']);
         unset($slide['slide']);
         unset($slide['description']);

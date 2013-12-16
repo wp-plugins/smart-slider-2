@@ -3,6 +3,13 @@
   margin: @margin;
   position: relative;
   
+  *, 
+  *:before,
+  *:after  {
+      -moz-box-sizing: content-box;
+       box-sizing:content-box;
+  }
+  
   &.nextend-slider-fadeload{
       position: absolute;
       opacity: 0;

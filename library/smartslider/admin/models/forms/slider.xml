@@ -58,7 +58,7 @@
     <params name="slides" label="Slides">
         <param type="onoff" name="randomize" label="Randomize slides" default="0" description="" />
     </params>
-    <params name="autoplay" label="Autoplay settings - full version">
+    <params name="autoplay" label="Autoplay settings">
         <param name="autoplay" type="mixed" label="Autoplay" default='0|*|5000' description="If_enabled_the_slides_will_automatically_change_after_the_defined_interval">
             <param type="onoff" label="Enabled"/>
             <param type="text" label="Interval" style="width:70px;">

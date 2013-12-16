@@ -35,6 +35,7 @@ class NextendElementMixed extends NextendElement {
             }
 
             $element->addAttribute('name', $this->_name . '_' . $i);
+            $element->addAttribute('hidename', 1);
             if (isset($value[$i])) $element->addAttribute('default', $value[$i]);
             $el = new $class($this->_form, $this, $element);
             $el->parent = &$this;

@@ -6,14 +6,12 @@ class plgNextendSliderItemImage extends plgNextendSliderItemAbstract {
 
     var $_identifier = 'image';
 
-    var $_title = 'Image - full';
+    var $_title = 'Image';
 
     function getTemplate() {
-        return "
-          <div>
-              Only in full version!
-          </div>
-        ";
+        return '<div data-click="{onmouseclick}" data-enter="{onmouseenter}" data-leave="{onmouseleave}"><a href="{url}" target="{target}" style="display: block;background: none !important;" >
+          <img src="{image}" onclick="{onclick};" style="display: block; max-width: 100%; {css};width:{width};height:{height};" alt="{alt}" title="{title}" />
+        </a></div>';
     }
 
     function getValues() {
@@ -27,7 +25,11 @@ class plgNextendSliderItemImage extends plgNextendSliderItemAbstract {
             'height' => 'auto',
             'css' => '',
             'alt' => 'Image not available',
-            'onclick' => ''
+            'title' => '',
+            'onclick' => '',
+            'onmouseclick' => '',
+            'onmouseenter' => '',
+            'onmouseleave' => ''
         );
     }
 

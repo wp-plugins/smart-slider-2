@@ -348,20 +348,50 @@ class NextendSlider {
             $fadeonload[0] = 1;
         }
         $p['fadeonscroll'] = intval($fadeonload[1]);
+        
+        $count = count($this->_slides);
+        
+        $autoplay = NextendParse::parse($this->_sliderParams->get('autoplay', '0|*|5000'));
+        $autoplayfinish = NextendParse::parse($this->_sliderParams->get('autoplayfinish', '0|*|loop|*|current'));
+        $autoplayToSlide = 0;
+        
+        if(isset($autoplayfinish[1])){
+            switch($autoplayfinish[1]){
+                case 'slide':
+                    if(isset($autoplayfinish[2]) && $autoplayfinish[2] == 'next'){
+                        $autoplayToSlide = intval($autoplayfinish[0]) + 1;
+                    }else{
+                        $autoplayToSlide = intval($autoplayfinish[0]);
+                    }
+                    break;
+                default: 
+                    if(isset($autoplayfinish[2]) && $autoplayfinish[2] == 'next'){
+                        $autoplayToSlide = intval($autoplayfinish[0]) * $count + 1;
+                    }else{
+                        $autoplayToSlide = intval($autoplayfinish[0]) * $count;
+                    }
+                    break;
+            }
+        }
 
-        $p['autoplay'] =  0;
+        $stopautoplay = NextendParse::parse($this->_sliderParams->get('stopautoplay', '1|*|1|*|1'));
+        $resumeautoplay = NextendParse::parse($this->_sliderParams->get('resumeautoplay', '0|*|1|*|0'));
+        if(!isset($resumeautoplay[2])) $resumeautoplay[2] = 0;
+        
+        $p['autoplay'] =  intval($autoplay[0]);
         $p['autoplayConfig'] = array(
-            'duration' => 0,
+            'duration' => intval($autoplay[1]),
             'counter' => 0,
-            'autoplayToSlide' => 0,
+            'autoplayToSlide' => intval($autoplayToSlide),
             'stopautoplay' => array(
-                'click' => 0,
-                'mouseenter' => 0,
-                'slideplaying' => 0
+                'click' => intval($stopautoplay[0]),
+                'mouseenter' => intval($stopautoplay[1]),
+                'slideplaying' =>intval($stopautoplay[2])
             ),
             'resumeautoplay' => array(
-                'mouseleave' => 0,
-                'slideplayed' => 0
+                'mouseleave' => intval($resumeautoplay[0]),
+                'slideplayed' => intval($resumeautoplay[1]),
+                'slidechanged' => intval($resumeautoplay[2])
             )
         );
 

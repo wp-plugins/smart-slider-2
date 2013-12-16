@@ -173,7 +173,7 @@
                     $(window).on('resize', function () {
                         _this.onResize();
                     });
-                    if(typeof artxJQuery != "undefined"){
+                    if(typeof artxJQuery != "undefined" && typeof artxJQuery.fn.on != "undefined"){
                         artxJQuery(window).on('responsive', function () {
                             _this.onResize();
                         });
@@ -529,6 +529,7 @@
                 this._animating = false;
                 this.$this.trigger('mainanimationend');
                 this.startAutoplay();
+                if(this.options.autoplayConfig.resumeautoplay.slidechanged) this.reStartAutoPlay();
             } else if (this._runningAnimations < 0) {
                 this._runningAnimations = 0;
             }

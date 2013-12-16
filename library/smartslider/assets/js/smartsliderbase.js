@@ -50,6 +50,9 @@
                     data = $this.data('smartslider');
                 data.slider.pauseautoplay();
             });
+        },
+        slider: function () {
+            return njQuery(this.data('smartslider').slider.mainslider);
         }
     };
 

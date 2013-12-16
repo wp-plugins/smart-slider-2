@@ -27,7 +27,7 @@ class NextendElement {
         $this->_default = NextendXmlGetAttribute($this->_xml, 'default');
         $this->_name = NextendXmlGetAttribute($this->_xml, 'name');
         $this->_id = $this->generateId($control_name . $this->_name);
-        $this->_inputname = $control_name . '[' . $this->_name . ']';
+        $this->_inputname = (NextendXmlGetAttribute($this->_xml, 'hidename') ? '' : $control_name . '[' . $this->_name . ']');
         $this->_label = NextendXmlGetAttribute($this->_xml, 'label');
         $this->_description = NextendXmlGetAttribute($this->_xml, 'description');
         if ($this->_label == '')
