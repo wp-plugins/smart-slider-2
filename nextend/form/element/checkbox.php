@@ -12,7 +12,7 @@ class NextendElementCheckbox extends NextendElement {
         $js->addLibraryJsAssetsFile('dojo', 'element/checkbox.js');
         $this->_value = $this->_form->get($this->_name, $this->_default);
         $hidden = new NextendElementHidden($this->_form, $this->_tab, $this->_xml);
-        $html = "<div class='nextend-checkbox clearfix' style='".NextendXmlGetAttribute($this->_xml, 'style')."'>";
+        $html = "<div class='nextend-checkbox nextend-clearfix' style='".NextendXmlGetAttribute($this->_xml, 'style')."'>";
         $html.= $this->generateOptions($this->_xml);
         $hiddenhtml = $hidden->render($this->control_name, false);
         $html.= $hiddenhtml[1];

@@ -23,8 +23,8 @@ class NextendSliderWidgets {
 
         foreach ($plugins AS $k => $v) {
             $widget = $params->get('widget'.$k);
-            $display = NextendParse::parse($params->get('widget'.$k.'display', '0|*|always'));
-            if($widget != '' && intval($display[0])){
+            $display = NextendParse::parse($params->get('widget'.$k.'display', '0|*|always|*|0|*|0'));
+            if($widget != '' && (isset($display[0]) && intval($display[0]) || isset($display[2]) && intval($display[2]) || isset($display[3]) && intval($display[3]))){
                 $this->_enabledWidgets[$k] = $widget;
             }
         }

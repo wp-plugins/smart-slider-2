@@ -62,7 +62,7 @@
 
   .smart-slider-canvas,
   .smart-slider-layer {
-    overflow: hidden;
+    overflow: hidden !important;
   }
 
   .smart-slider-canvas-inner {
@@ -95,14 +95,23 @@
 
   .fontmatrix(0);
   
+  .nextend-widget{
+      display: none;
+      -webkit-backface-visibility: hidden;
+      -webkit-perspective: 1;
+  }
+  
+  &.nextend-desktop .nextend-widget-display-desktop,
+  &.nextend-tablet .nextend-widget-display-tablet,
+  &.nextend-phone .nextend-widget-display-phone{
+      display: block;
+  }
   
   .nextend-widget-always {
-    -webkit-perspective: 1; /* Fix for OSX Safari */
     -webkit-transform: translate3d(0,0,0);
   }
 
   .nextend-widget-hover {
-    -webkit-perspective: 1;
     visibility: hidden;
     opacity: 0;
     -webkit-transition: opacity 0.4s ease;

@@ -93,6 +93,7 @@
 }
 
 .smartslider-icon-container .smartslider-icon-add,
+.smartslider-icon-container .smartslider-icon-back,
 .smartslider-icon-container .smartslider-icon-import{
     opacity: 1;
     display: block;
@@ -134,6 +135,10 @@
 
 .smartslider-icon-container.active .smartslider-icon-import{
     background-position: -264px -22px;
+}
+
+.smartslider-icon-container .smartslider-icon-back{
+    background-position: -286px 0;
 }
 
 
@@ -225,4 +230,59 @@
 
 .smartslider-icon-container:HOVER .smartslider-qtip-icon.fontsettings{
     background-position: 0 -720px;
+}
+
+.smartslider-action-icon{
+    background: url('../images/actionicons.png') no-repeat center 0;
+    display: block;
+    height: 22px;
+    width: 100%;
+    overflow: hidden;
+    text-indent: -1000px;
+    opacity: 0.7;
+}
+
+.smartslider-icon-container .smartslider-action-icon{
+    display: block;
+    opacity: 1;
+}
+
+.smartslider-action-icon-edit{
+    background-position: center 0;
+}
+
+.smartslider-action-icon-create{
+    background-position: center -40px;
+}
+
+.smartslider-action-icon-fonts{
+    background-position: center -80px;
+}
+
+.smartslider-action-icon-generator{
+    background-position: center -120px;
+}
+
+.smartslider-action-icon-duplicate{
+    background-position: center -160px;
+}
+
+.smartslider-action-icon-export{
+    background-position: center -200px;
+}
+
+.smartslider-action-icon-delete{
+    background-position: center -240px;
+}
+
+.smartslider-action-icon-delete-slider{
+    background-position: center -280px;
+}
+
+.smartslider-action-icon-generator-layout{
+    background-position: center -320px;
+}
+
+.smartslider-action-icon-refresh{
+    background-position: center -360px;
 }

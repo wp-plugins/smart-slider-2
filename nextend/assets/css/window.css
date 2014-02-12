@@ -12,6 +12,7 @@
     font-family: 'Open Sans', Arial, sans-serif;
 }
 
+#config_edit_form .nextend-window,
 #nextend-fontmanager-lightbox,
 #content-box .nextend-window{
     z-index:101;

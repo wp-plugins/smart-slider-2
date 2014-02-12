@@ -7,7 +7,7 @@ class plgNextendSliderItemAbstract extends NextendPluginBase {
     var $_title = 'Title';
     
     function onNextendSliderItemList(&$list){
-        $list[$this->_identifier] = array($this->_title, $this->getTemplate(), $this->getPrefilledTemplate(), json_encode($this->getValues()), $this->getPath());
+        $list[$this->_identifier] = array(NextendText::_($this->_title), $this->getTemplate(), $this->getPrefilledTemplate(), json_encode($this->getValues()), $this->getPath());
     }
     
     /*

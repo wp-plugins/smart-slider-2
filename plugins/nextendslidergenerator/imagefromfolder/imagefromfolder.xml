@@ -12,6 +12,7 @@
     <files>
         <filename plugin="imagefromfolder">imagefromfolder.php</filename>
         <folder>fromfolder</folder>
+        <filename>dynamic.png</filename>
         <filename>index.html</filename>
     </files>
     <params>

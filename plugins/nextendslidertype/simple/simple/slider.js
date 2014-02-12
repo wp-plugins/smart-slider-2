@@ -35,7 +35,7 @@
 
             ss.data('ss-outerwidth', ss.outerWidth(true));
 
-            ss.data('ss-fontsize', parseInt(ss.css('fontSize')));
+            //ss.data('ss-fontsize', parseInt(ss.css('fontSize')));
 
             this.variables.margintop = parseInt(ss.css('marginTop'));
             this.variables.marginright = parseInt(ss.css('marginRight'));
@@ -83,8 +83,8 @@
                 $.each(_this.slidebgList, function(){
                     var $img = $(this);
                     var im = $("<img/>").attr("src", $img.attr("src"));
-                    $img.data('ss-w', im[0].width);
-                    $img.data('ss-h', im[0].height);
+                    $img.data('ss-w', im[0].width < 10 ? _this.variables.canvaswidth : im[0].width);
+                    $img.data('ss-h', im[0].height < 10 ? _this.variables.canvasheight : im[0].height);
                 });
                 _this.imagesinited = true;
                 _this.$slider.trigger('imagesinited');
@@ -92,9 +92,11 @@
 
             this.variablesRefreshed();
         },
-        onResize: function () {
+        onResize: function (fixedratio) {
             var _this = this,
                 ss = this.$slider;
+                
+            var modechanged = this.refreshMode(); //this._currentmode
 
             var ratio = 1;
 
@@ -103,22 +105,26 @@
             var outerWidth = ss.data('ss-outerwidth');
 
             if (!this.options.responsive.upscale && availableWidth > outerWidth) availableWidth = outerWidth;
-
-            if (availableWidth != outerWidth) {
-                ratio = availableWidth / outerWidth;
-            }
-
-            if (this.lastAvailableWidth == availableWidth || !this.options.responsive.downscale && ratio < 1) {
-                var _this = this;
-                this.$slider.waitForImages(function () {
-                    $(_this).trigger('load');
-                });
-                return true;
+            
+            if(typeof fixedratio == 'undefined'){
+                if (availableWidth != outerWidth) {
+                    ratio = availableWidth / outerWidth;
+                }
+    
+                if (!modechanged && (this.lastAvailableWidth == availableWidth || !this.options.responsive.downscale && ratio < 1)) {
+                    var _this = this;
+                    this.$slider.waitForImages(function () {
+                        $(_this).trigger('load');
+                    });
+                    return true;
+                }
+            }else{
+                ratio = fixedratio; 
             }
 
             this.lastAvailableWidth = availableWidth;
 
-            ss.css('fontSize', ss.data('ss-fontsize') * ratio + 'px');
+            ss.css('fontSize', ss.data(this._currentmode+'fontsize') * ratio + 'px');
 
             this.variables.margintop = parseInt(ss.data('ss-m-t') * ratio);
             this.variables.marginright = parseInt(ss.data('ss-m-r') * ratio);
@@ -174,7 +180,7 @@
                 height: canvases.outerHeight(true)
             });
 
-            smartsliderborder1.css('fontSize', ss.data('ss-fontsize') * ratio2 + 'px');
+            smartsliderborder1.css('fontSize', ss.data(this._currentmode+'fontsize') * ratio2 + 'px');
 
             smartsliderborder1.height(canvasHeight);
             
@@ -355,6 +361,299 @@
                 endFn: function () {
                     $slide.width(_this.smartsliderborder2.width());
                     if (end) end();
+                }
+            });
+        },
+
+        __animateInVertical: function ($slide, reversed, end) {
+
+            var option = this._animationOptions.next;
+            return ssAnimationManager.getAnimation((reversed && option.parallax >= 1) ? 'slidetoptobottom' : 'slidebottomtotop', $slide, {
+                width: this.slideDimension.w,
+                height: this.slideDimension.h,
+                intervalIn: option.duration,
+                easingIn: option.easing,
+                delayIn: option.delay,
+                parallaxIn: option.parallax * this.extraParallax,
+                target: {},
+                endFn: function () {
+                    if (end) end();
+                }
+            });
+        },
+
+        __animateOutVertical: function ($slide, reversed, end) {
+
+            var _this = this,
+                option = this._animationOptions.current,
+                target = option.parallax < 1 ? {height: this.smartsliderborder2.height() * option.parallax} : {};
+
+            return ssAnimationManager.getAnimation((reversed && option.parallax >= 1) ? 'slidetoptobottom' : 'slidebottomtotop', $slide, {
+                width: this.slideDimension.w,
+                height: this.slideDimension.h,
+                intervalOut: option.duration,
+                easingOut: option.easing,
+                delayOut: option.delay,
+                parallaxOut: option.parallax * this.extraParallax,
+                target: target,
+                endFn: function () {
+                    $slide.height(_this.smartsliderborder2.height());
+                    if (end) end();
+                }
+            });
+        },
+
+        __animateInFade: function ($slide, reversed, end) {
+
+            var option = this._animationOptions.next;
+            return ssAnimationManager.getAnimation('fade', $slide, {
+                width: this.slideDimension.w,
+                height: this.slideDimension.h,
+                intervalIn: option.duration,
+                easingIn: option.easing,
+                delayIn: option.delay,
+                parallaxIn: option.parallax * this.extraParallax,
+                endFn: function () {
+                    if (end) end();
+                }
+            });
+        },
+
+        __animateOutFade: function ($slide, reversed, end) {
+
+            var option = this._animationOptions.current;
+
+            return ssAnimationManager.getAnimation('fade', $slide, {
+                width: this.slideDimension.w,
+                height: this.slideDimension.h,
+                intervalOut: option.duration,
+                easingOut: option.easing,
+                delayOut: option.delay,
+                parallaxOut: option.parallax * this.extraParallax,
+                endFn: function () {
+                    if (end) end();
+                }
+            });
+        },
+        initTouch: function () {
+            if((this.options.touchanimation != 'horizontal' && this.options.touchanimation != 'vertical')){
+                this._super();
+                return;
+            }
+            
+            var _this = this;
+            var mode = this.options.touchanimation,
+                reset = [];
+            
+            this.$slider.find('> div').eq(0).swipe({
+                tap: function(event, target) {
+                    var act = _this.slideList.eq(_this._active).trigger('click');
+                    if(typeof act.attr("onclick") != undefined){
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                },
+                swipe: function (event, direction, distance, duration, fingerCount) {
+                    if(_this._animating) return;
+                    if(_this.options.touchanimation == 'horizontal'){
+                        _this.__animateHorizontalTouch(direction);
+                    }else if(_this.options.touchanimation == 'vertical'){
+                        _this.__animateVerticalTouch(direction);
+                    }
+                },
+                swipeStatus:function(event, phase, direction, distance, duration, fingers){
+                    if(_this._animating) return;
+                    var active = _this._active,
+                        next = null;
+                    
+                    if(_this.options.touchanimation == 'horizontal'){
+                        if(direction == 'left'){
+                            next = active + 1;
+                            if (next === _this.slideList.length) next = 0;
+                            _this.slideList.eq(active).css('left', -distance);
+                            _this.slideList.eq(next).css('left', _this.slideDimension.w-distance).css('display', 'block');
+                        }else if(direction == 'right'){
+                            next = active - 1;
+                            if (next < 0) next = _this.slideList.length - 1;
+                            _this.slideList.eq(active).css('left', distance);
+                            _this.slideList.eq(next).css('left', -_this.slideDimension.w+distance).css('display', 'block');
+                        }
+                        
+                        if(phase=="end"){
+                            reset = [];
+                            if(distance < 75){
+                                _this.slideList.eq(active).css('left', 0);
+                                _this.slideList.eq(next).css('left', 0).css('display', 'none');
+                            }
+                        }
+                    }else if(_this.options.touchanimation == 'vertical'){
+                        if(direction == 'up'){
+                            next = active + 1;
+                            if (next === _this.slideList.length) next = 0;
+                            _this.slideList.eq(active).css('top', -distance);
+                            _this.slideList.eq(next).css('top', _this.slideDimension.h-distance).css('display', 'block');
+                        }else if(direction == 'down'){
+                            next = active - 1;
+                            if (next < 0) next = _this.slideList.length - 1;
+                            _this.slideList.eq(active).css('top', distance);
+                            _this.slideList.eq(next).css('top', -_this.slideDimension.h+distance).css('display', 'block');
+                        }
+                        
+                        if(phase=="end"){
+                            reset = [];
+                            if(distance < 75){
+                                _this.slideList.eq(active).css('top', 0);
+                                if(next !== null) _this.slideList.eq(next).css('top', 0).css('display', 'none');
+                            }
+                        }
+                    }
+                    if(next !== null && typeof reset[next] == 'undefined'){
+                        _this.slideList.eq(next).trigger('ssanimatelayerssetinstart');
+                        reset[next] = true;
+                    }
+                },
+                fallbackToMouseEvents: false,
+                allowPageScroll: (_this.options.touchanimation == 'horizontal' ? 'vertical' : 'horizontal')
+            });
+            
+            if(typeof window.MSGesture !== 'undefined'){
+                var gesture = new MSGesture(),
+                    el = this.$slider.find('> div').get(0),
+                    start = {
+                        x: 0,
+                        y: 0
+                    };
+                gesture.target = el;
+                
+                if (mode == 'horizontal') {
+                    el.style['-ms-touch-action'] = 'pan-x';
+                    el.style['-ms-scroll-chaining'] = 'none';
+                    el.style['touch-action'] = 'pan-x';
+                    el.style['scroll-chaining'] = 'none';
+                } else if (mode == 'vertical') {
+                    el.style['-ms-touch-action'] = 'pan-y';
+                    el.style['-ms-scroll-chaining'] = 'none';
+                    el.style['touch-action'] = 'pan-y';
+                    el.style['scroll-chaining'] = 'none';
+                }
+                
+                var eventType = '';
+                if (window.navigator.pointerEnabled) {
+                    eventType = "pointerdown";
+                } else if (window.navigator.msPointerEnabled) {
+                    eventType = "MSPointerDown";
+                }
+                if(eventType){
+                    el.addEventListener(eventType, function (evt) {
+                        gesture.addPointer(evt.pointerId);
+                    });
+                }
+                    
+                var hOffset = 10,
+                    vOffset = 10;  
+                
+                el.addEventListener("MSGestureStart", function(e){
+                    start.x = e.offsetX;
+                    start.y = e.offsetY;
+                });
+
+                el.addEventListener("MSGestureEnd", function(e){ 
+                    var zoom = document.documentElement.clientWidth / window.innerWidth;
+                    if (mode == 'horizontal') {
+                        if (start.x-hOffset >= e.offsetX) { 
+                            _this.next();
+                        } else if (start.x+hOffset <= e.offsetX) {
+                            _this.previous();
+                        }
+                    } else if (mode == 'vertical') {
+                        if (start.y-vOffset >= e.offsetY) { 
+                            _this.next();
+                        } else if (start.y+vOffset <= e.offsetY) {
+                            _this.previous();
+                        }
+                    }
+                });
+            }
+        },
+        
+        __animateHorizontalTouch: function(direction){
+            var target = {left: 0},
+                active = this._active,
+                i = null;
+            if(direction == 'left'){
+                i = active + 1;
+                if (i === this.slideList.length) i = 0;
+                target = {left: -this.slideDimension.w};
+                this.__animateTouch(i, active, 'left', target, {left: 0});
+            }else if(direction == 'right'){
+                i = active - 1;
+                if (i < 0) i = this.slideList.length - 1;
+                target = {left: this.slideDimension.w};
+                this.__animateTouch(i, active, 'left', target, {left: 0});
+            }
+        },
+        
+        __animateVerticalTouch: function(direction){
+            var target = 0,
+                active = this._active,
+                i = null;
+
+            if(direction == 'up'){
+                i = active + 1;
+                if (i === this.slideList.length) i = 0;
+                target = {top: -this.slideDimension.h};
+                this.__animateTouch(i, active, 'top', target, {top: 0});
+            }else if(direction == 'down'){
+                i = active - 1;
+                if (i < 0) i = this.slideList.length - 1;
+                target = {top: this.slideDimension.h};
+                this.__animateTouch(i, active, 'top', target, {top: 0});
+            }
+        },
+        
+        __animateTouch: function(i, lastActive, prop, target, targetActive){
+            
+            if (!this.options.syncAnimations) {
+                if (this._lastActive != i) this.slideList.eq(this._lastActive).trigger('ssanimatestop');
+                this.slideList.eq(this._active).trigger('ssanimatestop');
+            }
+
+            var _this = this;
+
+            this.pauseAutoPlay(true);
+
+            this._animating = true;
+            
+            this.changeBullet(i);
+            if (this.options.syncAnimations) _this._runningAnimations++;
+
+            this._nextActive = i;
+            
+            this.changeBullet(i);
+            
+            $(this).trigger('mainanimationstart');
+
+            this._active = i;
+            this._lastActive = lastActive;
+            
+            this._runningAnimations++;
+            
+            if (this.options.flux[0]) this.flux.showImage(i);
+            
+            this.slideList.eq(lastActive).animate(target,{
+                duration: 300,
+                complete: function(){
+                    $(this).css('display', 'none').css(prop, 0);
+                    _this.$this.trigger('mainanimationoutend');
+                    _this.mainanimationended();
+                }
+            }).trigger('ssanimatelayersout');
+            this.slideList.eq(i).animate(targetActive,{
+                duration: 300,
+                complete: function(){
+                    $(this).trigger('ssanimatelayersin');
+                    _this.$this.trigger('mainanimationinend');
+                    _this.mainanimationended();
                 }
             });
         }

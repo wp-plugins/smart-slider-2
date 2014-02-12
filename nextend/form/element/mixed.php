@@ -17,9 +17,11 @@ class NextendElementMixed extends NextendElement {
         
         $this->_translateable = NextendXmlGetAttribute($this->_xml, 'translateable');
         $this->_translateable = ($this->_translateable === '0' ? false : true);
-        
+        $default = explode($this->_separator, $this->_default);
         $this->_value = $this->_form->get($this->_name, $this->_default);
         $value = explode($this->_separator, $this->_value);
+        $value = $value+$default;
+        
         $html = "<div class='nextend-mixed' style='".NextendXmlGetAttribute($this->_xml, 'style')."'>";
         $this->_elements = array();
         $i = 0;

@@ -16,6 +16,7 @@ class NextendSmartsliderAdminControllerSettings extends NextendSmartsliderAdminC
                     exit;
                 }
             }
+            if($form == 'default' && NextendRequest::getVar('action') != $form) $form = 'plugin';
             $this->display($form, 'default');
         }else{
             $this->noaccess();

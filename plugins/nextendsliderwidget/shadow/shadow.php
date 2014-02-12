@@ -5,7 +5,7 @@ class plgNextendSliderWidgetShadow extends NextendPluginBase {
     var $_group = 'shadow';
 
     function onNextendSliderWidgetList(&$list) {
-        $list[$this->_group] = array('Shadows', $this->getPath(), 7);
+        $list[$this->_group] = array(NextendText::_('Shadows'), $this->getPath(), 7);
     }
 
     function getPath() {

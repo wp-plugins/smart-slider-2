@@ -36,14 +36,14 @@ function smart_slider2_shortcode($atts) {
         return '';
 
     $params = array();
-    nextendimportsmartslider2('nextend.smartslider.wordpress.slider');
-    $sl = new NextendSliderWordpress(intval($slider), $params, dirname(__FILE__));
     
+    nextendimportsmartslider2('nextend.smartslider.slidercache');
+    nextendimportsmartslider2('nextend.smartslider.wordpress.slider');
     
     ob_start();
-    $sl->render();
+    
+    new NextendSliderCache(new NextendSliderWordpress(intval($slider), $params, dirname(__FILE__)));
     return ob_get_clean();
 }
 
 add_shortcode('smartslider2', 'smart_slider2_shortcode');
-?>

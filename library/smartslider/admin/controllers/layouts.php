@@ -4,7 +4,7 @@ class NextendSmartsliderAdminControllerLayouts extends NextendSmartsliderAdminCo
 
     function defaultAction() {
         if ($this->canDo('core.layout')) {
-            $this->_viewName = 'sliders_slider';
+            $this->_viewName = 'sliders_help';
             $this->display('default', 'default');
         } else {
             $this->noaccess();

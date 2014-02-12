@@ -6,7 +6,7 @@
             ul.qtip({
                 id: "slides-ordering",
                 content: {
-                    text: "Ordering saved!"
+                    text: window.ss2lang.Ordering_saved
                 },
                 show: {
                     event: false,

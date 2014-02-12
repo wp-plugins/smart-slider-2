@@ -34,6 +34,14 @@
     background-position: 0 -80px;
 }
 
+.smartslider-device-desktop-active .smart-slider-layer .ui-removelayer-handle,
+.smartslider-device-tablet-active .smart-slider-layer .ui-removelayer-handle,
+.smartslider-device-phone-active .smart-slider-layer .ui-removelayer-handle{
+    right: 7px;
+    left: auto;
+    background-position: 0 -140px;
+}
+
 .smart-slider-layer .ui-movable-handle{
     cursor: all-scroll;
     background-position: 0 0;

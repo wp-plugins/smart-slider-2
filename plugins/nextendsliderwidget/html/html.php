@@ -5,7 +5,7 @@ class plgNextendSliderWidgetHTML extends NextendPluginBase {
     var $_group = 'html';
 
     function onNextendSliderWidgetList(&$list) {
-        $list[$this->_group] = array('HTML', $this->getPath(), 10);
+        $list[$this->_group] = array(NextendText::_('HTML'), $this->getPath(), 10);
     }
 
     function getPath() {

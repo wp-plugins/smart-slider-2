@@ -9,27 +9,28 @@ class plgNextendSliderItemImage extends plgNextendSliderItemAbstract {
     var $_title = 'Image';
 
     function getTemplate() {
-        return '<div data-click="{onmouseclick}" data-enter="{onmouseenter}" data-leave="{onmouseleave}"><a href="{url}" target="{target}" style="display: block;background: none !important;" >
-          <img src="{image}" onclick="{onclick};" style="display: block; max-width: 100%; {css};width:{width};height:{height};" alt="{alt}" title="{title}" />
+        return '<div data-click="{onmouseclick_esc}" data-enter="{onmouseenter_esc}" data-leave="{onmouseleave_esc}"><a href="{url}" target="{target}" style="display: block;background: none !important;" >
+          <img id="{{uuid}}" src="{image}" style="display: block; max-width: 100%; {css};width:{width};height:{height};" class="{kenburnsclass}" alt="{alt_esc}" title="{title_esc}" />
         </a></div>';
     }
 
     function getValues() {
         return array(
             'image' => NextendSmartSliderSettings::get('placeholder'),
-            'size' => 'auto|*|',
+            'size' => '100%|*|',
             'link' => '#|*|_self',
             'url' => '',
             'target' => '_self',
-            'width' => 'auto',
+            'width' => '100%',
             'height' => 'auto',
             'css' => '',
-            'alt' => 'Image not available',
+            'alt' => NextendText::_('Image_not_available'),
             'title' => '',
-            'onclick' => '',
             'onmouseclick' => '',
             'onmouseenter' => '',
-            'onmouseleave' => ''
+            'onmouseleave' => '',
+            'kenburns' => 0,
+            'kenburnsclass' => ''
         );
     }
 

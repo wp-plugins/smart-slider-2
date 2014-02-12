@@ -9,7 +9,7 @@ class plgNextendSliderItemHeading extends plgNextendSliderItemAbstract {
 
     function getTemplate() {
         return "
-            <h{priority} class='{fontclass} {class}' style='{fontsizer}{fontcolorr}{css}'>
+            <h{priority} class='{fontclass} {class}' style=\"{fontsizer}{fontcolorr}{css_esc}\" data-click=\"{onmouseclick_esc}\" data-enter=\"{onmouseenter_esc}\" data-leave=\"{onmouseleave_esc}\">
                 <a href='{url}' target='{target}' style='{fontcolorr}'>
                   {heading}
                 </a>
@@ -22,7 +22,7 @@ class plgNextendSliderItemHeading extends plgNextendSliderItemAbstract {
             'fontsizer' => '',
             'fontcolorr' => '',
             'priority' => '1',
-            'heading' => 'Heading',
+            'heading' =>  NextendText::_('Heading'),
             'link' => '#|*|_self',
             'url' => '',
             'target' => '_self',
@@ -31,7 +31,10 @@ class plgNextendSliderItemHeading extends plgNextendSliderItemAbstract {
             'css' => 'padding: 0;
                       margin: 0;
                       background: none;
-                      box-shadow: none;'
+                      box-shadow: none;',
+            'onmouseclick' => '',
+            'onmouseenter' => '',
+            'onmouseleave' => ''
         );
     }
 

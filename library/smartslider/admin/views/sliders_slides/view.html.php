@@ -8,5 +8,3 @@ class NextendSmartsliderAdminViewSliders_slides extends NextendView {
     }
 
 }
-
-?>

@@ -5,7 +5,7 @@ class plgNextendSliderWidgetAutoplay extends NextendPluginBase {
     var $_group = 'autoplay';
 
     function onNextendSliderWidgetList(&$list) {
-        $list[$this->_group] = array('Autoplay', $this->getPath(), 3);
+        $list[$this->_group] = array(NextendText::_('Autoplay'), $this->getPath(), 3);
     }
 
     function getPath() {

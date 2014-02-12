@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root translate="1">
+<root translate="smartslider">
     <params name="simpleslidertype" label="Simple_slider_type_settings">
         <param type="image" name="simplebackgroundimage" default="" label="Background_image"/>
         <param type="text" name="simplebackgroundimagesize" default="auto" label="Background_size"/>
@@ -40,7 +40,11 @@
         <param type="text" name="simpleresponsivemaxwidth" style="width: 70px;" default="3000" label="Responsive_maximum_slide_width">
             <unit>px</unit>
         </param>
-
+        <param type="radio" name="improvedtouch" default="0" label="Improved touch">
+            <option value="0">Disabled</option>
+            <option value="horizontal">Horizontal</option>
+            <option value="vertical">Vertical</option>
+        </param>
         <param name="simpleskins" type="mixed" default="" label="Choose_a_CSS_design">
             <param type="skin" label="Theme">
                 <none label="None">
@@ -87,7 +91,7 @@
             <param type="text" label="Parallax" style="width:50px;"/>
         </param>
         <param type="mixed" name="simplebackgroundanimation" label="Background_animation"
-               default="0|*|bars">
+               default="0|*|bars||blocks">
             <param type="onoff" label="Enabled"/>
             <param type="list" label="Animation" multiple="1" size="12">
                 <option value="notavailable1">Dissolve - full version</option>

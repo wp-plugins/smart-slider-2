@@ -18,24 +18,12 @@ $this->loadFragment('firstcolend');
 <?php
 $this->loadFragment('secondcolstart');
 ?>
-<div style="width: 100%; overflow: auto;">
-    <?php 
-    $sliderid = NextendRequest::getInt('sliderid', 0);
-    
-    if($sliderid){
-        nextendimportsmartslider2('nextend.smartslider.joomla.slider');
-        
-        $slider = new NextendSliderJoomla($sliderid, $sliderid, dirname(__FILE__));
-        $slider->render();
-    }else{
-    ?>
-    <h4><?php echo NextendText::_('Access_to_this_resource_not_allowed'); ?></h4>
-    <?php } ?>
-</div>
+
+<div style="width: 50%" class="box y"><h3>Limited access</h3><p><?php echo NextendText::_('Access_to_this_resource_not_allowed'); ?></p></div>
+
 <?php
 $this->loadFragment('secondcolend');
 ?>
 
 <?php
 $this->loadFragment('footer');
-?>

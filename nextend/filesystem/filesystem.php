@@ -131,6 +131,10 @@ class NextendFilesystemAbstract {
     static function readFile($path){
         return file_get_contents($path);
     }
+    
+    static function translateToMediaPath($path){
+        return $path;
+    }
 }
 
 if (nextendIsJoomla()) {

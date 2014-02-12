@@ -45,5 +45,3 @@ $context['inner1height'] = $height . 'px';
 
 $context['canvaswidth'] = $width . "px";
 $context['canvasheight'] = $height . "px";
-
-?>

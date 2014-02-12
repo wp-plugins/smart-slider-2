@@ -1,23 +1,24 @@
 
 (function($) {
-    var uaMatch = '', prefix = '';
-    
-    var dir = $(document.documentElement).attr('dir');
+    var uaMatch = '', 
+        prefix = '',
+        html = $('html'),
+        dir = $(document.documentElement).attr('dir');
     if(!dir) dir = 'ltr';
-    $('html').addClass('x-'+dir);
+    html.addClass('x-'+dir);
     window.nextendDir = dir;
 
     if (navigator.userAgent.match(/Windows/))
     {
-        $('html').addClass('x-win');
+        html.addClass('x-win');
     }
     else if (navigator.userAgent.match(/Mac OS X/))
     {
-        $('html').addClass('x-mac');
+        html.addClass('x-mac');
     }
     else if (navigator.userAgent.match(/X11/))
     {
-        $('html').addClass('x-x11');
+        html.addClass('x-x11');
     }
 
     if (navigator.userAgent.match(/Chrome/))
@@ -45,14 +46,19 @@
     }
     if (prefix)
     {
-        $('html').addClass(prefix);
+        html.addClass(prefix);
 
         uaMatch = new RegExp(uaMatch + '(\\d+)\.(\\d+)');
         var uaMatch = navigator.userAgent.match(uaMatch);
         if (uaMatch && uaMatch[1])
         {
-            $('html').addClass(prefix + '-' + uaMatch[1]);
-            $('html').addClass(prefix + '-' + uaMatch[1] + '-' + uaMatch[2]);
+            html.addClass(prefix + '-' + uaMatch[1]);
+            html.addClass(prefix + '-' + uaMatch[1] + '-' + uaMatch[2]);
         }
     }
+    $(window).load(function(){
+        setTimeout(function(){
+            html.addClass('x-ready');
+        }, 500);
+    });
 })(njQuery);

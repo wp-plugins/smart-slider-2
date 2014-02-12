@@ -3,6 +3,7 @@
 class NextendJavascriptModernizr {
     
     var $_jsFiles;
+    var $_js = '';
     
     function NextendJavascriptModernizr() {
 

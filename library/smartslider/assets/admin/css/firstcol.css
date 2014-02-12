@@ -7,7 +7,7 @@
     float: left;
     width: 24%;
     background: #FAFBFD;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 #smartslider-admin.smartslider-advanced-layers-advanced-active .smartslider-firstcol{
@@ -28,7 +28,7 @@
     box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
-#smartslider-admin .smartslider-firstcol .smartslider-button-wrap{
+#smartslider-admin .smartslider-cols .smartslider-button-wrap{
     background-color: #d3d8e3;
     width: 100%;
     float: left;
@@ -36,7 +36,7 @@
     box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2) inset;
 }
 
-#smartslider-admin .smartslider-firstcol .smartslider-button{
+#smartslider-admin .smartslider-cols .smartslider-button{
     cursor: pointer;
     width: auto;
     height: 34px;
@@ -52,16 +52,16 @@
     font-weight: 600;
 }
 
-#smartslider-admin .smartslider-firstcol .smartslider-button a{
+#smartslider-admin .smartslider-cols .smartslider-button a{
     font-size: 14px;
     line-height: 35px;
 }
 
-#smartslider-admin .smartslider-firstcol .smartslider-button a.smartslider-button-link{
+#smartslider-admin .smartslider-cols .smartslider-button a.smartslider-button-link{
     color: #76808e;
 }
 
-#smartslider-admin .smartslider-firstcol .smartslider-button:HOVER,
+#smartslider-admin .smartslider-cols .smartslider-button:HOVER,
 #smartslider-admin .smartslider-firstcol .smartslider-slides-list li.smartslider-button-grey:HOVER{
     background: #d8dbe1;
     /* IE10 Consumer Preview */ 
@@ -85,38 +85,58 @@
 
 
 #smartslider-admin .smartslider-firstcol .smartslider-slides-list li.smartslider-button-grey:HOVER a,
-#smartslider-admin .smartslider-firstcol .smartslider-button:HOVER a.smartslider-button-link{
+#smartslider-admin .smartslider-cols .smartslider-button:HOVER a.smartslider-button-link{
     color: #68717d;
 }
 
-#smartslider-admin .smartslider-firstcol .smartslider-button:ACTIVE{  
+#smartslider-admin .smartslider-cols .smartslider-button:ACTIVE{  
     box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.2) inset;
     line-height: 37px;
 }
 
-#smartslider-admin .smartslider-firstcol .smartslider-button:ACTIVE span.smartslider-icon.smartslider-icon-add{
+#smartslider-admin .smartslider-cols .smartslider-button:ACTIVE span.smartslider-icon.smartslider-icon-add{
     margin-top: 7px;
 }
 
-#smartslider-admin .smartslider-firstcol .smartslider-button.active{
+#smartslider-admin .smartslider-cols .smartslider-button.active{
     border: 1px solid #1C68DC;
 }
 
 
-#smartslider-admin .smartslider-firstcol .smartslider-button.active a,
-#smartslider-admin .smartslider-firstcol .smartslider-button.active:HOVER a,
+#smartslider-admin .smartslider-cols .smartslider-button.active a,
+#smartslider-admin .smartslider-cols .smartslider-button.active:HOVER a,
 #smartslider-admin .smartslider-firstcol .smartslider-slides-list li.active:HOVER a{
     color: #FFF;
     text-shadow:0 0 1px rgba(0, 0, 0, 0.5); 
 }
 
-#smartslider-admin .smartslider-firstcol .smartslider-button.smartslider-import a{
-    font-size: 10px;
+#smartslider-admin .smartslider-cols .smartslider-secondcol .smartslider-button-wrap{
+    padding: 5px;
+  	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  	box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
-#smartslider-admin .smartslider-firstcol .smartslider-button.smartslider-import .smartslider-icon{
-    margin-left: 0;
-    margin-right: 0;
+#smartslider-admin .smartslider-cols .smartslider-secondcol .smartslider-button{
+    height: 70px;
+    text-align: center;
+    min-width: 120px;
+    float: left;
+    white-space:nowrap;
+    text-transform: none;
+    margin: 5px;
+}
+
+#smartslider-admin .smartslider-cols .smartslider-secondcol .smartslider-button a{
+    font-size: 13px;
+    line-height: 28px;
+}
+
+#smartslider-admin .smartslider-cols .smartslider-secondcol .smartslider-button .smartslider-icon{
+    width: 100%;
+    height: 40px;
+    margin: 0;
+    float: none;
 }
 
 
@@ -264,8 +284,9 @@
     text-shadow: 0 1px 1px RGBA(0,0,0,0.5);
     font-size: 12px;
     line-height: 26px;
-    padding: 0 18px 0 26px;
+    padding: 0 26px 0 26px;
     font-weight: 600;
+    white-space:nowrap;
 }
 
 #smartslider-admin .sidebar-tooltip-menu li a:HOVER,

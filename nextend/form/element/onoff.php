@@ -12,7 +12,7 @@ class NextendElementOnoff extends NextendElement {
         $js->addLibraryJsAssetsFile('dojo', 'element/onoff.js');
         $this->_value = $this->_form->get($this->_name, $this->_default);
         $hidden = new NextendElementHidden($this->_form, $this->_tab, $this->_xml);
-        $html = "<div class='nextend-onoff clearfix gk_hack" . $this->isOn() . "' style='".NextendXmlGetAttribute($this->_xml, 'style')."'>";
+        $html = "<div class='nextend-onoff nextend-clearfix gk_hack" . $this->isOn() . "' style='".NextendXmlGetAttribute($this->_xml, 'style')."'>";
         $hiddenhtml = $hidden->render($this->control_name, false);
         $html.= $hiddenhtml[1];
         $html.= "</div>";

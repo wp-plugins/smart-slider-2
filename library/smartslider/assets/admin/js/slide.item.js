@@ -29,12 +29,12 @@
                 e.preventDefault();
                 var si = $this.form.select[0].selectedIndex;
                 if (si) {
-                    if (confirm('Are you sure that you want to delete the item?')) {
+                    if (confirm(window.ss2lang.Are_you_sure_that_you_want_to_delete_the_item)) {
                         var item = $($this.form.select[0].options[si]).data('ssitem');
                         $this.deleteItem(item[0]);
                     }
                 }else{
-                    alert('Item not selected!');
+                    alert(window.ss2lang.Item_not_selected);
                 }
             });
 
@@ -58,14 +58,14 @@
                     $this.makeItemActivable($item[0]);
                     $this.setActiveItem($item[0]);
                 }else{
-                    alert('Item not selected!');
+                    alert(window.ss2lang.Item_not_selected);
                 }
             });
 
             this.items = $('#draggableitems .smart-slider-item-container');
             this.items.qtip({
                 content: {
-                    text: "Drag the item and drop into a layer!"
+                    text: window.ss2lang.Drag_the_item_and_drop_into_a_layer
                 },
                 show: {
                     event: 'mousedown'
@@ -87,13 +87,13 @@
                 start: function () {
                     window.ssdrag = true;
                     $this.slide.addClass('smartslider-layer-border-mode');
-                    slideconsole.set('Drop the item into a layer', 2, 0);
+                    slideconsole.set(window.ss2lang.Drop_the_item_into_a_layer, 2, 0);
                 },
                 stop: function () {
                     window.ssdrag = false;
                     $this.layers.leaveborder = false;
                     $this.slide.removeClass('smartslider-layer-border-mode');
-                    slideconsole.set('Item dropped into the layer', 2);
+                    slideconsole.set(window.ss2lang.Item_dropped_into_the_layer, 2);
                 }
             }).on('mousedown', function () {
                     $this.layers.leaveborder = true;
@@ -112,6 +112,8 @@
         switchToItemTab: function () {
             this.views.removeClass('active');
             this.views.eq(2).addClass('active');
+            this.toolboxviews.removeClass('active');
+            this.toolboxviews.eq(2).addClass('active');
             this.toolboxviews.parent().css((window.nextendDir == 'rtl' ? 'marginRight' : 'marginLeft'), (window.nextendDir == 'rtl' ? '0' : '-200%'));
             this.layers.parent.switchToEdit();
             $('#smartslider-admin').removeClass('smartslider-layer-mode-active');
@@ -176,7 +178,7 @@
             this.changeActiveItem();
 
             $(item).remove();
-            slideconsole.set('Item deleted', 2);
+            slideconsole.set(window.ss2lang.Item_deleted, 2);
         },
         makeItemRemovable: function (item) {
             var $this = this,
@@ -185,7 +187,7 @@
             removeItem.on('click',function () {
                 $this.deleteItem(item);
             }).on('mouseenter',function () {
-                    slideconsole.set('Delete item - click', 1, 0);
+                    slideconsole.set(window.ss2lang.Delete_item_click, 1, 0);
                 }).on('mouseleave', function () {
                     slideconsole.set('', 1, 0);
                 });
@@ -195,7 +197,7 @@
                 moveItem = $('<div class="ui-helper ui-movableitem-handle" style="z-index: 92;"></div>');
             $(item).append(moveItem);
             moveItem.on('mouseenter',function () {
-                slideconsole.set('Move item - drag and drop into layers', 1, 0);
+                slideconsole.set(window.ss2lang.Move_item_drag_and_drop_into_layers, 1, 0);
             }).on('mouseleave', function () {
                     slideconsole.set('', 1, 0);
                 });
@@ -206,7 +208,7 @@
                 overlayItem = $('<div class="ui-helper ui-item-overlay" style="z-index: 89;"></div>');
             $item.append(overlayItem);
             overlayItem.on('mouseenter',function () {
-                slideconsole.set('Select item - click', 1, 0);
+                slideconsole.set(window.ss2lang.Select_item_click, 1, 0);
             }).on('mouseleave', function () {
                     slideconsole.set('', 1, 0);
                 });
@@ -225,7 +227,7 @@
 
             $item.on('click',function () {
                 $this.setActiveItem(item);
-                slideconsole.set('Item selected', 2);
+                slideconsole.set(window.ss2lang.Item_selected, 2);
             }).on('mousedown', function (e) {
                     $this.clicked = true;
                     setTimeout(function () {

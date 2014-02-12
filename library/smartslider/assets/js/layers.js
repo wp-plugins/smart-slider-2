@@ -5,6 +5,8 @@
         slide: null,
         $slide: null,
         layers: null,
+        show: null,
+        mode: 'desktop',
         init: function (slider, slide, options) {
             var _this = this;
             this.options = {};
@@ -16,6 +18,10 @@
             $.extend(this.options, options);
 
             this.refresh();
+            
+            $(slider).on('resize', function (e, ratio, width, height) {
+                _this.onResize(ratio, width, height);
+            });
 
             this.$slide.on('ssanimatelayersin',function () {
                 _this.animateIn();
@@ -28,7 +34,7 @@
                 }).on('ssanimatelayersresetout',function () {
                     _this.resetOut();
                 }).on('ssanimatelayersout',function () {
-                    _this.animateOut();
+                    _this.animateOut();                    
                 }).on('ssanimatestop', function () {
                     _this.stop();
                 });
@@ -38,19 +44,13 @@
 
             this.layers = $([]);
 
-            var _layers = $('.smart-slider-layer', this.slide);
-            /*
-             this.mainlayer = _layers.filter('.smart-slider-main-layer');
-             if (!this.options.mainlayer) {
-             _layers = _layers.not(this.mainlayer);
-             }
-
-             this.$slide.data('ssmainlayer', this.mainlayer);
-             */
+            var _layers = $('.smart-slider-layer', this.slide),
+                _active = $(this.slide).hasClass('smart-slider-slide-active');
+                
             _layers.each(function () {
                 var $layer = $(this);
                 if ($layer.data('animation') !== undefined) {
-                    $layer.css('display', 'none');
+                    //$layer.css('display', 'none');
                     _this.layers.push(this);
                     $layer.data('slide', _this.slide);
                     $layer.data('layermanager', _this);
@@ -59,15 +59,67 @@
                     $layer.data('motionin', motionin);
                     var motionout = _this.getMotionOut($layer);
                     $layer.data('motionout', motionout);
-
+                    
                     if (window.ssadmin === 1) {
                         motionout.setOutStart();
                         motionout.reset();
                         motionin.reset();
                     }
+                    
+                    if(!_active){
+                        motionin.setInStart();
+                    }
                 }
             });
+            
+            this.show = {
+                realall: _layers,
+                notall: $(),
+                hidden: _layers.filter('*[data-showdesktop="0"][data-showtablet="0"][data-showphone="0"]'),
+                desktop: _layers.filter('*[data-showdesktop="1"]'),
+                tablet: _layers.filter('*[data-showtablet="1"]') ,
+                phone: _layers.filter('*[data-showphone="1"]')
+            };
+            this.show.all = _layers.not(this.show.hidden).not(this.show.desktop).not(this.show.tablet).not(this.show.phone)
+            
+            this.show.notdesktop = $.merge($.merge($([]), this.show.tablet), this.show.phone);
+            this.show.nottablet = $.merge($.merge($([]), this.show.desktop), this.show.phone);
+            this.show.notphone = $.merge($.merge($([]), this.show.desktop), this.show.tablet);
+            
+            this.show.hidden.css('display', 'none');
             return this;
+        },
+        onResize: function (ratio, width, height) {
+            this.options.width = width;
+            this.options.height = height;
+        },
+        changeMode: function(mode){
+            this.mode = mode;
+            if(mode == 'all'){
+                this.show['realall'].css('display', 'block');
+                this.layers = $.merge($([]), this.show['realall']);
+                mode = 'desktop';
+            }else{
+                this.show['not'+mode].css('display', 'none');
+                this.show['all'].css('display', 'block');
+                this.show[mode].css('display', 'block');
+                this.layers = $.merge($.merge($([]), this.show[mode]), this.show['all']);
+            }
+            this.layers.each(function(){
+                var $this = $(this);
+                var dim = {
+                    left: $this.data(mode+'left'),
+                    top: $this.data(mode+'top'),
+                    width: $this.data(mode+'width'),
+                    height: $this.data(mode+'height')
+                };
+                for(var k in dim){
+                  if(typeof dim[k] == 'undefined') dim[k] = $this.data('desktop'+k);
+                  if(typeof dim[k] != 'undefined') this.style[k] = dim[k];
+                }
+                $this.data('motionin').refreshPosition(dim);
+                $this.data('motionout').refreshPosition(dim);
+            });
         },
         stop: function () {
             this.layers.each(function () {

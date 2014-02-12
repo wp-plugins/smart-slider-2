@@ -38,4 +38,3 @@ $this->loadFragment('secondcolend');
 
 <?php
 $this->loadFragment('footer');
-?>

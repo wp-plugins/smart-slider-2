@@ -29,7 +29,14 @@
             this._animate(this.options.animationin, $.extend({}, this.options.startCSS), $.extend({}, this.options.endCSS), 'hidden', 'block', 'block', this.options.animate + ' ' + this.options.animateIn, this.options.intervalIn, this.options.easingIn, this.options.delayIn, this.options.parallaxIn, 'onAnimateInEnd');
         },
         _setOutStart: function () {
-            this.layer.css(this.options.endCSS).css('display', 'block');
+            var endcss = $.extend({}, this.options.endCSS);
+            if (this.options.parallax) {
+                for (var i = 0; i < this.options.parallax.length; i++) {
+                    var prop = this.options.parallax[i];
+                    endcss[prop] *= this.options.parallaxOut;
+                }
+            }
+            this.layer.css(endcss).css('display', 'block');
         },
         _animateOut: function () {
             this._animate(this.options.animationout, $.extend({}, this.options.endCSS), $.extend({}, this.options.startCSS), 'visible', 'block', 'block', this.options.animate + ' ' + this.options.animateOut, this.options.intervalOut, this.options.easingOut, this.options.delayOut, this.options.parallaxOut, 'onAnimateOutEnd');
@@ -147,7 +154,7 @@
             opacity: 1,
             y: 0
         },
-        parallax: ['x']
+        parallax: ['y']
     });
 
     scope.ssAnimationManager.addAnimation('faderight', scope.ssAnimationTransit, {
@@ -171,7 +178,7 @@
             opacity: 1,
             y: 0
         },
-        parallax: ['x']
+        parallax: ['y']
     });
 
     scope.ssAnimationManager.addAnimation('fadeleft', scope.ssAnimationTransit, {
@@ -313,233 +320,6 @@
             transformOrigin: 'center center',
             scale: 1
         }
-    });
-
-    scope.ssAnimationManager.addAnimation('kenburnsleftbottom', scope.ssAnimationTransit, {
-        startCSS: {
-            transformOrigin: 'bottom left',
-            x: 0,
-            scale: 1
-        },
-        endCSS: {
-            transformOrigin: 'bottom left',
-            x: -70,
-            scale: 1.5
-        },
-        reset: {
-            x: 0,
-            scale: 1
-        },
-        parallax: ['x']
-    });
-
-    scope.ssAnimationManager.addAnimation('kenburnslefttop', scope.ssAnimationTransit, {
-        startCSS: {
-            transformOrigin: 'top left',
-            x: 0,
-            scale: 1
-        },
-        endCSS: {
-            transformOrigin: 'top left',
-            x: -70,
-            scale: 1.5
-        },
-        reset: {
-            x: 0,
-            scale: 1
-        },
-        parallax: ['x']
-    });
-
-    scope.ssAnimationManager.addAnimation('kenburnsrightbottom', scope.ssAnimationTransit, {
-        startCSS: {
-            transformOrigin: 'bottom right',
-            x: 0,
-            scale: 1
-        },
-        endCSS: {
-            transformOrigin: 'bottom right',
-            x: 70,
-            scale: 1.5
-        },
-        reset: {
-            x: 0,
-            scale: 1
-        },
-        parallax: ['x']
-    });
-
-    scope.ssAnimationManager.addAnimation('kenburnsrighttop', scope.ssAnimationTransit, {
-        startCSS: {
-            transformOrigin: 'top right',
-            x: 0,
-            scale: 1
-        },
-        endCSS: {
-            transformOrigin: 'top right',
-            x: 70,
-            scale: 1.5
-        },
-        reset: {
-            x: 0,
-            scale: 1
-        },
-        parallax: ['x']
-    });
-	
-	
-	
-	
-	
-	
-	
-    scope.ssAnimationManager.addAnimation('zoomoutfromtop', scope.ssAnimationTransit, {
-        startCSS: {
-            transformOrigin: 'top',
-            x: 0,
-            scale: 1.5
-        },
-        endCSS: {
-            transformOrigin: 'top',
-            x: 0,
-            scale: 1.0
-        },
-        reset: {
-            x: 0,
-            scale: 1
-        },
-        parallax: ['x']
-    });
-	
-    scope.ssAnimationManager.addAnimation('zoomoutfromleft', scope.ssAnimationTransit, {
-        startCSS: {
-            transformOrigin: 'left',
-            x: 0,
-            scale: 1.5
-        },
-        endCSS: {
-            transformOrigin: 'left',
-            x: 0,
-            scale: 1.0
-        },
-        reset: {
-            x: 0,
-            scale: 1
-        },
-        parallax: ['x']
-    });
-	
-    scope.ssAnimationManager.addAnimation('zoomoutfrombottom', scope.ssAnimationTransit, {
-        startCSS: {
-            transformOrigin: 'bottom',
-            x: 0,
-            scale: 1.5
-        },
-        endCSS: {
-            transformOrigin: 'bottom',
-            x: 0,
-            scale: 1.0
-        },
-        reset: {
-            x: 0,
-            scale: 1
-        },
-        parallax: ['x']
-    });
-	
-    scope.ssAnimationManager.addAnimation('zoomoutfromright', scope.ssAnimationTransit, {
-        startCSS: {
-            transformOrigin: 'right',
-            x: 0,
-            scale: 1.5
-        },
-        endCSS: {
-            transformOrigin: 'right',
-            x: 0,
-            scale: 1.0
-        },
-        reset: {
-            x: 0,
-            scale: 1
-        },
-        parallax: ['x']
-    });
-	
-	
-	
-	
-	
-
-    scope.ssAnimationManager.addAnimation('zoomoutfromrighttop', scope.ssAnimationTransit, {
-        startCSS: {
-            transformOrigin: 'top right',
-            x: 0,
-            scale: 1.5
-        },
-        endCSS: {
-            transformOrigin: 'top right',
-            x: 0,
-            scale: 1.0
-        },
-        reset: {
-            x: 0,
-            scale: 1
-        },
-        parallax: ['x']
-    });
-	
-    scope.ssAnimationManager.addAnimation('zoomoutfromlefttop', scope.ssAnimationTransit, {
-        startCSS: {
-            transformOrigin: 'top left',
-            x: 0,
-            scale: 1.5
-        },
-        endCSS: {
-            transformOrigin: 'top left',
-            x: 0,
-            scale: 1.0
-        },
-        reset: {
-            x: 0,
-            scale: 1
-        },
-        parallax: ['x']
-    });
-	
-    scope.ssAnimationManager.addAnimation('zoomoutfromleftbottom', scope.ssAnimationTransit, {
-        startCSS: {
-            transformOrigin: 'bottom left',
-            x: 0,
-            scale: 1.5
-        },
-        endCSS: {
-            transformOrigin: 'bottom left',
-            x: 0,
-            scale: 1.0
-        },
-        reset: {
-            x: 0,
-            scale: 1
-        },
-        parallax: ['x']
-    });
-	
-    scope.ssAnimationManager.addAnimation('zoomoutfromrightbottom', scope.ssAnimationTransit, {
-        startCSS: {
-            transformOrigin: 'bottom right',
-            x: 0,
-            scale: 1
-        },
-        endCSS: {
-            transformOrigin: 'bottom right',
-            x: 0,
-            scale: 1.0
-        },
-        reset: {
-            x: 0,
-            scale: 1
-        },
-        parallax: ['x']
     });
 
 })(njQuery, window);

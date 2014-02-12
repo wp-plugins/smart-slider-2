@@ -5,7 +5,7 @@ class plgNextendSliderWidgetBar extends NextendPluginBase {
     var $_group = 'bar';
 
     function onNextendSliderWidgetList(&$list) {
-        $list[$this->_group] = array('Bar', $this->getPath(), 5);
+        $list[$this->_group] = array(NextendText::_('Bar'), $this->getPath(), 5);
     }
 
     function getPath() {

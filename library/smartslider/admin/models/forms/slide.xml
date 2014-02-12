@@ -16,5 +16,6 @@
     </params>
     <params name="slidelayout" label="Slide" type="slide">
         <param name="slide" type="slide" label="Slide" />
+        <param name="adminmode" type="hidden" label="Admin mode" default="all" />
     </params>
 </root>

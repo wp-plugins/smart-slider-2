@@ -49,7 +49,7 @@ window.ssadmin = 1;
 
             var ie = this.isIE();
             if(ie && ie < 10){
-                alert('The editor was tested under Internet Explorer 10, Firefox and Chrome. Please use one of the tested browser!');
+                alert(window.ss2lang.The_editor_was_tested_under_Internet_Explorer_10_Firefox_and_Chrome_Please_use_one_of_the_tested_browser);
             }
             
             window.nextendtime = $.now();
@@ -126,10 +126,11 @@ window.ssadmin = 1;
             var $this = this;
             if (!this.playing && this.$slide[0].ssanimation === 0) {
                 this.playing = 1;
-                slideconsole.set('Playing in animations - edit and save disabled', 2, 0);
+                slideconsole.set(window.ss2lang.Playing_in_animations_edit_and_save_disabled, 2, 0);
                 this.playbtn.addClass('active');
                 var layers = this.$slide[0].layers;
-                layers.refresh().setInStart().animateIn();
+                this.getSS().refreshMode();
+                layers/*.refresh()*/.setInStart().animateIn();
                 setTimeout(function () {
                     $this.playEnded();
                 }, 300);
@@ -139,7 +140,7 @@ window.ssadmin = 1;
             var $this = this,
                 layers = this.$slide[0].layers;
             this.outplayed = true;
-            slideconsole.set('Playing out animations - edit and save disabled', 2, 0);
+            slideconsole.set(window.ss2lang.Playing_out_animations_edit_and_save_disabled, 2, 0);
             layers.animateOut();
             setTimeout(function () {
                 $this.playEnded();
@@ -149,16 +150,17 @@ window.ssadmin = 1;
             if (this.$slide[0].ssanimation === 0 && this.playbtn.hasClass('active')) {
                 if (this.outplayed === false) {
                     var $this = this;
-                    slideconsole.set('In animations ended - edit and save disabled', 2);
+                    slideconsole.set(window.ss2lang.In_animations_ended_edit_and_save_disabled, 2);
                     setTimeout(function () {
                         $this.playOut();
                     }, 2000);
                 } else {
                     var layers = this.$slide[0].layers;
-                    layers.refresh().resetOut().resetIn();
+                    this.getSS().refreshMode();
+                    layers/*.refresh()*/.resetOut().resetIn();
                     this.outplayed = false;
                     this.playbtn.removeClass('active');
-                    slideconsole.set('Animations ended - edit and save enabled', 2);
+                    slideconsole.set(window.ss2lang.Animations_ended_edit_and_save_enabled, 2);
                     this.playing = 0;
                 }
             }

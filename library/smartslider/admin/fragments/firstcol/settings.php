@@ -2,12 +2,15 @@
 $action = NextendRequest::getCmd('action', 'default');
 $settings = array(
     array('id' => 'default', 'title' => NextendText::_('General_settings')),
-    array('id' => 'layout', 'title' => NextendText::_('Layout_settings')),
-    array('id' => 'font', 'title' => NextendText::_('Global_font'))
+    array('id' => 'layout', 'title' => NextendText::_('Layout_settings'))
 );
 if(nextendIsJoomla()){
     $settings[] = array('id' => 'joomla', 'title' => NextendText::_('Joomla_settings'));
 }
+NextendPlugin::callPlugin('nextendslidergenerator', 'onNextendGeneratorConfigurationList', array(&$settings));
+
+$settings[] = array('id' => 'font', 'title' => NextendText::_('Global_font'));
+
 ?>
 <dl class="smartslider-list smartslider-sliders-list">
     <?php
@@ -39,7 +42,7 @@ if(nextendIsJoomla()){
                           </a>
                           <div class="tooltip-actions" style="display: none;">
                               <ul class="sidebar-tooltip-menu">
-                                  <li class="smartslider-icon-container"><a href="<?php echo $this->route('controller=settings&view=sliders_settings&action=clearfonts&sliderid=' . $slider['id'] ); ?>"><span class="smartslider-qtip-icon subdelete"></span> Reset to global fonts</a></li>
+                                  <li class="smartslider-icon-container"><a href="<?php echo $this->route('controller=settings&view=sliders_settings&action=clearfonts&sliderid=' . $slider['id'] ); ?>"><span class="smartslider-qtip-icon subdelete"></span> <?php echo NextendText::_('Reset_to_global_fonts'); ?></a></li>
                               </ul>
                           </div>
                       </li>

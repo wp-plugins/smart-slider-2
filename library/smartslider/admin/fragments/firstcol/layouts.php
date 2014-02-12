@@ -6,7 +6,7 @@ if ($this->canDo('core.layout')) :
     ?>
     <?php if ($accessLayoutCreate): ?>
         <div class="smartslider-button-wrap">
-            <div class="smartslider-button smartslider-createslider smartslider-button-grey smartslider-button-blue-active smartslider-icon-container <?php echo NextendRequest::getCmd('view') == 'sliders_layout' && NextendRequest::getCmd('action') == 'create' ? 'active' : ''; ?>">
+            <div class="smartslider-button smartslider-createslider smartslider-button-grey smartslider-button-blue-active smartslider-icon-container <?php echo NextendRequest::getCmd('view') == 'sliders_layouts' && NextendRequest::getCmd('action') == 'create' ? 'active' : ''; ?>">
                 <a class="smartslider-button-link" href="<?php echo $this->route('controller=layouts&view=sliders_layouts&action=create'); ?>"><span class="smartslider-icon smartslider-icon-add"></span><?php echo NextendText::_('Create_layout'); ?></a>
             </div>
         </div>
@@ -38,4 +38,3 @@ if ($this->canDo('core.layout')) :
     </dl>
 <?php
 endif;
-?>

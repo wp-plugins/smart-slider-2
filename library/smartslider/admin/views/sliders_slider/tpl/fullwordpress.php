@@ -16,65 +16,65 @@ $css = NextendCss::getInstance();
 $css->addCssLibraryFile('form.css');
 ?>
 <form method="post" action="" id="smartslider-form">              
-  <div class="nextend-form" style="background: #EEF3F8;">
-	<h2>Buy full version</h2>
-	  <div class="ni wrapper">        
-      <p>We are very happy that you tried out our free version of Smart Slider 2. We hope you have enjoyed the possibilities also you are convinced how good is Smart Slider 2. To honor the effort that you tried out our plugin, we would like to give you  a 10% off coupon for Smart Slider 2 FULL:</p>
-      <h3 style="float: left; margin-top: 15px;">10% off coupon code: TRIAL</h3>
-      <p><a class="button g" style="margin: 13px 0 10px 20px;" target="_blank" href="http://www.nextendweb.com/smart-slider/#pricing">Buy it now!</a></p>
+    <div class="nextend-form" style="background: #EEF3F8;">
+	<h2><?php echo NextendText::_('Buy_full_version'); ?></h2>
+	<div class="ni wrapper">        
+	    <p><?php echo NextendText::_('We_are_very_happy_that_you_tried_out_our_free_version_of_Smart_Slider_2_We_hope_you_have_enjoyed_the_possibilities_also_you_are_convinced_how_good_is_Smart_Slider_2_To_honor_the_effort_that_you_tried_out_our_plugin_we_would_like_to_give_you_a_10_off_coupon_for_Smart_Slider_2_FULL'); ?></p>
+	    <h3 style="float: left; margin-top: 15px;"><?php echo NextendText::_('10_off_coupon_code_TRIAL'); ?></h3>
+	    <p><a class="button g" style="margin: 13px 0 10px 20px;" target="_blank" href="http://www.nextendweb.com/smart-slider/#pricing"><?php echo NextendText::_('Buy_it_now'); ?></a></p>
 
 
-<h3>Why should I upgrade to FUKK version? Because you get all:</h3>
-<ul>
-	<li>4 slider types</li>
-	<li>extra main and background animations</li>
-	<li>20 layer animations</li>
-	<li>12 items to build better sliders</li>
-	<li>8 widgets to create thumbnails, galleries, bars etc.</li>
-	<li>12 items to build better sliders</li>
-	<li>10 slider generators</li>
-	<li>also a lot of extra feature and option</li>
-	<li>and last but not least personal support!</li>
-</ul>
-</p>
+	    <h3><?php echo NextendText::_('Why_should_I_upgrade_to_FULL_version_Because_you_get_all'); ?></h3>
+	    <ul>
+		<li><?php echo NextendText::_('4_slider_types'); ?></li>
+		<li><?php echo NextendText::_('extra_main_and_background_animations'); ?></li>
+		<li><?php echo NextendText::_('20_layer_animations'); ?></li>
+		<li><?php echo NextendText::_('12_items_to_build_better_sliders'); ?></li>
+		<li><?php echo NextendText::_('8_widgets_to_create_thumbnails_galleries_bars_etc'); ?></li>
+		<li><?php echo NextendText::_('12_items_to_build_better_sliders'); ?></li>
+		<li><?php echo NextendText::_('10_slider_generators'); ?></li>
+		<li><?php echo NextendText::_('also_a_lot_of_extra_feature_and_option'); ?></li>
+		<li><?php echo NextendText::_('and_last_but_not_least_personal_support'); ?></li>
+	    </ul>
+	    </p>
 
-<h3>Slider features and limitations in free version</h3>
+	    <h3><?php echo NextendText::_('Slider_features_and_limitations_in_free_version'); ?></h3>
 
-<p>With this free version your will be able to create new responsive sliders with simple slider type. The created slider main animation is limited to the horizontal animation, but also one special background animation is available for testing. The autoplay function of the Smart Slider 2 is only available in the FULL version. Free version will allow you to use arrow and bullet widgets on your slider, the arrows are limited(3 different arrows available in free, the full contains more than 35 different colorizable arrows), the bullets are not limited in free.</p>
+	    <p><?php echo NextendText::_('With_this_free_version_your_will_be_able_to_create_new_responsive_sliders_with_simple_slider_type_The_created_slider_main_animation_is_limited_to_the_horizontal_animation_but_also_one_special_background_animation_is_available_for_testing_The_autoplay_function_of_the_Smart_Slider_2_is_only_available_in_the_FULL_version_Free_version_will_allow_you_to_use_arrow_and_bullet_widgets_on_your_slider_the_arrows_are_limited_3_different_arrows_available_in_free_the_full_contains_more_than_35_different_colorizable_arrows_the_bullets_are_not_limited_in_free'); ?></p>
 
-<h3>Slide features and limitations in free version</h3>
+	    <h3><?php echo NextendText::_('Slide_features_and_limitations_in_free_version'); ?></h3>
 
-<p>This is the most important part of the Smart Slider 2, so we have not limit any action which related to the user interaction on the backend. You can change the title of your slides and also you can add slide background images and thumbnail images. In layer mode, with the free version you can use two layer animations (Slide down and Roll in, the full version contains more than 20 layer animations) and every other layer related setting is available. In item mode, with the free version you can use two items (Heading and Button items allowed in free mode), which give you some experience with the live slide editor. Also in free mode, every slide contains our logo on the bottom left.</p>
+	    <p><?php echo NextendText::_('This_is_the_most_important_part_of_the_Smart_Slider_2_so_we_have_not_limit_any_action_which_related_to_the_user_interaction_on_the_backend_You_can_change_the_title_of_your_slides_and_also_you_can_add_slide_background_images_and_thumbnail_images_In_layer_mode_with_the_free_version_you_can_use_two_layer_animations_Slide_down_and_Roll_in_the_full_version_contains_more_than_20_layer_animations_and_every_other_layer_related_setting_is_available_In_item_mode_with_the_free_version_you_can_use_two_items_Heading_and_Button_items_allowed_in_free_mode_which_give_you_some_experience_with_the_live_slide_editor_Also_in_free_mode_every_slide_contains_our_logo_on_the_bottom_left'); ?></p>
 
-<h3>Generator features and limitations in free version</h3>
+	    <h3><?php echo NextendText::_('Generator_features_and_limitations_in_free_version'); ?></h3>
 
-<p>The free version comes with the image from folder generator. You will need to select source folder which contains your images and Smart Slider 2 will automatically create the slides for you. The full version comes with other integrations ( WordPress posts ) and also with social generators ( Facebook, Twitter, Instagram, Flickr, YouTube ).</p>
+	    <p><?php echo NextendText::_('The_free_version_comes_with_the_image_from_folder_generator_You_will_need_to_select_source_folder_which_contains_your_images_and_Smart_Slider_2_will_automatically_create_the_slides_for_you_The_full_version_comes_with_other_integrations_WordPress_posts_and_also_with_social_generators_Facebook_Twitter_Instagram_Flickr_YouTube'); ?></p>
 
-<h3>What comes with free version?</h3>
+	    <h3><?php echo NextendText::_('What_comes_with_free_version'); ?></h3>
 
-<p>If you are trying the free version, you get access to our top-notch support. If you experience any kind of problem, feel free to <a href="http://www.nextendweb.com/smart-slider#support" target="_blank">contact with our support staff</a>. We will try to resolve your problem as soon as possible.</p>
-<p>
-You can get 20% off coupon code for the full Smart Slider 2, if you find a problem and report us. The "todo" list to get the coupon code:
-<ul>
-	<li>Describe the bug to <a href="http://www.nextendweb.com/smart-slider#support" target="_blank">the support staff</a></li>
-	<li>Cooperate in the resolution of the problem</li>
-</ul>
-</p>
+	    <p><?php echo NextendText::_('If_you_are_trying_the_free_version_you_get_access_to_our_top_notch_support_If_you_experience_any_kind_of_problem_feel_free_to'); ?> <a href="http://www.nextendweb.com/smart-slider#support" target="_blank"><?php echo NextendText::_('contact_with_our_support_staff'); ?></a>. <?php echo NextendText::_('We_will_try_to_resolve_your_problem_as_soon_as_possible'); ?></p>
+	    <p>
+		<?php echo NextendText::_('You_can_get_20_off_coupon_code_for_the_full_Smart_Slider_2_if_you_find_a_problem_and_report_us_The_todo_list_to_get_the_coupon_code'); ?>
+	    <ul>
+		<li><?php echo NextendText::_('Describe_the_bug_to'); ?> <a href="http://www.nextendweb.com/smart-slider#support" target="_blank"><?php echo NextendText::_('the_support_staff'); ?></a></li>
+		<li><?php echo NextendText::_('Cooperate_in_the_resolution_of_the_problem'); ?></li>
+	    </ul>
+	    </p>
 
-<h3>Just to know</h3>
-<p>
-Smart Slider 2 is a free/demo version for our commercial Smart Slider 2. <strong>Smart Slider 2 free is NOT made to use on production site, it is tech demo, which allows you to try most (but not all) of the features of Smart Slider 2 FULL.</strong> This free version helps you to try it on your system and see how it works and see how much possibilities are in the full version of Smart Slider 2.
-</p> 
-<p>
-Smart Slider 2 does 
-<ul>
-	<li>NOT create home calls</li>
-	<li>NOT track anything on your site</li>
-	<li>NOT mess up your site</li>
-	<li>what this documentation page describes, nothing more and nothing less. For full functionality you will still need the commercial <a href="http://www.nextendweb.com/smart-slider/#pricing">Smart Slider 2</a>.</li>
-</ul>
-</p>
-</div>
+	    <h3><?php echo NextendText::_('Just_to_know'); ?></h3>
+	    <p>
+		<?php echo NextendText::_('Smart_Slider_2_is_a_free_demo_version_for_our_commercial_Smart_Slider_2'); ?> <strong><?php echo NextendText::_('Smart_Slider_2_free_is_NOT_made_to_use_on_production_site_it_is_tech_demo_which_allows_you_to_try_most_but_not_all_of_the_features_of_Smart_Slider_2_FULL'); ?></strong> <?php echo NextendText::_('This_free_version_helps_you_to_try_it_on_your_system_and_see_how_it_works_and_see_how_much_possibilities_are_in_the_full_version_of_Smart_Slider_2'); ?>
+	    </p> 
+	    <p>
+		<?php echo NextendText::_('Smart_Slider_2_does'); ?>
+	    <ul>
+		<li><?php echo NextendText::_('NOT_create_home_calls'); ?></li>
+		<li><?php echo NextendText::_('NOT_track_anything_on_your_site'); ?></li>
+		<li><?php echo NextendText::_('NOT_mess_up_your_site'); ?></li>
+		<li><?php echo NextendText::_('what_this_documentation_page_describes_nothing_more_and_nothing_less_For_full_functionality_you_will_still_need_the_commercial'); ?> <a href="http://www.nextendweb.com/smart-slider/#pricing"><?php echo NextendText::_('Smart_Slider_2'); ?></a>.</li>
+	    </ul>
+	    </p>
+	</div>
 </form>
 
 <?php
@@ -82,4 +82,3 @@ $this->loadFragment('secondcolend');
 ?>
 <?php
 $this->loadFragment('footer');
-?>

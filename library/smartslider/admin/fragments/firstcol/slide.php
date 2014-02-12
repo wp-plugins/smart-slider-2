@@ -5,6 +5,7 @@ $css->addCssFile(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/css/firstcolslidetoolbox.
 
 <div id="smartslider-slide-toolbox"
      class="smartslider-slide-toolbox-slide-active smartslider-slide-layout-default-active">
+    <!--
     <div class="smartslider-greybar smartslider-button-grey">
         <div class="smartslider-toolbar-list smartslider-toolbar-options smartslider-button-grey first">
             <div><?php echo NextendText::_('List'); ?></div>
@@ -13,19 +14,52 @@ $css->addCssFile(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/css/firstcolslidetoolbox.
             <div><?php echo NextendText::_('Edit'); ?></div>
         </div>
     </div>
-    <div class="smartslider-slide-toolbox-pane clearfix">
-        <div class="smartslider-slide-toolbox-pane-inner clearfix">
-            <div class="smartslider-slide-toolbox-sliders">
-                <?php
-                if (NextendRequest::getCmd('controller') == 'layouts'):
-                    $this->loadFragment('firstcol/layouts');
-                else:
-                    $this->loadFragment('firstcol/sliders');
-                endif;
-                ?>
-            </div>
+    -->
+    <div class="smartslider-slide-toolbox-pane nextend-clearfix">
+        <div class="smartslider-slide-toolbox-sliders">
+            <?php
+            if (NextendRequest::getCmd('controller') == 'layouts'):
+                $this->loadFragment('firstcol/layouts');
+            else:
+                $this->loadFragment('firstcol/sliders');
+            endif;
+            ?>
+        </div>
+        <script type="text/javascript">
+            njQuery(window).ready(function($){
+                var pane = $('.smartslider-slide-toolbox-pane .smartslider-slide-toolbox-sliders'),
+                    timeout = null;
+                pane.on('mouseenter', function(){
+                    if(timeout) clearTimeout(timeout);
+                    pane.addClass('active');
+                    
+                    pane.stop().animate({
+                        height: pane.prop('scrollHeight')
+                    },{
+                        complete: function(){
+                            pane.css('overflow', 'auto');
+                            $(window).trigger('resize');
+                        }
+                    });
+                }).on('mouseleave', function(){
+                    timeout = setTimeout(function(){
+                        pane.stop().animate({
+                            height: 48
+                        },{
+                            complete: function(){
+                                pane.css('overflow', 'hidden');
+                                $(window).trigger('resize');
+                            }
+                        });
+                        
+                        pane.removeClass('active');
+                    }, 400);
+                });
+            });
+        </script>
+        <!--<div class="smartslider-slide-toolbox-pane-inner nextend-clearfix">-->
             <div class="smartslider-slide-toolbox-slide">
-                <div class="smartslider-slide-views clearfix">
+                <div class="smartslider-slide-views nextend-clearfix">
                     <div
                         class="active smartslider-slide-view smartslider-slide-views-layout smartslider-button-grey smartslider-button-blue-active">
                         <div class="smartslider-border"><?php echo NextendText::_('Layout'); ?></div>
@@ -40,8 +74,8 @@ $css->addCssFile(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/css/firstcolslidetoolbox.
                     </div>
                 </div>
 
-                <div class="smartslider-slide-views-pane-inner clearfix">
-                    <div id="smartslider-slide-toolbox-layout" class="clearfix smartslider-slide-toolbox-view">
+                <div class="smartslider-slide-views-pane-inner nextend-clearfix">
+                    <div id="smartslider-slide-toolbox-layout" class="nextend-clearfix smartslider-slide-toolbox-view">
                         <?php if ($this->canDo('layout.create')): ?>
                             <div class="smartslider-button-wrap">
                                 <div
@@ -61,7 +95,7 @@ $css->addCssFile(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/css/firstcolslidetoolbox.
                                 <div><?php echo NextendText::_('Custom_layouts'); ?></div>
                             </div>
                         </div>
-                        <div class="smartslider-slide-layout-pane-inner clearfix">
+                        <div class="smartslider-slide-layout-pane-inner nextend-clearfix">
                             <?php
                             $layoutsModel = $this->getModel('layouts');
                             ?>
@@ -108,7 +142,7 @@ $css->addCssFile(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/css/firstcolslidetoolbox.
                             </div>
                         </div>
                     </div>
-                    <div id="smartslider-slide-toolbox-layer" class="active clearfix smartslider-slide-toolbox-view">
+                    <div id="smartslider-slide-toolbox-layer" class="active nextend-clearfix smartslider-slide-toolbox-view">
                         <div class="smartslider-button-wrap">
                             <div
                                 class="smartslider-button smartslider-createlayer smartslider-button-grey smartslider-icon-container">
@@ -122,7 +156,10 @@ $css->addCssFile(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/css/firstcolslidetoolbox.
                         $layerModel->renderForm();
                         ?>
                     </div>
-                    <div id="smartslider-slide-toolbox-item" class="clearfix smartslider-slide-toolbox-view">
+                    <div id="smartslider-slide-toolbox-item" class="nextend-clearfix smartslider-slide-toolbox-view">
+                        <script type="text/javascript">
+                            window.ssitemmarker = true;
+                        </script>
                         <dl class="smartslider-list smartslider-items-list">
                             <dt style="display: none;"
                                 class="even smartslider-button-blue-active smartslider-icon-container subactive ">
@@ -134,7 +171,7 @@ $css->addCssFile(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/css/firstcolslidetoolbox.
                                 $items = array();
                                 NextendPlugin::callPlugin('nextendslideritem', 'onNextendSliderItemList', array(&$items));
                                 ?>
-                                <div id="draggableitems" class="clearfix">
+                                <div id="draggableitems" class="nextend-clearfix">
                                     <?php foreach ($items AS $type => $item): ?>
                                         <div
                                             class="smart-slider-item-container smartslider-button-grey"><?php echo $item[0]; ?>
@@ -148,6 +185,9 @@ $css->addCssFile(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/css/firstcolslidetoolbox.
                                 </div>
                             </dd>
                         </dl>
+                        <script type="text/javascript">
+                            delete window.ssitemmarker;
+                        </script>
                         <?php
                         $itemModel = $this->getModel('item');
 
@@ -167,6 +207,6 @@ $css->addCssFile(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/css/firstcolslidetoolbox.
                     </div>
                 </div>
             </div>
-        </div>
+        <!--</div>-->
     </div>
 </div>

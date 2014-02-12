@@ -21,6 +21,10 @@
  */
 class NextendColor {
 
+    static function colorToCss($value){
+        $rgba = self::hex2rgba($value);
+        return array(substr($value, 0, 6), 'RGBA(' . $rgba[0] . ',' . $rgba[1] . ',' . $rgba[2] . ',' . round($rgba[3] / 127, 2) . ')');
+    }
     /**
      *
      * Converts hexadecimal colors to RGB.

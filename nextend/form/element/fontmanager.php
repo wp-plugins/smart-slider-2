@@ -22,7 +22,8 @@ class NextendElementFontmanager extends NextendElement {
             $this->base64 = 1;
             
             $js->addLibraryJsFile('jquery', NEXTENDLIBRARYASSETS . 'js' . DIRECTORY_SEPARATOR . 'base64.js');
-            if(json_decode($this->_value)!=null){
+            $json = json_decode($this->_value);
+            if($json != null && $json != $this->_value){
                 $this->_value = base64_encode($this->_value);
                 $this->_form->set($this->_name, $this->_value);
             }
@@ -43,7 +44,7 @@ class NextendElementFontmanager extends NextendElement {
         $html.= '<a id="nextend-'.$this->_name.'-button-import" class="nextend-button-css nextend-font-import nextend-element-hastip" title="'.NextendText::_('FONTMANAGER_Import').'" href="#"></a>';
         $html.= '<div id="nextend-'.$this->_name.'-message" class="nextend-message"></div>';
         
-        $html.= "<div class='nextend-fontmanager clearfix'>";
+        $html.= "<div class='nextend-fontmanager nextend-clearfix'>";
         $hiddenhtml = $hidden->render($this->control_name, false);
         $html.= $hiddenhtml[1];
         $html.= "</div>";

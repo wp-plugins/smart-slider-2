@@ -8,6 +8,8 @@ class NextendSmartsliderGenerator {
     var $_generator;
 
     var $_slide;
+    
+    var $_sliderid;
 
     var $_datasource;
 
@@ -15,10 +17,11 @@ class NextendSmartsliderGenerator {
 
     var $_tidy = false;
 
-    function NextendSmartsliderGenerator($generator, $slide) {
+    function NextendSmartsliderGenerator($generator, $slide, $sliderid) {
 
         $this->_generator = $generator;
         $this->_slide = $slide;
+        $this->_sliderid = $sliderid;
 
         if (class_exists('Tidy')) {
             $this->_tidy = true;
@@ -37,13 +40,45 @@ class NextendSmartsliderGenerator {
     }
 
     function initDatasource($source) {
-        $v = explode('_', $source);
-        require_once($this->_list[$v[0]][$source][1] . 'generator.php');
-
-        $class = 'NextendGenerator' . $source;
-        $generator = new $class($this->_generator);
-
-        $this->_datasource = $generator->getData($this->_number * $this->_generatorgroup);
+        $tmp = $this->_generator->toArray();
+        unset($tmp['generateslides']);
+        $hash = md5($this->_number * $this->_generatorgroup.json_encode($tmp));
+        $recache = false;
+        $cached = json_decode(NextendSmartSliderStorage::get('generator'.$this->_sliderid), true);
+        
+        if(is_array($cached)){
+            if($cached['hash'] != $hash){
+                $recache = true; 
+            }else if($cached['time'] < time()-$this->_generator->get('cachetime', '24')*60*60){
+                $recache = true; 
+            }
+        }else{
+            $recache = true; 
+        }
+        if($recache){
+            $v = explode('_', $source);
+            require_once($this->_list[$v[0]][$source][1] . 'generator.php');
+    
+            $class = 'NextendGenerator' . $source;
+            $generator = new $class($this->_generator);
+            
+            ob_start();
+            $this->_datasource = $generator->getData($this->_number * $this->_generatorgroup);
+            $message = ob_get_clean();
+            if(count($this->_datasource) == 0 && trim($message) != '' && count($cached['data']) ){
+                $this->_datasource = $cached['data'];
+            }
+            echo $message;
+            
+            $cached = array(
+                'time' => time(),
+                'hash' => $hash,
+                'data' => $this->_datasource
+            );
+            NextendSmartSliderStorage::set('generator'.$this->_sliderid, json_encode($cached));
+        }else{
+            $this->_datasource = $cached['data'];
+        }
     }
 
     function generateSlides($sliderid, $static = true) {
@@ -166,7 +201,10 @@ class NextendSmartsliderGenerator {
                     $s = substr($s, $fn[1], $fn[2]);
                     break;
                 case 'splitbywords':
-                    $s = substr($s, 0, strpos($s, ' ', $fn[2]));
+                    $len = strlen($s);
+                    $pos = $fn[2] > $len ? $len : strpos($s, ' ', $fn[2]);
+                    if($pos === false) $pos = $len;
+                    $s = substr($s, 0, $pos);
                     break;
                 case 'findimage':
                     $index = isset($fn[1]) ? intval($fn[1]) - 1 : 0;

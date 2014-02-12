@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root translate="1">
+<root translate="smartslider">
     <params name="transition" label="Transition_settings" hidetitle="1">
         <param label="Arrows with full version" type="trial" name="trial" src="http://www.nextendweb.com/demo/smartslider2/trial/arrow.png" />
         <param type="mixed" name="previousposition" label="Previous_position" default="left|*|0|*|%|*|top|*|50|*|%">
@@ -24,8 +24,8 @@
             </param>
         </param>
         <param type="cssimagelist" name="previous" label="Previous" folder="previous"
-               prefix="nextend-transition nextend-transition-previous nextend-transition-previous-">
-            <![CDATA[<div class="{class}"><div class="outer"></div><div class="inner"></div></div>]]>
+               prefix="nextend-transition nextend-transition-previous nextend-transition-previous-" default="my-test.png">
+            <![CDATA[<div class="{class}"><div class="smartslider-outer"></div><div class="smartslider-inner"></div></div>]]>
         </param>
         <param type="mixed" name="nextposition" label="Next_position" default="right|*|0|*|%|*|top|*|50|*|%">
             <param type="list" label="Horizontal" mixedstyle="clear: both;" style="width:70px;" translateable="1">
@@ -49,8 +49,8 @@
             </param>
         </param>
         <param type="cssimagelist" name="next" label="Next" folder="next"
-               prefix="nextend-transition nextend-transition-previous nextend-transition-next-">
-            <![CDATA[<div class="{class}"><div class="outer"></div><div class="inner"></div></div>]]>
+               prefix="nextend-transition nextend-transition-previous nextend-transition-next-" default="my-test.png">
+            <![CDATA[<div class="{class}"><div class="smartslider-outer"></div><div class="smartslider-inner"></div></div>]]>
         </param>
                 
         <param name="arrowbackground" type="color" label="Background" alpha='1' default="00000080" />        

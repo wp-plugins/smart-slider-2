@@ -40,7 +40,6 @@ class NextendElementMenutheme extends NextendElementSubform {
     }
     
     function loadMagentoList(){
-        nextendimport('nextend.accordionmenu.themes.loadplugin');
         nextendimport('nextend.plugin.plugin');
         $this->_list = array();
         NextendPlugin::callPlugin('nextendmenutheme', 'onNextendMenuThemeList', array(&$this->_list));

@@ -1,4 +1,4 @@
-<root translate="1">
+<root translate="smartslider">
     <params label="Button_item_settings">
         <param name="content" type="text" label="Text" default="Button"/>
         <param name="link" type="mixed" label="Link" default="|*|_self|*|pointer" description="">
@@ -441,5 +441,8 @@ border: 2px solid rgba(0, 206, 155, 0.6);
         <param name="csshover" type="textarea" label="CSS_hover" default=""/>
         <param name="fontclass" type="fontmatrixchooser" label="Font" default="sliderfont11"/>
         <param name="class" type="text" label="Custom_css_class" default=""/>
+        <param name="onmouseenter" type="text" label="Event_on_mouseenter" description="JavaScript_code_to_run_on_the_event" default=""/>
+        <param name="onmouseclick" type="text" label="Event_on_mouseclick" description="JavaScript_code_to_run_on_the_event" default=""/>
+        <param name="onmouseleave" type="text" label="Event_on_mouseleave" description="JavaScript_code_to_run_on_the_event" default=""/>
     </params>
 </root>

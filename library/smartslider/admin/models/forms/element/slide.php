@@ -12,14 +12,14 @@ class NextendElementSlide extends NextendElementTextarea {
         $html = '<div style="display:none;">'.parent::fetchElement().'</div>';
         
         $slider = null;
+    
+        $params = new NextendData();
         
         if(nextendIsJoomla()){
             nextendimportsmartslider2('nextend.smartslider.joomla.slider');
             
             $module = new stdClass();
             $module->id = 0;
-    
-            $params = new NextendData();
             $params->loadArray(array('slider' => intval($_GET['sliderid'])));
             
             $slider = new NextendSliderJoomla($module, $params, dirname(__FILE__), true);

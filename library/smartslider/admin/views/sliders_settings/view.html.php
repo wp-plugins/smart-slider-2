@@ -18,5 +18,21 @@ class NextendSmartsliderAdminViewSliders_Settings extends NextendView {
         $this->xml = 'joomla';
         $this->render($tpl);
     }
+    
+    function pluginAction($tpl){
+        $plugin = NextendRequest::getVar('action');
+        $path = null;
+        
+        NextendPlugin::callPlugin('nextendslidergenerator', 'onNextendGeneratorConfiguration', array(&$plugin, &$path));
+        if($path){
+            $path.='configuration.xml';
+            
+            $this->xml = $path;
+            $this->group = $plugin;
+            $this->render('plugin');
+        }else{
+            $this->defaultAction($tpl);
+        }
+    }
 
 }

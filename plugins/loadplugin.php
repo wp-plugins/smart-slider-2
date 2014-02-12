@@ -10,4 +10,3 @@ foreach(NextendFilesystem::folders($mdir) AS $mfolder){
         require_once($mfile);
     }
 }
-?>

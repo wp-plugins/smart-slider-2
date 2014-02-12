@@ -6,6 +6,12 @@ function nextendimportsmartslider2($key) {
     require_once(NEXTEND_SMART_SLIDER2. 'library/' . implode(DIRECTORY_SEPARATOR, $keys) . '.php');
 }
 
+function nextendimportaccordionmenu($key) {
+    $keys = explode('.', $key);
+    array_shift($keys);
+    require_once(NEXTEND_ACCORDION_MENU. 'library/' . implode(DIRECTORY_SEPARATOR, $keys) . '.php');
+}
+
 function nextendSubLibraryPath($subLibrary) {
     switch($subLibrary){
         case 'accordionmenu':

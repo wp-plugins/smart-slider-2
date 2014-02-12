@@ -13,8 +13,18 @@ class NextendElementPluginMatrix extends NextendElementHidden {
         
         $widgetTypes = $this->getOptions();
         
-        $html.="<div class='nextend-pluginmatrix-views nextend-button-grey clearfix'>";
+        $html.="<div class='nextend-pluginmatrix-views nextend-button-grey nextend-clearfix'>";
         $value = $this->_form->get($this->_name, 'arrow');
+
+        $test = false;
+        foreach($widgetTypes AS $type => $v){
+            if($value == $type){
+                $test = true;
+                break;
+            }
+        }
+        if(!$test) $value = 'arrow';
+        
         foreach($widgetTypes AS $type => $v){
             if($value == $type) $active = 'active ';
             else $active = '';
@@ -25,7 +35,7 @@ class NextendElementPluginMatrix extends NextendElementHidden {
         }
         $html.="</div>";
         
-        $html.="<div class='nextend-pluginmatrix-panes clearfix'>";
+        $html.="<div class='nextend-pluginmatrix-panes nextend-clearfix'>";
         foreach($widgetTypes AS $type => $v){
             if($value == $type) $active = 'active ';
             else $active = '';

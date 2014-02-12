@@ -7,4 +7,3 @@ class NextendSmartsliderAdminViewSliders_Layouts extends NextendView{
         $this->render($tpl);
     }
 }
-?>

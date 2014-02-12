@@ -131,5 +131,12 @@ class NextendForm extends NextendData {
             echo '<input name="form_key" type="hidden" value="'.$adminobj->getFormKey().'" />';
         }
     }
+    
+    static function addExtra($data = array()){
+        if(nextendIsMagento()){
+            $data['form_key'] = Mage::getSingleton('core/session' )->getFormKey();
+        }
+        return json_encode($data);
+    }
 }
 ?>

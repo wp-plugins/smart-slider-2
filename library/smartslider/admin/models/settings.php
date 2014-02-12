@@ -1,11 +1,31 @@
 <?php
 
-nextendimport('nextend.mvc.model');
-nextendimport('nextend.database.database');
+nextendimportsmartslider2('nextend.smartslider.admin.models.base');
 
-class NextendSmartsliderAdminModelSettings extends NextendModel {
+class NextendSmartsliderAdminModelSettings extends NextendSmartsliderAdminModelBase {
 
     function form($xml) {
+    
+        $data = array();
+        switch ($xml) {
+            case 'layout':
+                $data = NextendSmartSliderLayoutSettings::getAll();
+                break;
+            case 'font':
+                $data = NextendSmartSliderFontSettings::getAll(NextendRequest::getInt('sliderid'));
+                break;
+            case 'joomla':
+                $data = NextendSmartSliderJoomlaSettings::getAll();
+                break;
+            default:
+                $data = NextendSmartSliderSettings::getAll();
+                break;
+        }
+        
+        $this->render(dirname(__FILE__) . '/forms/settings/' . $xml . '.xml', $data);
+    }
+    
+    function render($xmlpath, $data){
 
         $css = NextendCss::getInstance();
         $js = NextendJavascript::getInstance();
@@ -14,29 +34,28 @@ class NextendSmartsliderAdminModelSettings extends NextendModel {
         $css->addCssLibraryFile('window.css');
         $css->addCssLibraryFile('configurator.css');
 
-        $configurationXmlFile = dirname(__FILE__) . '/forms/settings/' . $xml . '.xml';
         $js->loadLibrary('dojo');
 
         nextendimport('nextend.form.form');
         $form = new NextendForm();
 
-        switch ($xml) {
-            case 'layout':
-                $form->loadArray(NextendSmartSliderLayoutSettings::getAll());
-                break;
-            case 'font':
-                $form->loadArray(NextendSmartSliderFontSettings::getAll(NextendRequest::getInt('sliderid')));
-                break;
-            case 'joomla':
-                $form->loadArray(NextendSmartSliderJoomlaSettings::getAll());
-                break;
-            default:
-                $form->loadArray(NextendSmartSliderSettings::getAll());
-                break;
-        }
+        $form->loadArray($data);
 
-        $form->loadXMLFile($configurationXmlFile);
+        $form->loadXMLFile($xmlpath);
         echo $form->render('settings');
+    
+        $js->addLibraryJsAssetsFile('dojo', 'form.js');
+        $js->addLibraryJs('dojo', '
+            new NextendForm({
+              container: "smartslider-form",
+              data: ' . json_encode($form->_data) . ',
+              xml: "' . NextendFilesystem::toLinux(NextendFilesystem::pathToRelativePath($xmlpath)) . '",
+              control_name: "settings",
+              url: "'.NextendUri::ajaxUri('nextend', 'smartslider').'",
+              loadedJSS: ' . json_encode($js->generateArrayJs()) . ',
+              loadedCSS: ' . json_encode($css->generateArrayCSS()) . '
+            });
+        ', true);
     }
 
     function save() {
@@ -44,7 +63,10 @@ class NextendSmartsliderAdminModelSettings extends NextendModel {
         if (isset($_REQUEST['namespace']) && isset($_REQUEST['settings'])) {
             if ($namespace == 'default')
                 $namespace = 'settings';
-            if($namespace == 'font' && NextendRequest::getInt('sliderid')) $namespace.= NextendRequest::getInt('sliderid');
+            if($namespace == 'font' && NextendRequest::getInt('sliderid')){
+                $namespace.= NextendRequest::getInt('sliderid');
+                self::markChanged(NextendRequest::getInt('sliderid'));
+            }
             NextendSmartSliderStorage::set($namespace, json_encode($_REQUEST['settings']));
         }
     }

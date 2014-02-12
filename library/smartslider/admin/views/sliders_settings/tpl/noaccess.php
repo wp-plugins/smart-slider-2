@@ -23,7 +23,7 @@ $this->loadFragment('firstcolend');
 $this->loadFragment('secondcolstart');
 ?>
 
-<h4><?php echo NextendText::_('Access_to_this_resource_not_allowed'); ?></h4>
+<div style="width: 50%" class="box y"><h3>Limited access</h3><p><?php echo NextendText::_('Access_to_this_resource_not_allowed'); ?></p></div>
 
 <?php
 $this->loadFragment('secondcolend');
@@ -31,4 +31,3 @@ $this->loadFragment('secondcolend');
 
 <?php
 $this->loadFragment('footer');
-?>

@@ -10,8 +10,8 @@ class plgNextendSliderItemButton extends plgNextendSliderItemAbstract {
     
     function getTemplate(){
         return "
-<div class='nextend-smartslider-button-{buttonclass}-container {fontclass}' style='cursor:pointer; width: 100%;'>
-    <a href='{url}' onclick='if(this.getAttribute(\'href\') == \'#\') return false;'  target='{target}' style='display: block;' class='nextend-smartslider-button-{buttonclass} {class}' >
+<div class=\"nextend-smartslider-button-{buttonclass}-container {fontclass}\" style=\"cursor:pointer; width: 100%;\" data-click=\"{onmouseclick_esc}\" data-enter=\"{onmouseenter_esc}\" data-leave=\"{onmouseleave_esc}\">
+    <a href=\"{url}\" onclick='if(this.getAttribute(\'href\') == \'#\') return false;'  target=\"{target}\" style=\"display: block;\" class=\"nextend-smartslider-button-{buttonclass} {class}\">
       {content}
     </a>
 </div>
@@ -35,7 +35,7 @@ class plgNextendSliderItemButton extends plgNextendSliderItemAbstract {
             'link' => '#|*|_self',
             'url' => '',
             'target' => '_self',
-            'content' => 'Button',
+            'content' => NextendText::_('Button'),
             'fontclass' => 'sliderfont11',
             'css' => 'padding: 8px 10px;
 box-shadow: 0 1px 1px RGBA(0,0,0,0.2);
@@ -55,7 +55,10 @@ transition: all 0.4s ease-out 0s;',
 border-radius: 25px;',
             'buttonclass' => 'blue-transition-rounded-button',
             'skins' => '',
-            'skin' => ''
+            'skin' => '',
+            'onmouseclick' => '',
+            'onmouseenter' => '',
+            'onmouseleave' => ''
         );
     }
     

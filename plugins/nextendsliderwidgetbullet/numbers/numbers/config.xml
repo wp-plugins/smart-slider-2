@@ -69,6 +69,6 @@
                 <unit>px</unit>
             </param>
         </param>
-        <param name="bulletthumbnail" type="color" label="Border_hover_color" alpha='1' default="00000060" />     
+        <param name="bulletthumbnail" type="color" label="Bullet_thumbnail_background" alpha='1' default="00000060" />     
     </params>
 </root>

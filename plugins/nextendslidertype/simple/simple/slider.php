@@ -19,7 +19,7 @@ if ($flux[0]) {
     window['<?php echo $id; ?>-onresize'] = [];
 </script>
 
-<div id="<?php echo $id; ?>" class="<?php echo $sliderClasses; ?>" style="font-size: <?php echo intval($this->_sliderParams->get('globalfontsize', 14)); ?>px;">
+<div id="<?php echo $id; ?>" class="<?php echo $sliderClasses; ?>" style="font-size: <?php echo intval($fontsize[0]); ?>px;" data-allfontsize="<?php echo intval($fontsize[0]); ?>" data-desktopfontsize="<?php echo intval($fontsize[0]); ?>" data-tabletfontsize="<?php echo intval($fontsize[1]); ?>" data-phonefontsize="<?php echo intval($fontsize[2]); ?>">
     <div class="smart-slider-border1" style="<?php echo $backgroundimagecss . $this->_sliderParams->get('simpleslidercss', ''); ?>">
         <div class="smart-slider-border2">
             <?php if ($flux[0]): ?>
@@ -43,6 +43,9 @@ if ($flux[0]) {
                     <div class="smart-slider-canvas-inner">
                         <?php echo $slide['slide']; ?>
                     </div>
+                    <?php if(nextendIsJoomla()){ ?>
+                        <div style="position: absolute; right: 10px; bottom: 10px;z-index: 100000;"><img src="http://www.nextendweb.com/demo/smartslider2/trial/watermark.png" /></div>
+                    <?php } ?>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -67,7 +70,8 @@ $properties['animationSettings'] = array(
 
 $properties['flux'] = $flux;
 
-$properties['responsive']['maxwidth'] = intval($this->_sliderParams->get('fullpageresponsivemaxwidth', 3000));
+$properties['responsive']['maxwidth'] = intval($this->_sliderParams->get('simpleresponsivemaxwidth', 3000));
+$properties['touchanimation'] = $this->_sliderParams->get('improvedtouch', 0);
 
 ?>
 <script type="text/javascript">

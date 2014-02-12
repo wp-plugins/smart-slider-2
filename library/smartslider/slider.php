@@ -19,6 +19,10 @@ class NextendSlider {
     var $_generatorSlideParams;
     var $_slides;
     var $_activeSlide = 0;
+    
+    var $_responsive = true;
+    
+    var $_replaceSlider = false;
 
     function NextendSlider($path, $backend = false) {
 
@@ -27,39 +31,45 @@ class NextendSlider {
     }
 
     function getId() {
-
         return $this->_identifier . '-' . $this->_instance;
+    }
+        
+    function setInstance() {
+        if($this->_backend){
+            $this->_instance = 0;
+        }else{
+            $this->_instance = $this->_sliderid;
+        }
+    }
+    
+    function preRender(){
+        $this->loadSlider($this->_sliderid);
     }
 
     function loadSlider($sliderid) {
-        $this->_sliderid = $sliderid;
         nextendimportsmartslider2('nextend.smartslider.admin.models.sliders');
-        $slidersModel = new NextendSmartsliderAdminModelSliders(null);
-        $slider = $slidersModel->getSlider($sliderid);
-        $this->_slider = new NextendData();
-        $this->_slider->loadArray($slider);
+        
+        if($this->_replaceSlider){
+            $slider = $this->_replaceSlider;
+        }else{
+            $slidersModel = new NextendSmartsliderAdminModelSliders(null);
+            $slider = $slidersModel->getSlider($sliderid);
+            $this->_slider = new NextendData();
+            $this->_slider->loadArray($slider);
+    
+            $this->_sliderParams = new NextendData();
+            $this->_sliderParams->loadJSON($slider['params']);
+    
+            $this->_generatorParams = new NextendData();
+            $this->_generatorParams->loadJSON($slider['generator']);
+    
+            $this->_generatorSlideParams = new NextendData();
+            $this->_generatorSlideParams->loadJSON($slider['slide']);
+        }
 
-        $this->_sliderParams = new NextendData();
-        $this->_sliderParams->loadJSON($slider['params']);
+        $this->_slides = $this->slides();
 
-        $this->_generatorParams = new NextendData();
-        $this->_generatorParams->loadJSON($slider['generator']);
-
-        $this->_generatorSlideParams = new NextendData();
-        $this->_generatorSlideParams->loadJSON($slider['slide']);
-
-
-        if ($this->_backend) {
-            $this->_slides = $this->slides();
-        } else {
-            $cache = NextendParse::parse($this->_sliderParams->get('cache', '0|*|1440'));
-            if (intval($cache[0])) {
-                nextendimport('nextend.cache.data.data');
-                $caching = NextendCacheData::getInstance();
-                $this->_slides = $caching->cache('smartslider', $cache[1], array($this, 'slides'));
-            } else {
-                $this->_slides = $this->slides();
-            }
+        if (!$this->_backend) {
             if($this->_sliderParams->get('randomize', 0)){
                 shuffle($this->_slides);
                 $this->_activeSlide = 0;
@@ -87,7 +97,7 @@ class NextendSlider {
 
         if (!$this->_backend && $this->_generatorParams->get('enabled', 0) && $createslides == 0 && ($publishbetween[0] == '' || strtotime($publishbetween[0]) < time()) && ($publishbetween[1] == '' || strtotime($publishbetween[1]) > time())) {
             nextendimportsmartslider2('nextend.smartslider.generator');
-            $this->generator = new NextendSmartsliderGenerator($this->_generatorParams, $this->_generatorSlideParams);
+            $this->generator = new NextendSmartsliderGenerator($this->_generatorParams, $this->_generatorSlideParams, $this->_sliderid);
             $slides = $this->generator->generateSlides($this->_sliderid);
         } else {
             nextendimportsmartslider2('nextend.smartslider.admin.models.slides');
@@ -103,7 +113,7 @@ class NextendSlider {
             $slides = $slidesModel->getSlides($this->_sliderid, $where);
             if (!$this->_backend && $createslides && !$staticslides) {
                 nextendimportsmartslider2('nextend.smartslider.generator');
-                $this->generator = new NextendSmartsliderGenerator($this->_generatorParams, $this->_generatorSlideParams);
+                $this->generator = new NextendSmartsliderGenerator($this->_generatorParams, $this->_generatorSlideParams, $this->_sliderid);
                 $source = $this->_generatorParams->get('source', '');
                 if ($source) {
                     $this->generator->initDatasource($source);
@@ -220,7 +230,8 @@ class NextendSlider {
         return $slides;
     }
 
-    function render() {
+    function render($cache = false) {
+        $this->preRender();
         if ($this->_norender) return;
 
         $id = $this->getId();
@@ -234,8 +245,6 @@ class NextendSlider {
             $js->_loadedLibraries['jquery']->removeJsLibraryFile('jQuery.js');
         }
         
-        $widgets = new NextendSliderWidgets($this, $id);
-        
         if (isset($this->_slides[$this->_activeSlide]))
             $this->_slides[$this->_activeSlide]['classes'] .= ' smart-slider-slide-active';
 
@@ -247,16 +256,30 @@ class NextendSlider {
         }
                 
         $sliderClasses = (!$this->_backend && $fadeonload[0] ? 'nextend-slider-fadeload ' : '');
+        $sliderClasses.= 'nextend-desktop ';
         
         $properties = $this->generateJSProperties();
         
+        $fontsize = (array)NextendParse::parse($this->_sliderParams->get('globalfontsize', '12|*|11|*|10'));
+        if(!isset($fontsize[1])) $fontsize[1] = 11;
+        if(intval($fontsize[1])<=0) $fontsize[1] = $fontsize[0];
+        if(!isset($fontsize[2])) $fontsize[2] = 10;
+        if(intval($fontsize[2])<=0) $fontsize[2] = $fontsize[1];
+        
+        
+        $size = $this->addCSS();
+        $css = NextendCss::getInstance();
+        
+        $widgets = new NextendSliderWidgets($this, $id);
+        
         ob_start();
         if(!$this->_backend && $fadeonload[0]){
-            echo '<style type="text/css">div#'.$id.'.nextend-slider-fadeload{position: absolute; opacity: 0;}</style>';
+            $css->addCssFile('div#'.$id.'.nextend-slider-fadeload{position: absolute; opacity: 0;}', $this->getId());
         }
         include($this->_typePath . 'slider.php');
         $slider = ob_get_clean();
         
+
         
         if(!$this->_backend){
             NextendPlugin::callPlugin('nextendslideritem', 'onNextendSliderRender', array(&$slider, $id));
@@ -278,6 +301,12 @@ class NextendSlider {
                     if(!empty($article->text)) $slider = $article->text;
                 }
             }elseif(nextendIsWordPress()){
+                if(!function_exists('ss2_attr_shortcode')){
+                    function ss2_attr_shortcode($matches){
+                        return 'data-'.$matches[1].'="'.str_replace('"', '&quot;',do_shortcode(str_replace('&quot;','"',$matches[2]))).'"';
+                    }
+                }
+                $slider = preg_replace_callback("/data-(click|enter|leave)=\"(.*?)\"/", "ss2_attr_shortcode", $slider);
                 $slider = do_shortcode($slider);
             }
         }
@@ -292,8 +321,6 @@ class NextendSlider {
         }
         
         echo $this->parseSlider($slider);
-
-        $size = $this->addCSS();
         $responsive = (array)NextendParse::parse($this->_sliderParams->get('responsive', '0|*|0'));
         
         if( !$this->_backend && $fadeonload[0] && ((isset($responsive[0]) && $responsive[0]) || (isset($responsive[1]) && $responsive[1]))){
@@ -309,7 +336,7 @@ class NextendSlider {
                 imagepng($im);
                 imagedestroy($im);
                 $img = base64_encode(ob_get_clean());
-                echo '<img style="width:100%; max-width: '.(intval($this->_sliderParams->get('simpleresponsivemaxwidth', 30000))+$size[3]).'px;" src="data:image/png;base64, '.$img.'" />';
+                echo '<img alt="" style="width:100%; max-width: '.(intval($this->_sliderParams->get('simpleresponsivemaxwidth', 30000))+$size[3]).'px;" src="data:image/png;base64,'.$img.'" />';
                 
                 if($size[2] > 0){
                     $im = imagecreatetruecolor($size[0]+$size[3], $size[2]);
@@ -321,15 +348,27 @@ class NextendSlider {
                     imagepng($im);
                     imagedestroy($im);
                     $img = base64_encode(ob_get_clean());
-                    echo '<img style="width:100%;" src="data:image/png;base64, '.$img.'" />';
+                    echo '<img alt="" style="width:100%;" src="data:image/png;base64,'.$img.'" />';
                 }
                 
                 echo '</div>';
             }else{
-                echo '<style>#'.$id.' .nextend-slider-fadeload{position: static !important;}</style>';
+                $css->addCssFile('#'.$id.' .nextend-slider-fadeload{position: relative !important;}', $this->getId());
             }
         }else{
-            echo '<style>#'.$id.'.nextend-slider-fadeload{position: static !important;}</style>';
+            $css->addCssFile('#'.$id.'.nextend-slider-fadeload{position: relative !important;}', $this->getId());
+        }
+        
+        NextendPlugin::callPlugin('nextendslider', 'onNextendSliderRenderAfter');
+        
+        if(!$cache){
+            if(nextendIsWordPress()){
+                add_action('nextend_css', array( $this, 'wpAddCSS'));
+            }elseif(nextendIsMagento()){
+                Nextend_SmartSlider2_Model_Observer::$sliders[] = $this->getId();
+            }else{
+                $css->generateCSS($this->getId());
+            }
         }
     }
     
@@ -396,10 +435,23 @@ class NextendSlider {
         );
 
         $responsive = NextendParse::parse($this->_sliderParams->get('responsive', '0|*|0'));
+        if(!$this->_responsive) $responsive = array(0, 0);
+        
+        $responsivescreenwidth = (array)NextendParse::parse(NextendSmartSliderSettings::get('responsivescreenwidth', '1024|*|640'));
+        if($responsivescreenwidth[0] < $responsivescreenwidth[1]) $responsivescreenwidth[1] = 1;
+        
+        $slideeditorratios = array_map('floatval', (array)NextendParse::parse(NextendSmartSliderSettings::get('slideeditorratios', '1.0|*|1.0|*|0.7|*|0.5')));
+
         $p['responsive'] = array(
             'downscale' => intval($responsive[0]),
             'upscale' => intval($responsive[1]),
-            'maxwidth' => intval($this->_sliderParams->get('simpleresponsivemaxwidth', 3000))
+            'maxwidth' => intval($this->_sliderParams->get('simpleresponsivemaxwidth', 3000)),
+            'basedon' => NextendSmartSliderSettings::get('responsivebasedon', 'device'),
+            'screenwidth' => array(
+                'tablet' => intval($responsivescreenwidth[0]),
+                'phone' => intval($responsivescreenwidth[1])
+            ),
+            'ratios' => $slideeditorratios
         );
         
         $controls = NextendParse::parse($this->_sliderParams->get('controls', '0|*|0|*|0'));
@@ -469,27 +521,30 @@ class NextendSlider {
             $this->_typePath . 'style.less',
             $context
         ), $this->getId());
-        $css->generateCSS($this->getId());
         
         if(strpos($context['margin'], '%')){
-			$m = explode('% ', $context['margin']);
-			$m[1] = $m[1]/100*intval($context['width']);
-			$m[3] = $m[3]/100*intval($context['width']);
-			$m[0] = $m[0]/100*intval($context['height']);
-			$m[2] = $m[2]/100*intval($context['height']);
-		}else{
-			$m = explode('px ', $context['margin']);
-		}
+            $m = explode('% ', $context['margin']);
+            $m[1] = $m[1]/100*intval($context['width']);
+            $m[3] = $m[3]/100*intval($context['width']);
+            $m[0] = $m[0]/100*intval($context['height']);
+            $m[2] = $m[2]/100*intval($context['height']);
+    		}else{
+            $m = explode('px ', $context['margin']);
+    		}
 		
-		$addcss = (array)NextendParse::parse(NextendSmartSliderSettings::get('externalcssfile'));
-		if($this->_backend && count($addcss)){
-			foreach($addcss as $cssfile)
-			{
-				$css->addCssFile($cssfile);
-			}
-		}
+		    $addcss = (array)NextendParse::parse(NextendSmartSliderSettings::get('externalcssfile'));
+		    if($this->_backend && count($addcss)){
+      			foreach($addcss as $cssfile){
+      				$css->addCssFile($cssfile);
+      			}
+		    }
 		
         return array(intval($context['width']),intval($context['height']), $m[0]+$m[2], $m[1]+$m[3]);
+    }
+    
+    function wpAddCSS(){
+        $css = NextendCss::getInstance();
+        $css->generateCSS($this->getId());
     }
 
     function addJs() {

@@ -63,7 +63,6 @@ class NextendSmartSlider2Widget extends WP_Widget {
                 <select class="widefat" id="<?php echo $this->get_field_id('smartslider2phone'); ?>" name="<?php echo $this->get_field_name('smartslider2phone'); ?>">
                     <?php
                     $smartslider2 = $instance['smartslider2phone'];
-                    var_dump($smartslider2);
                     $res = $wpdb->get_results( 'SELECT id, title FROM '.$wpdb->prefix.'nextend_smartslider_sliders' );
                     ?>
                     <option <?php if (-1 == $smartslider2) { ?>selected="selected" <?php } ?>value="-1">Display default slider</option>
@@ -134,13 +133,14 @@ class NextendSmartSlider2Widget extends WP_Widget {
     			echo $args['before_title'] . $title . $args['after_title'];
 
         $params = array();
+        
+        nextendimportsmartslider2('nextend.smartslider.slidercache');
         nextendimportsmartslider2('nextend.smartslider.wordpress.slider');
-        $sl = new NextendSliderWordpress($slider, $params, dirname(__FILE__));
-        $sl->render();
+        
+        new NextendSliderCache(new NextendSliderWordpress(intval($slider), $params, dirname(__FILE__)));
 
         echo $args['after_widget'];
     }
 
 }
 add_action('widgets_init', create_function('', 'return register_widget("NextendSmartSlider2Widget");'));
-?>

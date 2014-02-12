@@ -1,9 +1,8 @@
 <?php
 
-nextendimport('nextend.mvc.model');
-nextendimport('nextend.database.database');
+nextendimportsmartslider2('nextend.smartslider.admin.models.base');
 
-class NextendSmartsliderAdminModelSlides extends NextendModel {
+class NextendSmartsliderAdminModelSlides extends NextendSmartsliderAdminModelBase {
 
     function getSlide($id) {
         $db = NextendDatabase::getInstance();
@@ -69,7 +68,7 @@ class NextendSmartsliderAdminModelSlides extends NextendModel {
     function create($sliderid, $slide, $base64 = true) {
         if (!isset($slide['title']))
             return false;
-        if($slide['title'] == '') $slide['title'] = 'New slide';
+        if($slide['title'] == '') $slide['title'] = NextendText::_('New_slide');
 
         $db = NextendDatabase::getInstance();
 
@@ -116,13 +115,18 @@ class NextendSmartsliderAdminModelSlides extends NextendModel {
         $query.=');';
         $db->setQuery($query);
         $db->query();
-        return $db->insertid();
+        
+        $slideid = $db->insertid();
+        
+        self::markChanged($sliderid);
+        
+        return $slideid;
     }
     
     function save($id, $slide, $base64 = true){
         if (!isset($slide['title']) || $id <= 0)
             return false;
-        if($slide['title'] == '') $slide['title'] = 'New slide';
+        if($slide['title'] == '') $slide['title'] = NextendText::_('New_slide');
         $db = NextendDatabase::getInstance();
         
         $query = 'UPDATE #__nextend_smartslider_slides SET ';
@@ -160,6 +164,9 @@ class NextendSmartsliderAdminModelSlides extends NextendModel {
         $query.=' WHERE id = '.$db->quote($id);
         $db->setQuery($query);
         $db->query();
+        
+        self::markChanged(NextendRequest::getInt('sliderid'));
+        
         return $id;
     }
     
@@ -167,6 +174,9 @@ class NextendSmartsliderAdminModelSlides extends NextendModel {
         $db = NextendDatabase::getInstance();
         $db->setQuery('DELETE FROM #__nextend_smartslider_slides WHERE id='.$db->quote($id));
         $db->query();
+        
+        self::markChanged(NextendRequest::getInt('sliderid'));
+        
     }
 
     function duplicate($id, $sliderid = null){
@@ -184,6 +194,9 @@ class NextendSmartsliderAdminModelSlides extends NextendModel {
         
         $db->setQuery('UPDATE #__nextend_smartslider_slides SET first = 1 WHERE id='.$db->quote($id));
         $db->query();
+        
+        self::markChanged($sliderid);
+        
     }
     
     function publish($id){
@@ -196,18 +209,25 @@ class NextendSmartsliderAdminModelSlides extends NextendModel {
         $db = NextendDatabase::getInstance();
         $db->setQuery('UPDATE #__nextend_smartslider_slides SET published = 0 WHERE id='.$db->quote($id));
         $db->query();
+        
+        self::markChanged(NextendRequest::getInt('sliderid'));
+        
     }
     
     function deleteBySlider($sliderid){
         $db = NextendDatabase::getInstance();
         $db->setQuery('DELETE FROM #__nextend_smartslider_slides WHERE slider = '.$db->quote($sliderid));
         $db->query();
+        
+        self::markChanged(NextendRequest::getInt('sliderid'));
     }
 
     function deleteGeneratedBySlider($sliderid){
         $db = NextendDatabase::getInstance();
         $db->setQuery('DELETE FROM #__nextend_smartslider_slides WHERE generator > 0 AND slider = '.$db->quote($sliderid));
         $db->query();
+        
+        self::markChanged(NextendRequest::getInt('sliderid'));
     }
     
     function order($sliderid, $ids){
@@ -227,6 +247,9 @@ class NextendSmartsliderAdminModelSlides extends NextendModel {
                     $i++;
                 }
             }
+        
+            self::markChanged($sliderid);
+            
             return $i;
         }
         return false;

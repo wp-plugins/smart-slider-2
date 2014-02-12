@@ -5,7 +5,7 @@ class NextendFontsGoogle {
     var $_fonts;
     
     function NextendFontsGoogle() {
-        $this->_fonts = '';
+        $this->_fonts = array();
     }
     
     static function getInstance() {
@@ -21,9 +21,12 @@ class NextendFontsGoogle {
     function addFont($family, $style='400', $subset='latin'){
         if(!isset($this->_fonts[$family])){
             $this->_fonts[$family] = array($style, $subset);
+            $this->_fonts[$family][$style.','.$subset] = 1;
+        }else if(!isset($this->_fonts[$family][$style.','.$subset])){
+            $this->_fonts[$family][0].=','.$style;
+            $this->_fonts[$family][1].=','.$subset;
+            $this->_fonts[$family][$style.','.$subset] = 1;
         }
-        $this->_fonts[$family][0].=','.$style;
-        $this->_fonts[$family][1].=','.$subset;
     }
     
     function generateFonts(){
@@ -51,7 +54,7 @@ class NextendFontsGoogle {
                     }
                 }
                 if(count($style)){
-                    $url.=$family.':'.implode(',', $style).'|';
+                    $url.= urlencode($family).':'.implode(',', $style).'|';
                     $subset.= $font[1].',';
                 }
             }

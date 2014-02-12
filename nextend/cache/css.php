@@ -12,6 +12,10 @@ class NextendCacheCss extends NextendCache {
 
     function parseFile($content, $path, $i) {
         return preg_replace('#url\([\'"]([^"\'\)]+)[\'"]\)#', 'url(' . str_replace(array('http://', 'https://'), '//', NextendFilesystem::pathToAbsoluteURL(dirname($path))) . '/$1)', $content);
+    }    
+    
+    function parseCached($cached){
+        return $cached;
     }
 
     function getContentHeader() {

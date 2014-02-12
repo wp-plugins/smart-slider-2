@@ -4,7 +4,7 @@ Tags: slider, slide, layer slider, responsive, gallery, auto, autoplay, carousel
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
 Tested up to: 3.8.0
-Stable tag: 2.2.1
+Stable tag: 2.3.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -27,14 +27,23 @@ Smart Slider 2 comes with an intuitive interface for backend, which makes easy f
 * 100% responsive with each items (touch screen support for mobile devices)
 * Total control over the design, customize the slider without HTML or CSS knowledge. Change color, font, arrow, bullet, background, link, position, size, etc.
 * Slide layout creator: save and load your own slide design
+* NEW: Quick slider for image sliders
+* NEW: Slider dashboard
+* NEW: Advanced responsive mode
+* NEW: Import view
 
 #### What is included in the free version?
 You will be able to create new responsive sliders with simple slider type. You can add image, heading and button items into your slider also you can use slide background feature too. The main animations are limited to the horizontal animation, also the special background and the layer animations also limited. The free version will allow you to use arrow and bullet widgets.
 
 **Note: This plugin is provided as-is, but PAID version for this plugin is available with a ton of extra and new features!** [Upgrade to the Smart Slider 2 FULL version!](http://www.nextendweb.com/smart-slider/)
 
+#### How to start?
+Firstly the best if you try the Quick slider mode, check the video! (Please switch the video quality to 1080p for best experience!)
+[youtube http://www.youtube.com/watch?v=PrHuat2KICA]
+Then you can start to create something more complex, our [tutorial videos](http://www.youtube.com/watch?v=qesNtYIBDfs&list=PLSawiBnEUNfvCEnV5dGOAQABZ8TBx8fJg) going to help you!
+
 #### Why should you upgrade to Smart Slider Full version?
-* Because you get 3 extra slider types (full page, accordion horizontal and vertical)
+* Because you get 4 extra slider types (full page, showcase, accordion horizontal and vertical)
 * Extra main and background animations (fade, vertical, 2D skitter and 3D animations)
 * More than 20 layer animations (slide, fade, roll, bounce, Ken Burns etc.)
 * Plus 12 items to build better sliders (image, paragraph, youtube, vimeo, fade, flipper, flipper, HTML, caption etc.)
@@ -43,39 +52,23 @@ You will be able to create new responsive sliders with simple slider type. You c
 * Import and export sliders - our demo sliders also available
 * and last but not least personal support!
 
-
-#### Installation and tutorial video
-Please switch the video quality to 1080p for best experience!
-
-* Installation of Smart Slider 2 - 00:00
-* Place the slider into a post via shortcode - 00:30
-* Create the slider - 01:15
-* Create the first slide - 02:00
-* Add captions to the slider - 03:30
-* Slider animation - 04:10
-* Create slides from a folder which contains images (generator) - 06:24
-* How to upgrade Smart Slider 2 to full version - 07:09
-* Extra feature in Smart Slider 2 Full - 07:37
-
-[youtube https://www.youtube.com/watch?v=naD8cj-AHQg]
-
 #### Support
 If you have any problem or feature request for this plugin, please feel free to [contact us](http://www.nextendweb.com/help/contact/)!
 
 
 == Installation ==
 
+[Check our official documentation for more information](http://www.nextendweb.com/wiki/smart-slider-documentation/)
 1. Upload the plugin through 'Plugins > Add New > Upload' interface or upload nextend-smart-slider2 folder to the '/wp-content/plugins/' directory.
 2. Activate the Smart Slider 2 plugin through the 'Plugins' menu in WordPress.
 3. Create a new Smart Slider: Click on the 'Smart Slider 2 > Sliders' menu, click on the create slider button. Firstly you should set the options of the slider, then add as many slide as you want. The slides can contain layers with items or just a simple background.
 5. In the 'Appearance > Widgets' menu select the Smart Slider 2 widget and add to one of your widget areas. Select one of your slider, set the required settings and save your widget. Or just copy the shortcode from the slider and paste it into a post or a page.
-6. [Check our official documentation for more information](http://www.nextendweb.com/wiki/smart-slider-documentation/)
 
 == Frequently Asked Questions ==
 [Check our official documentation for more information](http://www.nextendweb.com/wiki/smart-slider-documentation/)
 
 = 1. How do I add the slider to my site? =
-You can add via the widget control panel or by shortcode.
+You can add your slider via the widget control panel or by shortcode.
 
 = 2. What should I do when the CSS are not loaded or I experience any problem? =
 [Contact us!](http://www.nextendweb.com/smart-slider/#support)
@@ -103,15 +96,28 @@ Or you can get the shortcode - [View](http://www.nextendweb.com/wp-content/uploa
 `<?php echo do_shortcode('[smartslider2 slider="Here comes the slider id"]'); ?>`
 Or you can get the shortcode - [View](http://www.nextendweb.com/wp-content/uploads/2013/09/shortcodemethod.png)
 
+= 10. Why should I choose this Smart Slider 2? =
+Because Smart Slider 2 is an all-in-one slider solution. What it means for you? That you can create a plenty of type of slide. For example: gallery slider, full page slider, full width slider, dynamic slider, carousel slider, layer slider. The best in this plugin the admin interface because you can create anything, not just an image slider.
+
 
 == Screenshots ==
 
-1. Smart Slider 2 the perfect all-in-one responsive slider solution for WordPress..
+1. Smart Slider 2 the perfect all-in-one responsive slider solution for WordPress.
 2. Unlimited slider variations.
 3. 100% responsive slider
 4. Screenshot from the backend, which will help you through the set up process with easily understandable features.
 
 == Changelog ==
+
+= 2.3.0 =
+* Feature: New slider creation modes: Quick slider, Manual slider and Dynamic slider
+* Feature: Import view on the admin site
+* Feature: New slider dashboard view
+* Feature: Advanced responsive mode
+* Feature: Export as HTML
+* Feature: New cache system
+* Feature: All widget is separately manageable for every device
+* Feature: Three new global fontsize for every devices
 
 = 2.2.1 =
 * Feature: Autoplay and image item enabled in lite version

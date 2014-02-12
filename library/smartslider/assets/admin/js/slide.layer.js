@@ -42,7 +42,7 @@
             });
             $('.smartslider-createlayer').on('click', function () {
                 $this.createLayer();
-                slideconsole.set('Layer created', 2);
+                slideconsole.set(window.ss2lang.Layer_created, 2);
             });
 
             $('#smartslider-slide-toolbox-layer').on('mouseenter',function () {
@@ -61,6 +61,7 @@
             this.items.enableItemMode();
 
             this.initAdvancedView();
+            this.initDeviceView();
 
         },
         getParameterByName: function (name) {
@@ -72,6 +73,8 @@
         switchToLayerTab: function () {
             this.views.removeClass('active');
             this.views.eq(1).addClass('active');
+            this.toolboxviews.removeClass('active');
+            this.toolboxviews.eq(1).addClass('active');
             this.toolboxviews.parent().css((window.nextendDir == 'rtl' ? 'marginRight' : 'marginLeft'), '-100%');
             this.parent.switchToEdit();
             $('#smartslider-admin').removeClass('smartslider-item-mode-active');
@@ -124,6 +127,22 @@
             this.refreshSortableConnectWith();
             this.switchToLayerTab();
             this.setActiveLayer($(layer));
+            
+            var desktop = tablet = phone = 1;
+            switch(this.adminmode){
+                case 'desktop':
+                    tablet = phone = 0;
+                    break;
+                case 'tablet':
+                    desktop = phone = 0;
+                    break;
+                case 'phone':
+                    desktop = tablet = 0;
+                    break;
+                
+            };
+            this.form.showfield.val(desktop+'|*|'+tablet+'|*|'+phone);
+            $.fireEvent(this.form.showfield[0], 'change');
         },
         addLayer: function (node) {
             var $layer = $(node).clone(),
@@ -156,8 +175,12 @@
                 /*disabled: !this.active,*/
                 handles: 'n, e, s, w, ne, se, sw, nw',
                 containment: this.layercanvas,
-                start: function () {
+                start: function (event, ui) {
                     $('#smartslider-admin').addClass('smartslider-layer-highlight-active-2');
+                    $layer.data('width', $this.covertPxToPercent('width', ui.originalSize.width, $this.slideSize.width) + '%');
+                    $layer.data('height', $this.covertPxToPercent('height', ui.originalSize.height, $this.slideSize.height) + '%');
+                    $layer.data('left', $this.covertPxToPercent('left', ui.originalPosition.left, $this.slideSize.width) + '%');
+                    $layer.data('top', $this.covertPxToPercent('top', ui.originalPosition.top, $this.slideSize.height) + '%');
                 },
                 stop: function () {
                     $('#smartslider-admin').removeClass('smartslider-layer-highlight-active-2');
@@ -166,7 +189,7 @@
             });
 
             $layer.find('> .ui-resizable-handle').on('mouseenter',function () {
-                slideconsole.set('Resize layer - drag', 1, 0);
+                slideconsole.set(window.ss2lang.Resize_layer_drag, 1, 0);
             }).on('mouseleave', function () {
                     slideconsole.set('', 1, 0);
                 });
@@ -176,10 +199,38 @@
             var removeLayer = $('<div class="ui-removelayer-handle" style="z-index: 92;"></div>');
             $(layer).append(removeLayer);
             removeLayer.on('click',function () {
-                $this.deleteLayer(layer);
-                slideconsole.set('Layer deleted', 2);
+                if($this.adminmode == 'all'){
+                    $this.deleteLayer(layer);
+                    slideconsole.set(window.ss2lang.Layer_deleted, 2);
+                }else{
+                    $this.setActiveLayer($(layer));
+                    var desktop = $this.activeLayer.ssdata('showdesktop');
+                    if(typeof desktop == 'undefined') desktop = 1;
+                    var tablet = $this.activeLayer.ssdata('showtablet');
+                    if(typeof tablet == 'undefined') tablet = 1;
+                    var phone = $this.activeLayer.ssdata('showphone');
+                    if(typeof phone == 'undefined') phone = 1;
+                    switch($this.adminmode){
+                        case 'desktop':
+                          desktop = 0;
+                          break;
+                        case 'tablet':
+                          tablet = 0;
+                          break;
+                        case 'phone':
+                          phone = 0;
+                          break;
+                    }
+                    $this.form.showfield.val(desktop+'|*|'+tablet+'|*|'+phone);
+                    $.fireEvent($this.form.showfield[0], 'change');
+                    slideconsole.set(window.ss2lang.Layer_hidden_for_this_device_type, 2);
+                }
             }).on('mouseenter',function () {
-                    slideconsole.set('Delete layer - click', 1, 0);
+                    if($this.adminmode == 'all'){
+                        slideconsole.set(window.ss2lang.Delete_layer_click, 1, 0);                    
+                    } else {
+                        slideconsole.set(window.ss2lang.Hide_layer_click, 1, 0);
+                    }
                 }).on('mouseleave', function () {
                     slideconsole.set('', 1, 0);
                 });
@@ -258,19 +309,19 @@
 
 
             forward.on('mouseenter',function () {
-                slideconsole.set('Increment z-index - click', 1, 0);
+                slideconsole.set(window.ss2lang.Increment_z_index_click, 1, 0);
             }).on('mouseleave', function () {
                     slideconsole.set('', 1, 0);
                 });
 
             backward.on('mouseenter',function () {
-                slideconsole.set('Decrement z-index - click', 1, 0);
+                slideconsole.set(window.ss2lang.Decrement_z_index_click, 1, 0);
             }).on('mouseleave', function () {
                     slideconsole.set('', 1, 0);
                 });
 
             $zindex.on('mouseenter',function () {
-                slideconsole.set('Current z-index', 1, 0);
+                slideconsole.set(window.ss2lang.Current_z_index, 1, 0);
             }).on('mouseleave', function () {
                     slideconsole.set('', 1, 0);
                 });
@@ -279,14 +330,19 @@
             var $this = this,
                 $layer = $(layer),
                 handle = $('<div class="ui-movable-handle" style="z-index: 91;"></div>');
+            if(typeof $layer.data('desktopleft') == 'undefined') $layer.ssdata('desktopleft', layer.style.left);
+            if(typeof $layer.data('desktoptop') == 'undefined') $layer.ssdata('desktoptop', layer.style.top);
             $layer.draggable({
                 disabled: !this.active,
                 containment: this.layercanvas,
                 create: function () {
                     $(this).append(handle);
                 },
-                start: function () {
+                start: function (event, ui) {
                     $('#smartslider-admin').addClass('smartslider-layer-highlight-active-2');
+                    var pos = ui.helper.position();
+                    $layer.data('left', $this.covertPxToPercent('left', pos.left, $this.slideSize.width) + '%');
+                    $layer.data('top', $this.covertPxToPercent('top', pos.top, $this.slideSize.height) + '%');
                 },
                 stop: function () {
                     $('#smartslider-admin').removeClass('smartslider-layer-highlight-active-2');
@@ -295,7 +351,7 @@
                 handle: '.ui-movable-handle'
             });
             handle.on('mouseenter',function () {
-                slideconsole.set('Move layer - drag', 1, 0);
+                slideconsole.set(window.ss2lang.Move_layer_drag, 1, 0);
             }).on('mouseleave', function () {
                     slideconsole.set('', 1, 0);
                 });
@@ -303,14 +359,25 @@
         makeLayerToPercent: function (layer, position, size) {
             var $layer = $(layer);
             if (position) {
-                $layer.css('left', (parseFloat($layer.css('left')) / this.slideSize.width * 100).toFixed(3) + '%');
-                $layer.css('top', (parseFloat($layer.css('top')) / this.slideSize.height * 100).toFixed(3) + '%');
+                this.setPositionField(layer, 'left', this.covertPxToPercent('left', $layer.css('left'), this.slideSize.width) + '%');
+                this.setPositionField(layer, 'top', this.covertPxToPercent('top', $layer.css('top'), this.slideSize.height) + '%');
+                //$layer.css('left', (parseFloat($layer.css('left')) / this.slideSize.width * 100).toFixed(3) + '%');
+                //$layer.css('top', (parseFloat($layer.css('top')) / this.slideSize.height * 100).toFixed(3) + '%');
             }
             if (size) {
-                $layer.width(Math.ceil(1000 * $layer.width() / this.slideSize.width * 100) / 1000 + '%');
-                $layer.height(Math.ceil(1000 * $layer.height() / this.slideSize.height * 100) / 1000 + '%');
+                this.setPositionField(layer, 'width', this.covertPxToPercent('width', $layer.width(), this.slideSize.width) + '%');
+                this.setPositionField(layer, 'height', this.covertPxToPercent('height', $layer.height(), this.slideSize.height) + '%');
+                //$layer.width(Math.ceil(1000 * $layer.width() / this.slideSize.width * 100) / 1000 + '%');
+                //$layer.height(Math.ceil(1000 * $layer.height() / this.slideSize.height * 100) / 1000 + '%');
             }
             this.updatePositionField(layer);
+        },
+        covertPxToPercent: function(prop, size, parentsize){
+            if(prop == 'left' || prop == 'top'){
+                return (parseFloat(size) / parentsize * 100).toFixed(3);
+            }else if(prop == 'width' || prop == 'height'){
+                return Math.ceil(1000 * size / parentsize * 100) / 1000;
+            }
         },
         makeLayerSortable: function (layer) {
             var $this = this;
@@ -329,11 +396,11 @@
                 },
                 start: function () {
                     $this.slide.addClass('smartslider-layer-border-mode');
-                    slideconsole.set('Drop the item into a layer', 2, 0);
+                    slideconsole.set(window.ss2lang.Drop_the_item_into_a_layer, 2, 0);
                 },
                 stop: function () {
                     $this.slide.removeClass('smartslider-layer-border-mode');
-                    slideconsole.set('Item dropped into the layer', 2);
+                    slideconsole.set(window.ss2lang.Item_dropped_into_the_layer, 2);
                 }
             });
         },
@@ -397,7 +464,10 @@
             this.slide.find('.active').removeClass('active');
         },
         getHTML: function () {
+            var savedmode = $('#slideadminmode').val();
+            if(savedmode != 'all') this.setAllMode();
             var slide = this.layercanvas.clone();
+            slide.find('.smart-slider-layer').css('display', 'block');
             slide.find('[class^=ui-]').remove();
             slide.find('.active').removeClass('active');
             slide.find('.ui-resizable').removeClass('ui-resizable');
@@ -407,6 +477,7 @@
             slide.children().removeAttr('aria-disabled');
             var html = slide.html();
             slide.remove();
+            $('#slideadminmode').val(savedmode);
 
             return $.trim(html)/*.replace(/\\/g,'\\\\')*/;
         },
@@ -430,12 +501,12 @@
                 e.preventDefault();
                 var si = $this.form.layersSelect[0].selectedIndex;
                 if (si) {
-                    if (confirm('Are you sure that you want to delete the layer?')) {
+                    if (confirm(window.ss2lang.Are_you_sure_that_you_want_to_delete_the_layer)) {
                         var layer = $($this.form.layersSelect[0].options[si]).data('sslayer');
                         $this.deleteLayer(layer);
                     }
                 } else {
-                    alert('Layer not selected!');
+                    alert(window.ss2lang.Layer_not_selected);
                 }
             });
 
@@ -452,7 +523,7 @@
                     var $layer = $this.addLayer($($this.form.layersSelect[0].options[si]).data('sslayer'));
                     $this.setActiveLayer($layer);
                 } else {
-                    alert('Layer not selected!');
+                    alert(window.ss2lang.Layer_not_selected);
                 }
             });
 
@@ -461,19 +532,44 @@
             this.form.positionfields = this.form.fields.slice(1, 5);
 
             this.form.positionfields.eq(0).on('change', function () {
+                $this.activeLayer.data('left', $this.activeLayer[0].style.left);
                 $this.setPositionField($this.activeLayer[0], 'left', this.value);
             });
             this.form.positionfields.eq(1).on('change', function () {
+                $this.activeLayer.data('top', $this.activeLayer[0].style.top);
                 $this.setPositionField($this.activeLayer[0], 'top', this.value);
             });
             this.form.positionfields.eq(2).on('change', function () {
+                $this.activeLayer.data('width', $this.activeLayer[0].style.width);
                 $this.setPositionField($this.activeLayer[0], 'width', this.value);
             });
             this.form.positionfields.eq(3).on('change', function () {
+                $this.activeLayer.data('height', $this.activeLayer[0].style.height);
                 $this.setPositionField($this.activeLayer[0], 'height', this.value);
             });
 
             this.form.fields = this.form.fields.not(this.form.positionfields);
+            
+            this.form.showfield = this.form.fields.eq(1);
+            
+            var mainslider = $this.parent.$slider.data('smartslider').slider.mainslider;
+            this.form.showfield.on('change', function(){
+                var values = this.value.split('|*|');
+                if($this.activeLayer.ssdata('showdesktop') != values[0]){
+                    $this.changeActiveLayerData('showdesktop', values[0]);
+                    mainslider.refreshMode();
+                }
+                if($this.activeLayer.ssdata('showtablet') != values[1]){
+                    $this.changeActiveLayerData('showtablet', values[1]);
+                    mainslider.refreshMode();
+                }
+                if($this.activeLayer.ssdata('showphone') != values[2]){
+                    $this.changeActiveLayerData('showphone', values[2]);
+                    mainslider.refreshMode();
+                }
+            });
+            
+            this.form.fields = this.form.fields.not(this.form.showfield);
 
             this.form.fields.each(function () {
                 var $el = $(this);
@@ -490,15 +586,15 @@
             this.form.fields.eq(0).on('change keyup', function (e) {
                 var name = e.currentTarget.value,
                     option = $this.activeLayer.data('ssoption')[0],
-                    $options = $($this.form.layersSelect[0].options),
+                    $options = $($this.form.layersSelect[0]).find('option'),
                     namecheckfn = function () {
                         if (this.value == name && this != option) {
-                            name += ' - copy';
+                            name += ' - ' + window.ss2lang.copy;
                             $options.each(namecheckfn);
                             return false;
                         }
                     };
-                if (name == '') name = 'empty';
+                if (name == '') name = window.ss2lang.empty;
                 $options.each(namecheckfn);
                 e.currentTarget.value = name;
                 $this.changeActiveLayerName(e.currentTarget.value);
@@ -508,13 +604,13 @@
         formAddLayer: function (layer) {
             var $layer = $(layer);
             if ($layer.ssdata('name') === undefined) {
-                $layer.ssdata('name', 'Layer #' + (this.form.layersSelect[0].options.length));
+                $layer.ssdata('name', window.ss2lang.Layer + ' #' + (this.form.layersSelect[0].options.length));
             }
             var name = $layer.ssdata('name'),
                 $options = $(this.form.layersSelect[0].options),
                 namecheckfn = function () {
                     if (this.value == name) {
-                        name += ' - copy';
+                        name += ' - ' + window.ss2lang.copy;
                         $layer.ssdata('name', name);
                         $options.each(namecheckfn);
                         return false;
@@ -536,16 +632,16 @@
             var $this = this;
             $layer.on('mousedown', function (e) {
                 $this.setActiveLayer($layer, e);
-                slideconsole.set('Layer selected', 1);
+                slideconsole.set(window.ss2lang.Layer_selected, 1);
             });
         },
         changeActiveLayer: function (e) {
             var select = e.currentTarget.select;
             if (select.selectedIndex === 0) {
                 this.form.tabs.css('display', 'none');
-                this.activeLayer.removeClass('active');
+                this.activeLayer.removeClass(window.ss2lang.active);
                 this.activeLayer = $({});
-                this.form.fields.eq(0).val('Choose a layer');
+                this.form.fields.eq(0).val(window.ss2lang.Choose_a_layer);
             } else {
                 this.setActiveLayer($(select.options[select.selectedIndex]).data('sslayer'), e);
                 this.form.tabs.css('display', 'block');
@@ -589,17 +685,40 @@
             this.form.positionfields.eq(1).val(layer.style.top);
             this.form.positionfields.eq(2).val(layer.style.width);
             this.form.positionfields.eq(3).val(layer.style.height);
+            
+            var desktop = this.activeLayer.ssdata('showdesktop');
+            if(typeof desktop == 'undefined') desktop = 1;
+            var tablet = this.activeLayer.ssdata('showtablet');
+            if(typeof tablet == 'undefined') tablet = 1;
+            var phone = this.activeLayer.ssdata('showphone');
+            if(typeof phone == 'undefined') phone = 1;
+            this.form.showfield.val(desktop+'|*|'+tablet+'|*|'+phone);
+            $.fireEvent(this.form.showfield[0], 'change');
         },
         setPositionField: function (layer, prop, v) {
+            var s = layer.style;
             if (v.match(/^[0-9]*\.?[0-9]*%$/) !== null) {
-                layer.style[prop] = v;
+                this.dimensionFieldPreChanged(layer, prop, v);
+                s[prop] = v;
             } else if (v.match(/^[0-9]*px$/) !== null) {
-                layer.style[prop] = v;
+                s[prop] = v;
                 this.makeLayerToPercent(layer, (prop === 'top' || prop === 'left'), (prop === 'width' || prop === 'height'));
             } else if (parseInt(v) === 0) {
-                layer.style[prop] = '0%';
+                this.dimensionFieldPreChanged(layer, prop, '0%');
+                s[prop] = '0%';
             }
-            return layer.style[prop];
+            return s[prop];
+        },
+        dimensionFieldPreChanged: function(layer, prop, newval){
+            var $layer = $(layer);
+            if(this.adminmode == 'all' || this.adminmode == 'desktop'){
+                $layer.ssdata('desktop'+prop, newval);
+            }else{
+                if(typeof $layer.ssdata('desktop'+prop) == 'undefined'){
+                    $layer.ssdata('desktop'+prop, $layer.data(prop));
+                }
+                $layer.ssdata(this.adminmode+prop, newval);
+            }
         },
         changeFormValueFromData: function ($el, name, $layer) {
             var layerValue = $layer.ssdata(name);
@@ -622,14 +741,13 @@
         changeActiveLayerData: function (name, value) {
             this.activeLayer.ssdata(name, value);
         },
-
         initAdvancedView: function () {
             var $this = this,
                 $admin = $('#smartslider-admin'),
                 options = $('.smartslider-advanced-layers .smartslider-toolbar-options'),
                 classes = ['smartslider-advanced-layers-simple-active', 'smartslider-advanced-layers-advanced-active'],
                 tableContainer = $('.smartslider-slide-advanced-layers').css('display', 'none');
-            table = $('<table><thead><th>Layer name</th><th>Left<br>Top</th><th>Width<br>Height</th><th></th><th>Animation</th><th>Duration</th><th>Easing</th><th>Delay</th><th>Parallax</th><th>Play out</th></thead><tbody></tbody></table>')
+            table = $('<table><thead><th>' + window.ss2lang.Layer_name + '</th><th>' + window.ss2lang.Left + '<br>' + window.ss2lang.Top + '</th><th>' + window.ss2lang.Width + '<br>' + window.ss2lang.Height + '</th><th></th><th>' + window.ss2lang.Animation + '</th><th>' + window.ss2lang.Duration + '</th><th>' + window.ss2lang.Easing + '</th><th>' + window.ss2lang.Delay + '</th><th>' + window.ss2lang.Parallax + '</th><th>' + window.ss2lang.Play_out + '</th></thead><tbody></tbody></table>')
             tbody = table.find('tbody');
 
             tableContainer.append(table);
@@ -694,8 +812,8 @@
                         '<input type="text" autocomplete="off" value="' + layer.style.height + '" name="row-' + i + '-height">' +
                         '</div>' +
                         '</td>'));
-                    $tr.append($('<td class="t-label">In</td>'));
-                    $tr2.append($('<td class="t-label">Out</td>'));
+                    $tr.append($('<td class="t-label">' + window.ss2lang.In + '</td>'));
+                    $tr2.append($('<td class="t-label">' + window.ss2lang.Out + '</td>'));
 
                     $tr.append($('<td></td>').append(animationSelect.clone().attr('name', 'row-' + i + '-animationin').val($el.data('animationin'))));
                     $tr2.append($('<td></td>').append(animationSelect.clone().attr('name', 'row-' + i + '-animationout').val($el.data('animationout'))));
@@ -758,20 +876,21 @@
                             case 'top':
                             case 'width':
                             case 'height':
+                                $this.activeLayer.data(field[2], $this.activeLayer[0].style[field[2]]);
                                 $el.val($this.setPositionField($layer[0], field[2], $el.val()));
                                 break;
                             case 'name':
                                 var name = $el.val(),
                                     option = $layer.data('ssoption')[0],
-                                    $options = $($this.form.layersSelect[0].options),
+                                    $options = $($this.form.layersSelect[0]).find('option'),
                                     namecheckfn = function () {
                                         if (this.value == name && this != option) {
-                                            name += ' - copy';
+                                            name += ' - ' + window.ss2lang.copy;
                                             $options.each(namecheckfn);
                                             return false;
                                         }
                                     };
-                                if (name == '') name = 'empty';
+                                if (name == '') name = window.ss2lang.empty;
                                 $options.each(namecheckfn);
                                 $this.setActiveLayer($layer);
                                 $this.changeActiveLayerName(name);
@@ -789,6 +908,121 @@
                 $(window).trigger('resize');
             });
 
+        },
+        initDeviceView: function(){
+            var $this = this,
+                savedmode = $('#slideadminmode').val(),
+                mainslider = $this.parent.$slider.data('smartslider').slider.mainslider,
+                ratios = mainslider.options.responsive.ratios,
+                $admin = $('#smartslider-admin'),
+                options = $('.smartslider-device-switch .smartslider-toolbar-options'),
+                classes = ['smartslider-device-all-active', 'smartslider-device-desktop-active', 'smartslider-device-tablet-active', 'smartslider-device-phone-active'],
+                currentclass = classes[0],
+                switchfn = function(i){
+                    $('#slideadminmode').val($this.adminmode);
+                    if(classes[i] != currentclass){
+                        $admin.addClass(classes[i]).removeClass(currentclass);
+                        currentclass = classes[i];
+                    }
+                    
+                    mainslider.onResize(ratios[i]);
+                    $this.slideSize.width = mainslider.slideDimension.w;
+                    $this.slideSize.height = mainslider.slideDimension.h;
+                },
+                positionTab = $('#smartslider-slide-toolbox-layer .smartslider-toolbar-options.first'),
+                resettodesktop = $('#layerresettodesktop'),
+                layerresettodesktopTR = resettodesktop.closest('tr');
+                
+            $this.adminmode = mainslider.adminmode = 'all';
+            mainslider.refreshMode = function(){
+                this._currentmode = this.adminmode;
+                
+                for (var i = 0; i < this.slideList.length; i++) {
+                    var slide = this.slideList[i];
+                    slide.layers.refresh();
+                    slide.layers.changeMode(this.adminmode);
+                }
+                if($admin.hasClass('smartslider-advanced-layers-advanced-active')){
+                    $this.layers.each(function(i){
+                        $("[name='"+'row-' + i + '-left'+"']").val(this.style.left);
+                        $("[name='"+'row-' + i + '-top'+"']").val(this.style.top);
+                        $("[name='"+'row-' + i + '-width'+"']").val(this.style.width);
+                        $("[name='"+'row-' + i + '-height'+"']").val(this.style.height);
+                    });
+                }else{
+                    var layer = $this.activeLayer[0];
+                    if(!jQuery.isEmptyObject(layer)){
+                        $('#layerleft').val(layer.style.left);
+                        $('#layertop').val(layer.style.top);
+                        $('#layerwidth').val(layer.style.width);
+                        $('#layerheight').val(layer.style.height);
+                    }
+                }
+                return true;
+            };
+            
+            switchfn(0);
+            layerresettodesktopTR.css('display', 'none');
+            
+            this.setAllMode = function () {
+                $this.adminmode = mainslider.adminmode = 'all';
+                switchfn(0);
+                layerresettodesktopTR.css('display', 'none');
+            };
+                
+            options.eq(0).on('click', this.setAllMode);
+            
+            options.eq(1).on('click', function () {
+                $this.adminmode = mainslider.adminmode = 'desktop';
+                switchfn(1);
+                positionTab.trigger('click');
+                layerresettodesktopTR.css('display', 'none');
+            });
+            
+            options.eq(2).on('click', function () {
+                $this.adminmode = mainslider.adminmode = 'tablet';
+                switchfn(2);
+                positionTab.trigger('click');
+                layerresettodesktopTR.css('display', '');
+            });
+            
+            options.eq(3).on('click', function () {
+                $this.adminmode = mainslider.adminmode = 'phone';
+                switchfn(3);
+                positionTab.trigger('click');
+                layerresettodesktopTR.css('display', '');
+            });
+            
+            if(savedmode != $this.adminmode){
+                switch(savedmode){
+                    case 'desktop':
+                        options.eq(1).trigger('click');
+                        break;
+                    case 'tablet':
+                        options.eq(2).trigger('click');
+                        break;
+                    case 'phone':
+                        options.eq(3).trigger('click');
+                        break;
+                }
+            }
+            
+            resettodesktop.on('click', function(){
+                //Here comes the reset
+                if($this.adminmode == 'tablet' || $this.adminmode == 'phone'){
+                    $this.activeLayer.each(function(){
+                        $(this).removeData($this.adminmode+'left');
+                        this.removeAttribute('data-'+$this.adminmode+'left');
+                        $(this).removeData($this.adminmode+'top');
+                        this.removeAttribute('data-'+$this.adminmode+'top');
+                        $(this).removeData($this.adminmode+'width');
+                        this.removeAttribute('data-'+$this.adminmode+'width');
+                        $(this).removeData($this.adminmode+'height');
+                        this.removeAttribute('data-'+$this.adminmode+'height');
+                    });
+                    mainslider.refreshMode();
+                }
+            });
         }
     });
 })(njQuery, window);

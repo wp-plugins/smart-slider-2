@@ -16,6 +16,7 @@ class NextendData {
     }
     
     function loadArray($array) {
+        if(!$this->_data) $this->_data = array();
         if(is_array($array))
             $this->_data = array_merge($this->_data, $array);
     }

@@ -8,7 +8,8 @@ class NextendSmartsliderAdminControllerSlides extends NextendSmartsliderAdminCon
     }
 
     function createAction() {
-        if ($this->canDo('slide.create')) {
+        $slidersModel = $this->getModel('sliders');
+        if ($this->canDo('slide.create') && $slidersModel->getSlider(NextendRequest::getInt('sliderid'))) {
             if (NextendRequest::getInt('save')) {
                 $slidesModel = $this->getModel('slides');
                 if ($slideid = $slidesModel->create(NextendRequest::getInt('sliderid'), NextendRequest::getVar('slide'))) {
@@ -23,7 +24,8 @@ class NextendSmartsliderAdminControllerSlides extends NextendSmartsliderAdminCon
     }
 
     function editAction() {
-        if ($this->canDo('slide.edit')) {
+        $slidersModel = $this->getModel('sliders');
+        if ($this->canDo('slide.edit') && $slidersModel->getSlider(NextendRequest::getInt('sliderid'))) {
             $slidesModel = $this->getModel('slides');
             if (!$slidesModel->getSlide(NextendRequest::getInt('slideid'))) {
                 header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider'));
@@ -73,47 +75,75 @@ class NextendSmartsliderAdminControllerSlides extends NextendSmartsliderAdminCon
     }
 
     function firstAction() {
+        $ajax = (NextendRequest::getVar('mode', '') == 'ajax' ? true : false);
         if ($this->canDo('slide.edit')) {
             if (($slideid = NextendRequest::getInt('slideid')) && ($sliderid = NextendRequest::getInt('sliderid'))) {
                 $slidesModel = $this->getModel('slides');
                 $slidesModel->first($sliderid, $slideid);
-                header('LOCATION: ' . $_SERVER["HTTP_REFERER"]);
+                if(!$ajax) header('LOCATION: ' . $_SERVER["HTTP_REFERER"]);
                 exit;
             }
-            header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider'));
+            if(!$ajax){
+                header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider'));
+            }else{
+                header("HTTP/1.0 404 Not Found");
+            }
             exit;
         } else {
-            $this->noaccess();
+            if(!$ajax){
+                $this->noaccess();
+            }else{
+                header("HTTP/1.0 404 Not Found");
+                exit;
+            }
         };
     }
 
     function publishAction() {
+        $ajax = (NextendRequest::getVar('mode', '') == 'ajax' ? true : false);
         if ($this->canDo('slide.edit')) {
             if ($slideid = NextendRequest::getInt('slideid')) {
                 $slidesModel = $this->getModel('slides');
                 $slidesModel->publish($slideid);
-                header('LOCATION: ' . $_SERVER["HTTP_REFERER"]);
+                if(!$ajax) header('LOCATION: ' . $_SERVER["HTTP_REFERER"]);
                 exit;
             }
-            header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider'));
+            if(!$ajax){
+                header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider'));
+            }else{
+                header("HTTP/1.0 404 Not Found");
+            }
             exit;
         } else {
-            $this->noaccess();
+            if(!$ajax){
+                $this->noaccess();
+            }else{
+                header("HTTP/1.0 404 Not Found");
+            }
         };
     }
 
     function unpublishAction() {
+        $ajax = (NextendRequest::getVar('mode', '') == 'ajax' ? true : false);
         if ($this->canDo('slide.edit')) {
             if ($slideid = NextendRequest::getInt('slideid')) {
                 $slidesModel = $this->getModel('slides');
                 $slidesModel->unpublish($slideid);
-                header('LOCATION: ' . $_SERVER["HTTP_REFERER"]);
+                if(!$ajax) header('LOCATION: ' . $_SERVER["HTTP_REFERER"]);
                 exit;
             }
-            header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider'));
+            if(!$ajax){
+                header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider'));
+            }else{
+                header("HTTP/1.0 404 Not Found");
+            }
             exit;
         } else {
-            $this->noaccess();
+            if(!$ajax){
+                $this->noaccess();
+            }else{
+                header("HTTP/1.0 404 Not Found");
+            }
         };
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 nextendimportsmartslider2('nextend.smartslider.settings');
+nextendimportsmartslider2('nextend.smartslider.check');
 nextendimport('nextend.mvc.controller');
 nextendimport('nextend.environment.request');
 nextendimport('nextend.message.message');
@@ -8,6 +9,8 @@ nextendimport('nextend.language.language');
 
 NextendText::l('common');
 NextendText::l('common', nextendSubLibraryPath('smartslider').'languages/');
+
+require_once(dirname(__FILE__).'/jslanguage.php');
 
 class NextendSmartsliderAdminController extends NextendController {
 
@@ -65,6 +68,11 @@ class NextendSmartsliderAdminController extends NextendController {
                     'layout',
                     'font'
                 )
+            ),
+            'help' => array(
+                'sliders_help' => array(
+                    'default'
+                )
             )
         );
 
@@ -83,5 +91,3 @@ class NextendSmartsliderAdminController extends NextendController {
     }
 
 }
-
-?>

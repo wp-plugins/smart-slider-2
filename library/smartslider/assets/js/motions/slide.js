@@ -39,6 +39,11 @@
             this.options.width = width;
             this.options.height = height;
         },
+        refreshPosition: function(dim){
+            var l = this.layer[0];
+            l.origLeftPercent = parseFloat(dim.left);
+            l.origTopcent = parseFloat(dim.top);
+        },
         _setInStart: function () {
             var coords = this.getCoords(this.options.mode, this.options.parallaxIn, false);
             var left = this.layer[0].origLeftPercent / 100 * this.options.width;

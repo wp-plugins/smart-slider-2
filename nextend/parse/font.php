@@ -98,10 +98,10 @@ class NextendParseFont{
         foreach($out AS $f){
             nextendimport('nextend.fonts.google');
             $fonts = NextendFontsGoogle::getInstance();
-            preg_match('/(.*?)(:(.*?)(&subset=(.*))?)?$/', $f[1], $g);
+            preg_match('/(.*?)(:(.*?))?(&subset=(.*))?$/', $f[1], $g);
             $family = str_replace('+', ' ', $g[1]);
             $style = 400;
-            if(isset($g[3])){
+            if(isset($g[3]) && !empty($g[3])){
                 $style = $g[3];
             }
             $subset = 'latin';

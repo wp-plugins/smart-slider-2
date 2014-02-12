@@ -3,6 +3,8 @@
 class NextendCss {
 
     var $_css;
+    
+    var $_cssGroup;
 
     var $_cssFiles;
 
@@ -23,6 +25,7 @@ class NextendCss {
     function NextendCss() {
 
         $this->_css = '';
+        $this->_cssGroup = array();
         $this->_cssFiles = array();
         $this->_cssFilesGroup = array();
         $this->_cacheGroup = array();
@@ -77,9 +80,12 @@ class NextendCss {
             $this->_lesscacheGroup[$group]->_less->addImportDir($dir);
     }
 
-    function addCss($css) {
-
-        $this->_css .= $css . PHP_EOL;
+    function addCss($css, $group = null) {
+        if($group){
+            $this->_cssGroup[$group] = $css . PHP_EOL;
+        }else{
+            $this->_css .= $css . PHP_EOL;
+        }
     }
 
 
@@ -112,12 +118,13 @@ class NextendCss {
         $this->addCssFile(NEXTENDLIBRARYASSETS . 'css' . DIRECTORY_SEPARATOR . $file, $group);
     }
 
-    function generateCSS($group = null) {
+    function generateCSS($group = null, $serve = true) {
         if (!$group && class_exists('NextendFontsGoogle')) {
             $fonts = NextendFontsGoogle::getInstance();
             $fonts->generateFonts();
         }
-        $cssfiles = !$group ? $this->_cssFiles : $this->_cssFilesGroup[$group];
+        $cssfiles = !$group ? $this->_cssFiles : (isset($this->_cssFilesGroup[$group]) ? $this->_cssFilesGroup[$group] : null);
+        if(!$cssfiles) return '';
         $cache = !$group ? $this->_cache : $this->_cacheGroup[$group];
         $lesscache = !$group ? $this->_lesscache : $this->_lesscacheGroup[$group];
         if (count($cssfiles)) {
@@ -126,12 +133,18 @@ class NextendCss {
                     $lesscache->addContext($file[1], $file[2]);
                 } else if (substr($file, 0, 4) == 'http') {
                     $this->serveCSSFile($file);
-                } else {
+                } else if(NextendFilesystem::fileexists($file)){
                     if ($this->_cacheenabled) {
                         $cache->addFile($file);
                     } else {
                         $url = NextendFilesystem::pathToAbsoluteURL($file);
                         $this->serveCSSFile($url);
+                    }
+                }else{
+                    if ($this->_cacheenabled) {
+                        $cache->addText($file);
+                    } else {
+                        $this->addCss($file, $group);
                     }
                 }
             }
@@ -141,12 +154,15 @@ class NextendCss {
 
         if ($this->_cacheenabled) {
             if ($lesscache) {
-                $cache->addFile(NextendFilesystem::absoluteURLToPath($lesscache->getCache()));
+                $filename = $lesscache->getCache();
+                if($filename) $cache->addFile(NextendFilesystem::absoluteURLToPath($filename));
             }
-            $this->serveCSSFile($filename = $cache->getCache());
+            $filename = $cache->getCache();
+            if($serve && $filename) $this->serveCSSFile($filename);
         } else {
             if ($lesscache) {
-                $this->serveCSSFile($filename = $lesscache->getCache());
+                $filename = $lesscache->getCache();
+                if($serve && $filename) $this->serveCSSFile($filename);
             }
         }
         $this->serveCSS(true, $group);
@@ -159,11 +175,11 @@ class NextendCss {
     */
 
     function serveCSS($clear = true, $group = null) {
-        if (!$group && $this->_css != '') {
+        if (!$group && $this->_css != '' || isset($this->_cssGroup[$group]) && $this->_cssGroup[$group] != '') {
             echo "<style type='text/css'>";
-            echo $this->_css;
+            echo $group ? $this->_cssGroup[$group] : $this->_css;
             echo "</style>";
-            if ($clear) $this->_css = '';
+            if (!$group && $clear) $this->_css = '';
         }
     }
 
@@ -191,8 +207,11 @@ class NextendCss {
                 }
             }
             if ($lesscache) {
-                $lessfile = NextendFilesystem::absoluteURLToPath($lesscache->getCache());
-                $css .= preg_replace('#url\([\'"]([^"\'\)]+)[\'"]\)#', 'url(' . NextendFilesystem::pathToAbsoluteURL(dirname($lessfile)) . '/$1)', NextendFilesystem::readFile($lessfile));
+                $filename = $lesscache->getCache();
+                if($filename){
+                    $lessfile = NextendFilesystem::absoluteURLToPath($lesscache->getCache());
+                    $css .= preg_replace('#url\([\'"]([^"\'\)]+)[\'"]\)#', 'url(' . NextendFilesystem::pathToAbsoluteURL(dirname($lessfile)) . '/$1)', NextendFilesystem::readFile($lessfile));
+                }
             }
         }
         $css .= $this->_css;

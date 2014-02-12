@@ -56,7 +56,7 @@ class NextendGeneratorAbstract {
         for($i = 1; $i <= $this->_generatorgroup; $i++){
             $html.= '<p class="nextend-variables">';
             foreach($this->_variables AS $k => $v){
-                $html.='<span class="nextend-variable nextend-variable-hastip" title="'.$v.' for '.$i.'. record in group" onClick="selectText(this);">{|'.$k.'-'.$i.'|}</span> ';
+                $html.='<span class="nextend-variable nextend-variable-hastip" title="'.$v.' '.NextendText::_('for').' '.$i.'. '.NextendText::_('record_in_group').'" onClick="selectText(this);">{|'.$k.'-'.$i.'|}</span> ';
             }
             $html.= "</p>";
         }

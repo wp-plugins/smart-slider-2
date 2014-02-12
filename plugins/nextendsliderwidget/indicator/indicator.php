@@ -5,7 +5,7 @@ class plgNextendSliderWidgetIndicator extends NextendPluginBase {
     var $_group = 'indicator';
 
     function onNextendSliderWidgetList(&$list) {
-        $list[$this->_group] = array('Indicator', $this->getPath(), 4);
+        $list[$this->_group] = array(NextendText::_('Indicator'), $this->getPath(), 4);
     }
 
     function getPath() {

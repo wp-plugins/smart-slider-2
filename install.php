@@ -43,19 +43,39 @@ function NextendSplitSql($sql){
 }
 
 if(defined('MULTISITE') && MULTISITE){
-    $blogs = function_exists('wp_get_sites') ? wp_get_sites(array('network_id' => $wpdb->siteid)) : get_blog_list( 0, 'all' );
-    foreach($blogs AS $blog){
-        $query = str_replace('#__', $wpdb->get_blog_prefix($blog['blog_id']), file_get_contents(dirname(__FILE__).'/install.sql'));
+    if($network_wide){
+        $blogs = function_exists('wp_get_sites') ? wp_get_sites(array('network_id' => $wpdb->siteid)) : get_blog_list( 0, 'all' );
+        foreach($blogs AS $blog){
+            $prefix = $wpdb->get_blog_prefix($blog['blog_id']);
+            $table = $prefix.'nextend_smartslider_sliders';
+            if($wpdb->get_var("SHOW TABLES LIKE '".$table."'") != $table) {
+                $query = str_replace('#__', $prefix, file_get_contents(dirname(__FILE__).'/install.sql'));
+                $queries = NextendSplitSql($query);
+                foreach($queries AS $query){
+                    if(trim($query) != '') $wpdb->query($query);
+                }
+            }
+        }
+    }else{
+        global $blog_id;
+        $prefix = $wpdb->get_blog_prefix($blog_id);
+        $table = $prefix.'nextend_smartslider_sliders';
+        if($wpdb->get_var("SHOW TABLES LIKE '".$table."'") != $table) {
+            $query = str_replace('#__', $prefix, file_get_contents(dirname(__FILE__).'/install.sql'));
+            $queries = NextendSplitSql($query);
+            foreach($queries AS $query){
+                if(trim($query) != '') $wpdb->query($query);
+            }
+        }
+    }
+}else{
+    $table = $wpdb->prefix.'nextend_smartslider_sliders';
+    if($wpdb->get_var("SHOW TABLES LIKE '".$table."'") != $table) {
+        $query = str_replace('#__', $wpdb->prefix, file_get_contents(dirname(__FILE__).'/install.sql'));
         $queries = NextendSplitSql($query);
         foreach($queries AS $query){
             if(trim($query) != '') $wpdb->query($query);
         }
-    }
-}else{
-    $query = str_replace('#__', $wpdb->prefix, file_get_contents(dirname(__FILE__).'/install.sql'));
-    $queries = NextendSplitSql($query);
-    foreach($queries AS $query){
-        if(trim($query) != '') $wpdb->query($query);
     }
 }
 

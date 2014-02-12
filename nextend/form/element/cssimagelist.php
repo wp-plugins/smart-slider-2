@@ -6,7 +6,7 @@ class NextendElementCssImageList extends NextendElementImagelistFromfolder {
 
     function generateOptions(&$xml) {
         $template = (string)$this->_xml;
-        $cssfile = str_replace(DIRECTORY_SEPARATOR, '/', dirname($this->_form->_xmlfile)).'/style.';
+        $cssfile = NextendFilesystem::translateToMediaPath(str_replace(DIRECTORY_SEPARATOR, '/', dirname($this->_form->_xmlfile)).'/style.');
         $css = NextendCss::getInstance();
 
         if(NextendFilesystem::fileexists($cssfile.'less')){

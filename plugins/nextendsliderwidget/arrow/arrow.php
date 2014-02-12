@@ -5,7 +5,7 @@ class plgNextendSliderWidgetArrow extends NextendPluginBase {
     var $_group = 'arrow';
 
     function onNextendSliderWidgetList(&$list) {
-        $list[$this->_group] = array('Arrows', $this->getPath(), 1);
+        $list[$this->_group] = array(NextendText::_('Arrows'), $this->getPath(), 1);
     }
 
     function getPath() {

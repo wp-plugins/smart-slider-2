@@ -26,25 +26,33 @@ class NextendTabTabbed extends NextendTab {
     
     function render($control_name) {
         $this->initTabs();
+        $js = NextendJavascript::getInstance();
+        $js->addLibraryJsAssetsFile('jquery', 'tab/tabbed.js');
+
         $count = count($this->_tabs);
         $id = 'nextend-tabbed-'.$this->_name;
         $active = intval(NextendXmlGetAttribute($this->_xml, 'active'));
         $active = $active > 0 ? $active-1 : 0;
-        echo "<div class='nextend-tab nextend-tab-tabbed clearfix'>";
+        
+        $js->addLibraryJs('jquery', "new nextendTabTabbed('".$id."-container', ".$active.")");
+        
+        echo "<div id='".$id."-container' class='nextend-tab nextend-tab-tabbed nextend-clearfix'>";
         
         echo '<div class="smartslider-greybar smartslider-button-grey">';
         $i = 0;
         foreach($this->_tabs AS $tabname => $tab) {
-            echo '<div onclick="njQuery(this).parent().children().removeClass(\'active\');njQuery(this).addClass(\'active\');njQuery(\'#'.$id.'\').css(\'marginLeft\', \''.(-$i*100).'%\')" class="smartslider-toolbar-options smartslider-button-grey'.($i == $active ? ' active' : '').($i == 0 ? ' first' : '').($i == $count-1 ? ' last' : '').'"><div>'.NextendXmlGetAttribute($tab->_xml, 'label').'</div></div>';
+            echo '<div class="smartslider-toolbar-options smartslider-button-grey'.($i == $active ? ' active' : '').($i == 0 ? ' first' : '').($i == $count-1 ? ' last' : '').'"><div>'.NextendText::_(NextendXmlGetAttribute($tab->_xml, 'label')).'</div></div>';
             $i++;
         }
         echo '</div>';
         
-            echo "<div id='".$id."' class='nextend-tab-tabbed-panes clearfix' style='width: ".($count*100)."%; margin-left: ".(-$active*100)."%;'>";
+            echo "<div id='".$id."' class='nextend-tab-tabbed-panes nextend-clearfix' style='width: ".($count*100)."%; margin-left: ".(-$active*100)."%;'>";
+            $i = 0;
             foreach($this->_tabs AS $tabname => $tab) {
-                echo "<div class='nextend-tab-tabbed-pane' style='width: ".(100/$count)."%;'>";
+                echo "<div class='nextend-tab-tabbed-pane' style='width: ".(100/$count)."%; visibility: ".($i == $active ? 'visible' : 'hidden').";'>";
                 $tab->render($control_name);
                 echo "</div>";
+                $i++;
             }
             echo "</div>";
         echo "</div>";

@@ -14,19 +14,14 @@ class NextendSliderWordpress extends NextendSlider{
         parent::NextendSlider($path, $backend);
         
         $this->_sliderid = $sliderid;
+    }
+    
+    function preRender(){
         
-        $this->loadSlider($sliderid);
+        $this->loadSlider($this->_sliderid);
         
         $this->setTypePath();
         $this->setInstance();
-    }
-    
-    function setInstance() {
-        if($this->_backend){
-            $this->_instance = 0;
-        }else{
-            $this->_instance = $this->_sliderid;
-        }
     }
 
     function setTypePath() {

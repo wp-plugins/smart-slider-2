@@ -4,7 +4,7 @@ global $smartslidergeneratorslide;
 $this->loadFragment('headerstart');
 ?>
     <div class="smartslider-button smartslider-save" onclick="setTimeout(function(){njQuery('#smartslider-form').submit();}, 300);"><?php echo NextendText::_('Save'); ?></div>
-    <div class="smartslider-button smartslider-cancel" onclick="window.nextendsave=true;location.href='<?php echo $this->route('controller=sliders&view=sliders_slider&action=edit&sliderid=' . NextendRequest::getInt('sliderid')); ?>';"><?php echo NextendText::_('Cancel'); ?></div>
+    <div class="smartslider-button smartslider-cancel" onclick="window.nextendsave=true;location.href='<?php echo $this->route('controller=sliders&view=sliders_slider&action=dashboard&sliderid=' . NextendRequest::getInt('sliderid')); ?>';"><?php echo NextendText::_('Cancel'); ?></div>
 <?php
 $this->loadFragment('headerend');
 ?>
@@ -59,9 +59,10 @@ $js->addLibraryJs('dojo', '
     new NextendForm({
       container: "smartslider-form",
       data: '.($slider['generator'] ? $slider['generator'] : '{}').',
+      extra: '.NextendForm::addExtra().',
       xml: "'.NextendFilesystem::toLinux(NextendFilesystem::pathToRelativePath($xml)).'",
       control_name: "generator",
-      url: "'.NextendUri::ajaxUri('nextend').'",
+      url: "'.NextendUri::ajaxUri('nextend', 'smartslider').'",
       loadedJSS: '.json_encode($js->generateArrayJs()).',
       loadedCSS: '.json_encode($css->generateArrayCSS()).'
     });
@@ -74,4 +75,3 @@ $this->loadFragment('secondcolend');
 
 <?php
 $this->loadFragment('footer');
-?>

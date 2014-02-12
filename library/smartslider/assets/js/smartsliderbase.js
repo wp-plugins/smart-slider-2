@@ -8,13 +8,26 @@
                 var $this = $(this),
                     data = $this.data('smartslider');
                 if (!data) {
+                    var slider = smartsliderbase($this, settings)
                     $(this).data('smartslider', {
-                        slider: smartsliderbase($this, settings)
+                        slider: slider
                     });
                     data = $this.data('smartslider');
+                    $this.trigger('inited', [slider]);
                 }
             });
 
+        },
+        onInit: function(fn){
+            return this.each(function () {
+                var $this = $(this),
+                    data = $this.data('smartslider');
+                if(data){
+                    fn({}, data.slider);
+                }else{
+                    $this.on('inited', fn);
+                }
+            });
         },
         next: function () {
             return this.each(function () {
@@ -50,9 +63,6 @@
                     data = $this.data('smartslider');
                 data.slider.pauseautoplay();
             });
-        },
-        slider: function () {
-            return njQuery(this.data('smartslider').slider.mainslider);
         }
     };
 

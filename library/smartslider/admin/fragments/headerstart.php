@@ -17,10 +17,12 @@ $js->loadLibrary('jquery');
 
 nextendimport('nextend.fonts.google');
 $fonts = NextendFontsGoogle::getInstance();
-$fonts->addFont('Montserrat');
+$fonts->addFont('Open Sans');
+$fonts->addFont('Open Sans', 600);
+$fonts->addFont('Open Sans', 700);
 ?>
 
-<div id="smartslider-admin" class="nextend-nowindow smartslider-advanced-layers-simple-active ni">
+<div id="smartslider-admin" class="nextend-nowindow smartslider-advanced-layers-simple-active smartslider-device-all-active ni">
 
     <div class="smartslider-head">
         <div class="smartslider-logo" style="cursor: pointer;" onclick="location.href='<?php echo $this->route('controller=sliders'); ?>';">
@@ -50,23 +52,22 @@ $fonts->addFont('Montserrat');
                         </a>
                     </div>
                 <?php endif; ?>
-                <?php if (NextendSmartSliderSettings::get('guides', 1)):
-                    $css->addCssFile(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/css/joyride.css');
-                    $js->addLibraryJsFile('jquery', NEXTEND_SMART_SLIDER2_ASSETS . 'admin/js/jquery.joyride.js');
-                    ?>
-                    <div id="nextend-play-guide" class="smartslider-button smartslider-support">
-                        <a class="smartslider-button-link" onclick="return false;" href="#">
-                            <div></div>
-                            <?php echo NextendText::_('Play_guide'); ?>
-                        </a>
-                    </div>
-                <?php endif; ?>
+                
+                <div class="smartslider-button smartslider-support <?php echo NextendRequest::getCmd('controller') == 'help' ? 'active' : ''; ?>">
+                    <a class="smartslider-button-link" href="<?php echo $this->route('controller=help'); ?>">
+                        <div></div>
+                        <?php echo NextendText::_('Help'); ?>
+                    </a>
+                </div>
+                
+                <?php if (!smartsliderIsFull()): ?>
                 <div class="smartslider-button smartslider-getfull">
                     <a class="smartslider-button-link" href="<?php echo $this->route('controller=sliders&view=sliders_full&action=full'); ?>">
                         <div></div>
                         <?php echo NextendText::_('Get full'); ?>
                     </a>
                 </div>
+                <?php endif; ?>
             </div>
 
             <script type="text/javascript">

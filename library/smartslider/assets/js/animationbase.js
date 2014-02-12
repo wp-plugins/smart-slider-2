@@ -47,6 +47,9 @@
         onResize: function (ratio) {
 
         },
+        refreshPosition: function(dim){
+        
+        },
         setHiddenState: function () {
             if (!this.layer.animated) {
                 this._setHiddenState();

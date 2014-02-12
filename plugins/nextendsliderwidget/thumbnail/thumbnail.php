@@ -5,7 +5,7 @@ class plgNextendSliderWidgetThumbnail extends NextendPluginBase {
     var $_group = 'thumbnail';
 
     function onNextendSliderWidgetList(&$list) {
-        $list[$this->_group] = array('Thumbnails', $this->getPath(), 6);
+        $list[$this->_group] = array(NextendText::_('Thumbnails'), $this->getPath(), 6);
     }
 
     function getPath() {

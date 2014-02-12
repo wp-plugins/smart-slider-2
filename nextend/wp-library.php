@@ -16,6 +16,7 @@ if (!defined('NEXTENDLIBRARY')) {
         global $nextend_head, $nextend_body;
         if (class_exists('NextendCss', false) || class_exists('NextendJavascript', false)) {
             ob_start();
+              do_action('nextend_css');
               $css = NextendCss::getInstance();
               $css->generateCSS();
               echo '<script type="text/javascript">
@@ -47,6 +48,7 @@ if (!defined('NEXTENDLIBRARY')) {
             $nextend_head = ob_get_clean();
             
             ob_start();
+            do_action('nextend_js');
             $js = NextendJavascript::getInstance();
             $js->generateJs();
             $nextend_body = ob_get_clean();
@@ -61,7 +63,7 @@ if (!defined('NEXTENDLIBRARY')) {
             $buffer = preg_replace('/<\/head>/', $nextend_head.'</head>', $buffer, 1);
         }
         if($nextend_body != ''){
-            $buffer = preg_replace('/<\/body>/', $nextend_body.'</body>', $buffer, 1);
+            $buffer = preg_replace('/<\/body>/', $nextend_body.'</body>', $buffer, 2);
         }
         return $buffer;
     }
@@ -79,4 +81,3 @@ if (!defined('NEXTENDLIBRARY')) {
         }
     }
 }
-?>

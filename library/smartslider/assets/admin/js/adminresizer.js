@@ -15,5 +15,6 @@ njQuery(document).ready(function($) {
     };
     colresize();
     $(window).resize(colresize);
+    $(window).load(colresize);
     window.nextendsmartslidercolresize = colresize;
 });

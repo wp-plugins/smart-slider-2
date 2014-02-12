@@ -5,7 +5,7 @@ class plgNextendSliderWidgetBullet extends NextendPluginBase {
     var $_group = 'bullet';
 
     function onNextendSliderWidgetList(&$list) {
-        $list[$this->_group] = array('Bullets', $this->getPath(), 2);
+        $list[$this->_group] = array(NextendText::_('Bullets'), $this->getPath(), 2);
     }
 
     function getPath() {

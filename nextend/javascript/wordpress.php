@@ -14,7 +14,10 @@ class NextendJavascriptWordPress extends NextendJavascript {
                 }
             }
             $this->_cache->addInline($this->_js);
-            $this->serveJsFile($this->_cache->getCache());
+            $filename = $this->_cache->getCache();
+            if($filename){
+                $this->serveJsFile($filename);
+            }
         }else{
             if(count($this->_jsFiles)){
                 foreach($this->_jsFiles AS $file){

@@ -28,7 +28,7 @@ class NextendUriAbstract{
         return $i->_baseuri.str_replace(array(NextendFilesystem::getBasePath(),DIRECTORY_SEPARATOR),array('','/'), str_replace('/',DIRECTORY_SEPARATOR,$path));
     }
     
-    static function ajaxUri($query = ''){
+    static function ajaxUri($query = '', $magento = 'nextendlibrary'){
         $i = NextendUri::getInstance();
         return $i->_baseuri;
     }

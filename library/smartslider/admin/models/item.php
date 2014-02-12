@@ -1,8 +1,8 @@
 <?php
 
-nextendimport('nextend.mvc.model');
+nextendimportsmartslider2('nextend.smartslider.admin.models.base');
 
-class NextendSmartsliderAdminModelItem extends NextendModel {
+class NextendSmartsliderAdminModelItem extends NextendSmartsliderAdminModelBase {
 
     function renderHelperForm($data = array()) {
 
@@ -50,4 +50,3 @@ class NextendSmartsliderAdminModelItem extends NextendModel {
     }
 }
 
-?>

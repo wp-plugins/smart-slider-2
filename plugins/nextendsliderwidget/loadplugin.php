@@ -8,4 +8,3 @@ foreach(NextendFilesystem::folders($dir) AS $folder){
         require_once($file);
     }
 }
-?>

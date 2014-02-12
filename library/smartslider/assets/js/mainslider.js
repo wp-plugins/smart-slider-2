@@ -10,6 +10,9 @@
         _animating: false,
         _runningAnimations: 0,
         lastAvailableWidth: 0,
+        _ready: false,
+        _currentmode: 'desktop',
+        _device: 'desktop',
         init: function (parent, $el, options) {
             this.options = {
                 syncAnimations: 1,
@@ -104,6 +107,7 @@
                     height: this.slideDimension.h,
                     mainlayer: this.options.mainlayer
                 });
+                slide.layers.changeMode(this._currentmode);
             }
             
             this.slidebgList = $('.nextend-slide-bg', $el);
@@ -127,10 +131,15 @@
 
 
             if (window.ssadmin !== 1) {
+            
+                this._device = this.deviceType();
+                
                 _this._animating = true;
                 
                 $(this).on('load.first', function () {
                     $(this).off('load.first');
+                    
+                    this._ready = true;
                     
                     var show = function(){
                         _this.$slider.addClass('nextend-loaded');
@@ -150,7 +159,7 @@
                     
                     if(_this.options.fadeonscroll){
                         var w = $(window),
-                            t = _this.$slider.offset().top+_this.$slider.outerHeight()/2;
+                            t = _this.$slider.offset().top+_this.$slider.outerHeight(false)/2;
                         if(w.scrollTop()+w.height() > t){
                             show();
                         }else{
@@ -180,6 +189,7 @@
                     }
                 } else {
                     this.storeDefaults();
+                    this.onResize(1);
                     this.$slider.waitForImages(function () {
                         $(_this).trigger('load');
                     });
@@ -194,11 +204,52 @@
                 this.initScroll();
                 this.initTouch();
                 this.initKeyboard();
-				this.initEvents();
+				        this.initEvents();
 
             } else {
+                this.storeDefaults();
                 $(this).trigger('load');
             }
+        },
+        ready: function(fn){
+            if(this._ready){
+                fn();
+            }else{
+                $(this).on('load.first', fn);
+            }
+        },
+        refreshMode: function(){
+            var basedon = this.options.responsive.basedon,
+                screenwidth = window.innerWidth,
+                mode = 'desktop';
+                
+            if(basedon == 'screen' || basedon == 'combined'){
+                if(screenwidth < this.options.responsive.screenwidth.phone){
+                    mode = 'phone';
+                }else if(screenwidth < this.options.responsive.screenwidth.tablet){
+                    mode = 'tablet';
+                }
+            }
+            
+            if(basedon == 'combined') basedon = 'device';
+            
+            if(basedon == 'device'){
+                if(this._device == 'mobile'){
+                    mode = 'phone';
+                }else if(this._device == 'tablet'){
+                    mode = 'tablet';
+                }
+            }
+            if(this._currentmode != mode){
+                this.$slider.addClass('nextend-'+mode).removeClass('nextend-'+this._currentmode);
+                this._currentmode = mode;
+                for (var i = 0; i < this.slideList.length; i++) {
+                    var slide = this.slideList[i];
+                    slide.layers.changeMode(mode);
+                }
+                return true;
+            }
+            return false;
         },
         sizeInited: function(){
         
@@ -233,13 +284,15 @@
                 bar: this.$slider.find('.nextend-bar'),
                 thumbnail: this.$slider.find('.nextend-thumbnail-container'),
                 shadow: this.$slider.find('.nextend-shadow'),
-                html: this.$slider.find('.nextend-widget-html'),
+                html: this.$slider.find('.nextend-widget-html')
             };
         },
         variablesRefreshed: function(){
             for (var key in this.widgets) {
-                this.variables[key+'width'] = this.widgets[key].outerWidth();
-                this.variables[key+'height'] = this.widgets[key].outerHeight();
+                var el = this.widgets[key],
+                    visible = el.is(":visible");
+                this.variables[key+'width'] = visible ? el.outerWidth(false) : 0;
+                this.variables[key+'height'] = visible ? el.outerHeight(false) : 0;
           	}
             
             for (var key in this.variables) {
@@ -255,15 +308,24 @@
         },
         initWidgets: function () {
             var timeout = null,
+                block = false,
                 widgets = this.$slider.find('.nextend-widget-hover');
             if (widgets.length > 0) {
-                this.$slider.on('mouseenter',function () {
-                    var slide = this;
+                this.$slider.on('mouseenter touchstart', function (e) {
+                    if(block) return;
+                    var slider = $(this);
                     if (timeout) clearTimeout(timeout);
                     widgets.css('visibility', 'visible');
-                    setTimeout(function () {
-                        $(slide).addClass('nextend-widget-hover-show');
-                    }, 50);
+                    if(e.type == 'touchstart'){
+                        block = true;
+                        setTimeout(function () {
+                            block = false;
+                        }, 1000);
+                    }else{
+                        setTimeout(function () {
+                            slider.addClass('nextend-widget-hover-show');
+                        }, 50);
+                    }
                 }).on('mouseleave', function () {
                         var slide = this;
                         if (timeout) clearTimeout(timeout);
@@ -295,6 +357,13 @@
             var delayBetween = 500,
                 last = 0;
             this.$slider.find('> div').eq(0).swipe({
+                tap: function(event, target) {
+                    var act = _this.slideList.eq(_this._active).trigger('click');
+                    if(typeof act.attr("onclick") != undefined){
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                },
                 swipe: function (event, direction, distance, duration, fingerCount) {
                     var c = Date.now();
                     if(last < c - delayBetween){
@@ -679,7 +748,37 @@
             this.autoplaybutton.removeClass('paused');
             this.startAutoplay = this.startAutoplayWorking;
             if (this._runningAnimations === 0) this.startAutoplay();
-        }
+        },
+        deviceType: function(){
+            var ua = window.navigator ? window.navigator.userAgent : window.request ? window.request.headers['user-agent'] : 'No User-Agent Provided';
+                    // smart tv
+            return ua.match(/GoogleTV|SmartTV|Internet.TV|NetCast|NETTV|AppleTV|boxee|Kylo|Roku|DLNADOC|CE\-HTML/i) ? 'desktop'
+                    // tv-based gaming console
+                  : ua.match(/Xbox|PLAYSTATION.3|Wii/i) ? 'desktop'
+                    // tablet
+                  : ua.match(/iPad/i) || ua.match(/tablet/i) && !ua.match(/tablet pc/i) && !ua.match(/RX-34/i) || ua.match(/FOLIO/i) ? 'tablet'
+                    // android tablet
+                  : ua.match(/Linux/i) && ua.match(/Android/i) && !ua.match(/Fennec|mobi|HTC.Magic|HTCX06HT|Nexus.One|SC-02B|fone.945/i) ? 'tablet'
+                    // Kindle or Kindle Fire
+                  : ua.match(/Kindle/i) || ua.match(/Mac.OS/i) && ua.match(/Silk/i) ? 'tablet'
+                    // pre Android 3.0 Tablet
+                  : ua.match(/GT-P10|SC-01C|SHW-M180S|SGH-T849|SCH-I800|SHW-M180L|SPH-P100|SGH-I987|zt180|HTC(.Flyer|\_Flyer)|Sprint.ATP51|ViewPad7|pandigital(sprnova|nova)|Ideos.S7|Dell.Streak.7|Advent.Vega|A101IT|A70BHT|MID7015|Next2|nook/i) || ua.match(/MB511/i) && ua.match(/RUTEM/i) ? 'tablet'
+                    // unique Mobile User Agent
+                  : ua.match(/BOLT|Fennec|Iris|Maemo|Minimo|Mobi|mowser|NetFront|Novarra|Prism|RX-34|Skyfire|Tear|XV6875|XV6975|Google.Wireless.Transcoder/i) ? 'mobile'
+                    // odd Opera User Agent - http://goo.gl/nK90K
+                  : ua.match(/Opera/i) && ua.match(/Windows.NT.5/i) && ua.match(/HTC|Xda|Mini|Vario|SAMSUNG\-GT\-i8000|SAMSUNG\-SGH\-i9/i) ? 'mobile'
+                    // Windows Desktop
+                  : ua.match(/Windows.(NT|XP|ME|9)/) && !ua.match(/Phone/i) || ua.match(/Win(9|.9|NT)/i) ? 'desktop'
+                    // Mac Desktop
+                  : ua.match(/Macintosh|PowerPC/i) && !ua.match(/Silk/i) ? 'desktop'
+                    // Linux Desktop
+                  : ua.match(/Linux/i) && ua.match(/X11/i) ? 'desktop'
+                    // Solaris, SunOS, BSD Desktop
+                  : ua.match(/Solaris|SunOS|BSD/i) ? 'desktop'
+                    // Desktop BOT/Crawler/Spider
+                  : ua.match(/Bot|Crawler|Spider|Yahoo|ia_archiver|Covario-IDS|findlinks|DataparkSearch|larbin|Mediapartners-Google|NG-Search|Snappy|Teoma|Jeeves|TinEye/i) && !ua.match(/Mobile/i) ? 'desktop'
+                  : 'desktop';
+      }
     });
 
 })(njQuery, window);

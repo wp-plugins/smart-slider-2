@@ -27,7 +27,7 @@
                         base64HTML = Base64.encode(html),
                         title = $('#slidetitle').val();
                     if (title == '') {
-                        alert('Title is empty! Save failed...');
+                        alert(window.ss2lang.Title_is_empty_Save_failed);
                         return;
                     }
 
@@ -63,7 +63,7 @@
                             $('.smartslider-layout-custom').trigger('click');
                         },
                         fail: function () {
-                            alert('Unexpected error. Saving failed...');
+                            alert(window.ss2lang.Unexpected_error_Saving_failed);
                         }
                     });
 
@@ -76,6 +76,8 @@
         switchToLayoutTab: function () {
             this.views.removeClass('active');
             this.views.eq(0).addClass('active');
+            this.toolboxviews.removeClass('active');
+            this.toolboxviews.eq(0).addClass('active');
             this.toolboxviews.parent().css((window.nextendDir == 'rtl' ? 'marginRight' : 'marginLeft'), (window.nextendDir == 'rtl' ? '-200%' : '0%'));
             $('#smartslider-admin').removeClass('smartslider-item-mode-active');
             $('#smartslider-admin').addClass('smartslider-layer-mode-active');
@@ -107,6 +109,7 @@
                 layout.children().each(function (i, layer) {
                     $this.layers.addLayer(layer);
                 });
+                $this.layers.parent.$slider.data('smartslider').slider.mainslider.refreshMode();
             });
         }
     });

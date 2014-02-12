@@ -34,6 +34,7 @@ class NextendController{
     var $_tplName;
     
     function NextendController($key){
+        $this->fixMagicQuotes();
         $this->_baseControllerPath = dirname(__FILE__);
         $this->_routeMap = array();
         $this->_availableControllers = array();
@@ -112,6 +113,8 @@ class NextendController{
         $action = $action.'Action';
         if(method_exists($this->_controller, $action)){
             $this->_controller->$action();
+        }else{
+            $this->_controller->defaultAction();
         }
     }
     
@@ -144,6 +147,26 @@ class NextendController{
     
     function noaccess(){
         $this->display('noaccess', 'noaccess');
+    }
+    
+    function fixMagicQuotes(){
+        static $run;
+        if(!$run){
+            if (get_magic_quotes_gpc() || nextendIsWordPress()) {
+                $_GET     = self::stripslashes_r($_GET);
+                $_POST    = self::stripslashes_r($_POST);
+                $_COOKIE  = self::stripslashes_r($_COOKIE);
+                $_REQUEST = self::stripslashes_r($_REQUEST);
+            }
+            $run = true;
+        }
+    }
+    
+    static function stripslashes_r($array) {
+        foreach ($array as $key => $value) {
+            $array[$key] = is_array($value) ? self::stripslashes_r($value) : stripslashes($value);
+        }
+        return $array;
     }
 }
 ?>

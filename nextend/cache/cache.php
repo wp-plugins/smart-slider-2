@@ -12,6 +12,8 @@ class NextendCache{
     
     var $_files;
     
+    var $_text = '';
+    
     var $_cacheTime;
     
     var $_prename;
@@ -46,7 +48,12 @@ class NextendCache{
         $this->_files[] = $file;
     }
     
+    function addText($text){
+        $this->_text.=$text;
+    }
+    
     function getCache(){
+        if(count($this->_files) == 0 && $this->_text == '') return false;
         if($this->_cacheTime == 'static' || $this->_cacheTime == 0){
             $folder = $this->_path.'static'.DIRECTORY_SEPARATOR;
             $currentcachetime = 0;
@@ -64,6 +71,7 @@ class NextendCache{
             for($i = 0; $i < count($this->_files); $i++){
                 $cached.= $this->parseFile(NextendFilesystem::readFile($this->_files[$i]),$this->_files[$i], $i);
             }
+            $cached.= $this->_text;
             NextendFilesystem::createFile($cachefile, $this->parseCached($cached));
             if($this->_gzip){
                 $php = '<?php '
@@ -96,7 +104,7 @@ class NextendCache{
             $remove = NextendFilesystem::folders($this->_path);
             if($remove !== false){
                 for($i = 0; $i < count($remove) && $remove[$i] != $this->_prename.$previouscachetime; $i++){
-                    NextendFilesystem::deleteFolder($this->_path.$remove[$i]);
+                    if($remove[$i] != 'static') NextendFilesystem::deleteFolder($this->_path.$remove[$i]);
                 }
             }
         }
@@ -110,7 +118,7 @@ class NextendCache{
         for($i = 0; $i < count($this->_files); $i++){
             $hash.=$this->_files[$i].filemtime($this->_files[$i]);
         }
-        return md5($this->parseHash($hash));
+        return md5($this->parseHash($hash).$this->_text);
     }
     
     function parseHash($hash){
