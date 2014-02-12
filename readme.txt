@@ -4,7 +4,7 @@ Tags: slider, slide, layer slider, responsive, gallery, auto, autoplay, carousel
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
 Tested up to: 3.8.0
-Stable tag: 2.3.0
+Stable tag: 2.3.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -108,6 +108,9 @@ Because Smart Slider 2 is an all-in-one slider solution. What it means for you? 
 4. Screenshot from the backend, which will help you through the set up process with easily understandable features.
 
 == Changelog ==
+
+= 2.3.1 =
+* Fix: various fixes
 
 = 2.3.0 =
 * Feature: New slider creation modes: Quick slider, Manual slider and Dynamic slider
