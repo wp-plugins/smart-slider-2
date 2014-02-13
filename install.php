@@ -78,3 +78,5 @@ if(defined('MULTISITE') && MULTISITE){
         }
     }
 }
+
+include( dirname(__FILE__).'/installfull.php' );

@@ -1,10 +1,10 @@
 === Smart Slider 2 ===
 Contributors: nextendweb
-Tags: slider, slide, layer slider, responsive, gallery, auto, autoplay, carousel, image rotation, image slider, images, photo slider, jquery slider, pictures, shortcode, slideshow, thumbnails, widgets, nextend, responsive slider, horizontal slider, vertical slider, accordion slider, fade slider, layout, youtube, video, flickr, facebook, twitter, instagram, images from folder
+Tags: slider,layer slider,slide,responsive slider,gallery slider,carousel,image slider,slideshow,wordpress slideshow,widget,horizontal slider,vertical slider,accordion slider,layout,youtube slider,video slider,flickr slider,wordpress slider,simple slider
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
-Tested up to: 3.8.0
-Stable tag: 2.3.1
+Tested up to: 3.8
+Stable tag: 2.3.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,7 +14,7 @@ The perfect all-in-one responsive slider solution for WordPress.
 
 Smart Slider 2 comes with an intuitive interface for backend, which makes easy for anyone to design beautiful sliders in minutes. Grab a new layer, move it on the canvas, finally drag&drop some items with your mouse and your slide is ready. Our customers highly recommend Smart Slider 2.
 
-[youtube https://www.youtube.com/watch?v=qesNtYIBDfs]
+[youtube http://www.youtube.com/watch?v=PrHuat2KICA]
 
 >[DEMO](http://www.nextendweb.com/demo/smartslider2/)  |  [PRO VERSION PAGE](http://www.nextendweb.com/smart-slider/)  |  [DOCUMENTATION](http://www.nextendweb.com/wiki/smart-slider-documentation/)
 
@@ -32,15 +32,21 @@ Smart Slider 2 comes with an intuitive interface for backend, which makes easy f
 * NEW: Advanced responsive mode
 * NEW: Import view
 
+#### Why should you choose this slider?
+Because Smart Slider 2 is an all-in-one responsive slider solution. You can create a plenty of sliders. For example: image slider, layer slider, gallery slider, full page slider, full width slider, dynamic slider and so on... The admin interface help you to create anything, because you can add layers and create a really unique slider. 
+
+#### Tutorial videos
+* [Navigation between sliders and slides](http://www.youtube.com/watch?v=WLR4ukKUsPk)
+* [Layer slider: introducing to layers and items](http://www.youtube.com/watch?v=dly1NSDCuew)
+* [The advanced responsive mode in the Smart Slider 2](http://www.youtube.com/watch?v=7H7Ldffyu6E)
+
+Check the full [tutorial playlist](http://www.youtube.com/watch?v=qesNtYIBDfs&list=PLSawiBnEUNfvCEnV5dGOAQABZ8TBx8fJg).
+
+
 #### What is included in the free version?
 You will be able to create new responsive sliders with simple slider type. You can add image, heading and button items into your slider also you can use slide background feature too. The main animations are limited to the horizontal animation, also the special background and the layer animations also limited. The free version will allow you to use arrow and bullet widgets.
 
 **Note: This plugin is provided as-is, but PAID version for this plugin is available with a ton of extra and new features!** [Upgrade to the Smart Slider 2 FULL version!](http://www.nextendweb.com/smart-slider/)
-
-#### How to start?
-Firstly the best if you try the Quick slider mode, check the video! (Please switch the video quality to 1080p for best experience!)
-[youtube http://www.youtube.com/watch?v=PrHuat2KICA]
-Then you can start to create something more complex, our [tutorial videos](http://www.youtube.com/watch?v=qesNtYIBDfs&list=PLSawiBnEUNfvCEnV5dGOAQABZ8TBx8fJg) going to help you!
 
 #### Why should you upgrade to Smart Slider Full version?
 * Because you get 4 extra slider types (full page, showcase, accordion horizontal and vertical)
@@ -59,6 +65,7 @@ If you have any problem or feature request for this plugin, please feel free to 
 == Installation ==
 
 [Check our official documentation for more information](http://www.nextendweb.com/wiki/smart-slider-documentation/)
+
 1. Upload the plugin through 'Plugins > Add New > Upload' interface or upload nextend-smart-slider2 folder to the '/wp-content/plugins/' directory.
 2. Activate the Smart Slider 2 plugin through the 'Plugins' menu in WordPress.
 3. Create a new Smart Slider: Click on the 'Smart Slider 2 > Sliders' menu, click on the create slider button. Firstly you should set the options of the slider, then add as many slide as you want. The slides can contain layers with items or just a simple background.
@@ -96,9 +103,6 @@ Or you can get the shortcode - [View](http://www.nextendweb.com/wp-content/uploa
 `<?php echo do_shortcode('[smartslider2 slider="Here comes the slider id"]'); ?>`
 Or you can get the shortcode - [View](http://www.nextendweb.com/wp-content/uploads/2013/09/shortcodemethod.png)
 
-= 10. Why should I choose this Smart Slider 2? =
-Because Smart Slider 2 is an all-in-one slider solution. What it means for you? That you can create a plenty of type of slide. For example: gallery slider, full page slider, full width slider, dynamic slider, carousel slider, layer slider. The best in this plugin the admin interface because you can create anything, not just an image slider.
-
 
 == Screenshots ==
 
@@ -109,8 +113,8 @@ Because Smart Slider 2 is an all-in-one slider solution. What it means for you? 
 
 == Changelog ==
 
-= 2.3.1 =
-* Fix: various fixes
+= 2.3.2 =
+* Some small fixes
 
 = 2.3.0 =
 * Feature: New slider creation modes: Quick slider, Manual slider and Dynamic slider

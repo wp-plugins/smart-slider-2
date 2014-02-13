@@ -5,7 +5,6 @@ class NextendSliderCache {
     var $slider = null;
     
     function NextendSliderCache($slider){
-
         nextendimportsmartslider2('nextend.smartslider.check');
         nextendimport('nextend.css.css');
         nextendimport('nextend.javascript.javascript');
