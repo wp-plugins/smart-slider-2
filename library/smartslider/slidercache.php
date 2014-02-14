@@ -26,6 +26,22 @@ class NextendSliderCache {
         }else{
             $recache = true; 
         }
+        
+        if(!$recache){
+            $data = $cached['data'];
+            if(isset($data['css'])){
+                if(!NextendFilesystem::fileexists(NextendFilesystem::absoluteURLToPath($data['css']))){
+                    $recache = true;
+                }
+            }else{
+                $recache = true;
+            }
+            
+            if(!isset($data['libraries']) || !isset($data['libraries']['jquery']) || !isset($data['libraries']['jquery']['jsfiles']) || count($data['libraries']['jquery']['jsfiles']) == 0){
+                $recache = true;
+            }
+        }
+        
         //$recache = true;
         if($recache){
             $data = $this->render();
@@ -43,10 +59,7 @@ class NextendSliderCache {
             
             NextendSmartSliderStorage::set('slidercache'.$sliderid, json_encode($cached));
             NextendSmartSliderStorage::set('sliderchanged'.$sliderid, '0');
-        }else{
-            $data = $cached['data'];
-        }
-        
+        }        
         
         $this->cssurl = $data['css'];
         if(nextendIsWordPress()){

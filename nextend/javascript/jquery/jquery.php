@@ -18,16 +18,19 @@ class NextendJavascriptjQuery {
         if (!is_object($instance)) {
             $instance = new NextendJavascriptjQuery();
             $instance->addJsLibraryFile('njQuery.js');
-            /*if(nextendIsWordPress()){
-                global $wp_version;
-                if (version_compare($wp_version, '3.6', 'ge')) {
-                    wp_enqueue_script('jquery');
-                }else{
-                    $instance->addJsLibraryFile('jQuery.js');
+            $jqueryLoaded = false;
+            if(nextendIsJoomla()){
+                JLoader::import( 'joomla.version' );
+                $version = new JVersion();
+                if (version_compare( $version->RELEASE, '3.0', '>=')) {
+                    JHtml::_('jquery.framework');
+                    $jqueryLoaded = true;
                 }
-            }else{*/
+            }
+            
+            if(!$jqueryLoaded){
                 $instance->addJsLibraryFile('jQuery.js');
-            //}
+            }
             $instance->addJsLibraryFile('uacss.js');
             $instance->addJsLibraryFile('jquery.unique-element-id.js');
         }

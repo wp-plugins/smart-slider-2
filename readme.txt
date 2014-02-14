@@ -4,7 +4,7 @@ Tags: slider,layer slider,slide,responsive slider,gallery slider,carousel,image 
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 2.3.3
+Stable tag: 2.3.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -112,6 +112,11 @@ Or you can get the shortcode - [View](http://www.nextendweb.com/wp-content/uploa
 4. Screenshot from the backend, which will help you through the set up process with easily understandable features.
 
 == Changelog ==
+
+= 2.3.4 =
+* Fix: Slider cache improved with fallbacks
+* Fix: Android phones linked items open fine for tap
+* Fix: Advanced layer editor dimensions
 
 = 2.3.3 =
 * Some small fixes

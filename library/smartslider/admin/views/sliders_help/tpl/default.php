@@ -391,7 +391,7 @@ $css->addCssLibraryFile('form.css');
       </div>                
       <h2><?php echo NextendText::_('Tutorial_videos'); ?></h2>               
         <div class="tutorial-videos nextend-clearfix">
-            <iframe width="1280" height="720" src="//www.youtube.com/embed/videoseries?list=PLSawiBnEUNfvCEnV5dGOAQABZ8TBx8fJg&vq=hd1080&hd=1" frameborder="0" allowfullscreen></iframe>                 
+            <iframe width="640" height="360" src="//www.youtube.com/embed/videoseries?list=PLSawiBnEUNfvCEnV5dGOAQABZ8TBx8fJg&vq=hd1080&hd=1" frameborder="0" allowfullscreen></iframe>                 
         </div>                        
 </div>   
 </form>

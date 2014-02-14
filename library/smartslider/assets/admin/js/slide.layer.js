@@ -876,9 +876,9 @@
                             case 'top':
                             case 'width':
                             case 'height':
-                                $this.activeLayer.data(field[2], $this.activeLayer[0].style[field[2]]);
+                                $layer.data(field[2], $layer[0].style[field[2]]);
                                 $el.val($this.setPositionField($layer[0], field[2], $el.val()));
-                                break;
+                                break; 
                             case 'name':
                                 var name = $el.val(),
                                     option = $layer.data('ssoption')[0],

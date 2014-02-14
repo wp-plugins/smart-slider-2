@@ -358,8 +358,20 @@
                 last = 0;
             this.$slider.find('> div').eq(0).swipe({
                 tap: function(event, target) {
-                    var act = _this.slideList.eq(_this._active).trigger('click');
-                    if(typeof act.attr("onclick") != undefined){
+                    var prevent = false;
+                    var a = null;
+                    if(target.tagName == 'A') a = $(target);
+                    else a = $(target).closest('a');
+                    if(a.length){
+                        window.open(a.attr('href'),a.attr('target'));
+                        prevent = true;
+                    }
+                    
+                    if(!prevent){
+                        var act = _this.slideList.eq(_this._active).trigger('click');
+                        if(typeof act.attr("onclick") != 'undefined') prevent = true;
+                    }
+                    if(prevent){
                         event.preventDefault();
                         event.stopPropagation();
                     }
