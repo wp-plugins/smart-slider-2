@@ -19,6 +19,9 @@
             <param name="resettodesktop" type="button" label="Reset positions to desktop" default="" />
         </params>
         <params name="animations" type="groupped" label="Animation">
+            <params name="properties" label="Properties" hidetitle="1">
+                <param name="layerbackgroundcolor" type="color" label="Background color" default="00000000" alpha="1" />
+            </params>
             <params name="animationin" label="Animation_In">
                 <param name="animationin" type="sliderlayeranimation" translateable="1" label="Animation" default="0" />
                 <param name="durationin" type="text" label="Duration" default="500" style="width:50px;">

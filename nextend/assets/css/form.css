@@ -58,6 +58,10 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.nextend-form .nextend-tab table td{
+    vertical-align: middle;
+}
+
 .nextend-form .nextend-tab table td.nextend-label{
     width: 233px;
     padding: 5px 8px;

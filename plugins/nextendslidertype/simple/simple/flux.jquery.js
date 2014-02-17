@@ -487,9 +487,11 @@ window.flux = {
             }
 
             // Does the current browser support 3D CSS Transforms?
-            if (window.nModernizr && nModernizr.csstransforms3d !== undefined)
+            if (window.nModernizr && nModernizr.csstransforms3d !== undefined){
                 flux.browser.supports3d = nModernizr.csstransforms3d;
-            else {
+                flux.browser.supportspreserve3d = nModernizr.transformstylepreserve3d;
+                if(!flux.browser.supportspreserve3d) flux.browser.supports3d = false;
+            }else {
                 // Custom detection when Modernizr isn't available
                 flux.browser.supports3d = this.supportsCSSProperty("Perspective");
 

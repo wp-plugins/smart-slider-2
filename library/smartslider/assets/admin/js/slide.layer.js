@@ -583,6 +583,14 @@
                     $this.changeActiveLayerData($name, $el.val());
                 });
             });
+            this.form.fields.filter('#layerlayerbackgroundcolor').on('change', function(){
+                var alpha = this.value.substr(6,2),
+                    color = 'transparent';
+                $this.activeLayer.css('background-color', '');
+                if(alpha != '00'){
+                    $this.activeLayer.attr('style', $this.activeLayer[0].style.cssText+'background-color:#'+this.value.substr(0,6)+';background-color:'+hex2rgba(this.value)+';');
+                }
+            });
             this.form.fields.eq(0).on('change keyup', function (e) {
                 var name = e.currentTarget.value,
                     option = $this.activeLayer.data('ssoption')[0],
@@ -766,10 +774,10 @@
                 select[0].selectedIndex = 0;
                 NfireEvent(select[0], 'change');
 
-                var animationSelect = $($this.form.fields.get(1).select).clone().removeAttr('id'),
-                    easingSelect = $($this.form.fields.get(3).select).clone().removeAttr('id'),
-                    msInput = $this.form.fields.eq(2).parent().clone(),
-                    onoff = $this.form.fields.eq(6).parent().clone();
+                var animationSelect = $($this.form.fields.get(2).select).clone().removeAttr('id'),
+                    easingSelect = $($this.form.fields.get(4).select).clone().removeAttr('id'),
+                    msInput = $this.form.fields.eq(3).parent().clone(),
+                    onoff = $this.form.fields.eq(7).parent().clone();
 
                 msInput.find('input').removeAttr('id');
                 onoff.find('input').removeAttr('id');
@@ -1025,4 +1033,35 @@
             });
         }
     });
+    
+    function hex2rgba(hex) {
+        var r = hexdec(hex.substr(0, 2));
+        var g = hexdec(hex.substr(2, 2));
+        var b = hexdec(hex.substr(4, 2));
+        var a = (intval(hexdec(hex.substr(6, 2)))) / 255;
+        a = a.toFixed(3);
+        var color = r + "," + g + "," + b + "," + a;
+        return 'RGBA(' + color + ')';
+    }
+
+    function hexdec(hex_string) {
+        hex_string = (hex_string + '').replace(/[^a-f0-9]/gi, '');
+        return parseInt(hex_string, 16);
+    }
+
+    function intval(mixed_var, base) {
+        var tmp;
+        var type = typeof(mixed_var);
+        if (type === 'boolean') {
+            return +mixed_var;
+        } else if (type === 'string') {
+            tmp = parseInt(mixed_var, base || 10);
+            return (isNaN(tmp) || !isFinite(tmp)) ? 0 : tmp;
+        } else if (type === 'number' && isFinite(mixed_var)) {
+            return mixed_var | 0;
+        } else {
+            return 0;
+        }
+    }
+    
 })(njQuery, window);
