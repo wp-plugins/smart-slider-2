@@ -113,6 +113,7 @@
     display: block;
     opacity: 1;
     background-position: -44px 0;
+    cursor: move;
 }
 
 .smartslider-icon-container.active .smartslider-icon-ordering{
@@ -285,4 +286,12 @@
 
 .smartslider-action-icon-refresh{
     background-position: center -360px;
+}
+
+.smartslider-action-icon-generator-edit-layout{
+    background-position: center -400px;
+}
+
+.smartslider-action-icon-generator-settings{
+    background-position: center -440px;
 }

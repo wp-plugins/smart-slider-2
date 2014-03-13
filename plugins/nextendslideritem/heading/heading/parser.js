@@ -6,7 +6,6 @@
                 var _d = data.split('|*|');
                 o.url = _d[0];
                 o.target = _d[1];
-                o.cursor = _d[2];
                 delete o.size;
             }else if(name === 'fontsize'){
                 if(data != '' && data != 'auto'){
@@ -21,6 +20,8 @@
                 }else{
                     o.fontcolorr = '';
                 }
+            }else if(name === 'css'){
+                o[name+'_esc'] = data.replace(/"/g, '&quot;').replace(/'/g, '&apos;');
             }
             return o;
         },

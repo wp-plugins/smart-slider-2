@@ -2,6 +2,7 @@
 
 nextendimportsmartslider2('nextend.smartslider.settings');
 nextendimportsmartslider2('nextend.smartslider.widgets');
+nextendimportsmartslider2('nextend.smartslider.items');
 
 class NextendSlider {
 
@@ -104,10 +105,16 @@ class NextendSlider {
             $slidesModel = new NextendSmartsliderAdminModelSlides(null);
 
             $where = '';
+            $date = '';
+        	if(nextendIsWordpress()){		    		    
+        		$date = current_time( 'mysql');
+        	}else{
+        		$date = date('Y-m-d H:i:s');
+        	}
             if ($this->_backend) {
-                $where = " AND ((published = 1 AND (publish_up = '0000-00-00 00:00:00' OR publish_up < '".date( 'Y-m-d H:i:s')."') AND (publish_down = '0000-00-00 00:00:00' OR publish_down > '".date( 'Y-m-d H:i:s')."')) OR id = " . NextendRequest::getInt('slideid') . ") ";
-            } else {
-                $where = " AND published = 1 AND (publish_up = '0000-00-00 00:00:00' OR publish_up < '".date( 'Y-m-d H:i:s')."') AND (publish_down = '0000-00-00 00:00:00' OR publish_down > '".date( 'Y-m-d H:i:s')."') ";
+                $where = " AND ((published = 1 AND (publish_up = '0000-00-00 00:00:00' OR publish_up < '".$date."') AND (publish_down = '0000-00-00 00:00:00' OR publish_down > '".$date."')) OR id = " . NextendRequest::getInt('slideid') . ") ";
+            } else {                
+                $where = " AND published = 1 AND (publish_up = '0000-00-00 00:00:00' OR publish_up < '".$date."') AND (publish_down = '0000-00-00 00:00:00' OR publish_down > '".$date."') ";
             }
 
             $slides = $slidesModel->getSlides($this->_sliderid, $where);
@@ -149,7 +156,7 @@ class NextendSlider {
                 ));
             }
 
-            if (NextendRequest::getCmd('action') == 'generator') {
+            if (NextendRequest::getCmd('action') == 'generatoredit') {
                 global $smartslidergeneratorslide;
                 if (!$smartslidergeneratorslide) $smartslidergeneratorslide = array();
                 array_unshift($slides, array_merge(array(
@@ -218,8 +225,8 @@ class NextendSlider {
             }
             
             $link = $params->get('link', '');
-            if(!$this->_backend && $link){
-                $link = (array)NextendParse::parse($link);
+            $link = (array)NextendParse::parse($link);
+            if(!$this->_backend && $link && isset($link[0]) && $link[0] != '' && $link[0] != '#'){
                 if(!isset($link[1])) $link[1] = '_self';
                 $slides[$i]['link'] = ' onclick="'.htmlspecialchars(
                     strpos($link[0], 'javascript:') === 0 ? 
@@ -246,7 +253,7 @@ class NextendSlider {
         $this->addJs();
 
         $jquery = NextendSmartSliderSettings::get('jquery', 1);
-        if(!$jquery && !$this->_backend){
+        if(!$jquery && !class_exists('NextendSmartsliderAdminController', false)){
             $js = NextendJavascript::getInstance();
             $js->_loadedLibraries['jquery']->removeJsLibraryFile('jQuery.js');
         }
@@ -274,6 +281,25 @@ class NextendSlider {
         
         
         $size = $this->addCSS();
+        
+        $backgroundresize = $this->_sliderParams->get('backgroundresize', 0);
+        if($backgroundresize != '0'){
+            $works = nextend_try_to_test_memory_limit();
+            if($works){
+                $canvasWidth = $size[4];
+                $canvasHeight = $size[5];
+                $resizeremote = intval(NextendSmartSliderSettings::get('resizeremote', 0));
+                nextendimport('nextend.cache.image');
+                $imageCache = new NextendCacheImage();
+                for($i = 0; $i < count($this->_slides); $i++){
+                    $imageCache->setBackground(substr($this->_slides[$i]['background'],0,6));
+                    $this->_slides[$i]['bg'] = $imageCache->resizeImage($this->_slides[$i]['bg'], $canvasWidth, $canvasHeight, $backgroundresize, $resizeremote);
+                }
+            }else if(NextendSmartSliderSettings::get('debugmessages', 1)){
+                echo "It seems like the <a href='http://php.net/manual/en/ini.core.php#ini.memory-limit'>memory_limit</a> on the server is too low for the background resize. Please set it minimum 60M and reload the page! You can disable this message in <a href='http://www.nextendweb.com/wiki/smart-slider-documentation/global-settings/'>global configuration</a> 'Frontend debug message' option.";
+            }
+        }
+        
         $css = NextendCss::getInstance();
         
         $widgets = new NextendSliderWidgets($this, $id);
@@ -285,7 +311,8 @@ class NextendSlider {
         include($this->_typePath . 'slider.php');
         $slider = ob_get_clean();
         
-
+        $items = new NextendSliderItems($id, $this->_backend);
+        $slider = $items->render($slider);
         
         if(!$this->_backend){
             NextendPlugin::callPlugin('nextendslideritem', 'onNextendSliderRender', array(&$slider, $id));
@@ -330,36 +357,41 @@ class NextendSlider {
         $responsive = (array)NextendParse::parse($this->_sliderParams->get('responsive', '0|*|0'));
         
         if( !$this->_backend && $fadeonload[0] && ((isset($responsive[0]) && $responsive[0]) || (isset($responsive[1]) && $responsive[1]))){
-            if($size[0]+$size[3] > 0 && $size[1] > 0 && function_exists('imagecreatetruecolor')){
-                echo '<div id="'.$id.'-placeholder" >';
-                
-                $im = imagecreatetruecolor($size[0]+$size[3], $size[1]);
-                imagesavealpha($im, true);
-                imagealphablending($im, false);
-                $trans = imagecolorallocatealpha($im, 255, 0, 0, 127);
-                imagefilledrectangle($im, 0, 0, $size[0]+$size[3], $size[1], $trans);
-                ob_start();
-                imagepng($im);
-                imagedestroy($im);
-                $img = base64_encode(ob_get_clean());
-                echo '<img alt="" style="width:100%; max-width: '.(intval($this->_sliderParams->get('simpleresponsivemaxwidth', 30000))+$size[3]).'px;" src="data:image/png;base64,'.$img.'" />';
-                
-                if($size[2] > 0){
-                    $im = imagecreatetruecolor($size[0]+$size[3], $size[2]);
+            $works = nextend_try_to_test_memory_limit();
+            if($works){
+                if($size[0]+$size[3] > 0 && $size[1] > 0 && function_exists('imagecreatetruecolor')){
+                    echo '<div id="'.$id.'-placeholder" >';
+                    
+                    $im = imagecreatetruecolor($size[0]+$size[3], $size[1]);
                     imagesavealpha($im, true);
                     imagealphablending($im, false);
                     $trans = imagecolorallocatealpha($im, 255, 0, 0, 127);
-                    imagefilledrectangle($im, 0, 0, $size[0]+$size[3], $size[2], $trans);
+                    imagefilledrectangle($im, 0, 0, $size[0]+$size[3], $size[1], $trans);
                     ob_start();
                     imagepng($im);
                     imagedestroy($im);
                     $img = base64_encode(ob_get_clean());
-                    echo '<img alt="" style="width:100%;" src="data:image/png;base64,'.$img.'" />';
+                    echo '<img alt="" style="width:100%; max-width: '.(intval($this->_sliderParams->get('simpleresponsivemaxwidth', 30000))+$size[3]).'px;" src="data:image/png;base64,'.$img.'" />';
+                    
+                    if($size[2] > 0){
+                        $im = imagecreatetruecolor($size[0]+$size[3], $size[2]);
+                        imagesavealpha($im, true);
+                        imagealphablending($im, false);
+                        $trans = imagecolorallocatealpha($im, 255, 0, 0, 127);
+                        imagefilledrectangle($im, 0, 0, $size[0]+$size[3], $size[2], $trans);
+                        ob_start();
+                        imagepng($im);
+                        imagedestroy($im);
+                        $img = base64_encode(ob_get_clean());
+                        echo '<img alt="" style="width:100%;" src="data:image/png;base64,'.$img.'" />';
+                    }
+                    
+                    echo '</div>';
+                }else{
+                    $css->addCssFile('#'.$id.' .nextend-slider-fadeload{position: relative !important;}', $this->getId());
                 }
-                
-                echo '</div>';
-            }else{
-                $css->addCssFile('#'.$id.' .nextend-slider-fadeload{position: relative !important;}', $this->getId());
+            }else if(NextendSmartSliderSettings::get('debugmessages', 1)){
+                echo "It seems like the <a href='http://php.net/manual/en/ini.core.php#ini.memory-limit'>memory_limit</a> on the server is too low for the fade on load feature. Please set it minimum 60M and reload the page! You can disable this message in <a href='http://www.nextendweb.com/wiki/smart-slider-documentation/global-settings/'>global configuration</a> 'Frontend debug message' option.";
             }
         }else{
             $css->addCssFile('#'.$id.'.nextend-slider-fadeload{position: relative !important;}', $this->getId());
@@ -452,7 +484,7 @@ class NextendSlider {
             'downscale' => intval($responsive[0]),
             'upscale' => intval($responsive[1]),
             'maxwidth' => intval($this->_sliderParams->get('simpleresponsivemaxwidth', 3000)),
-            'basedon' => NextendSmartSliderSettings::get('responsivebasedon', 'device'),
+            'basedon' => NextendSmartSliderSettings::get('responsivebasedon', 'combined'),
             'screenwidth' => array(
                 'tablet' => intval($responsivescreenwidth[0]),
                 'phone' => intval($responsivescreenwidth[1])
@@ -508,7 +540,8 @@ class NextendSlider {
             if (count($matches)) {
                 $context['font' . $fonts] = '~".' . $matches[0] . '"';
                 
-                if(json_decode($v)===null) $v = base64_decode($v);
+                $tmp = json_decode($v);
+                if($tmp===null || $tmp == $v) $v = base64_decode($v);
                 
                 $font = new NextendParseFont($v);
                 $context['font' . $fonts . 'text'] = '";' . $font->printTab() . '"';
@@ -544,8 +577,7 @@ class NextendSlider {
       				$css->addCssFile($cssfile);
       			}
 		    }
-		
-        return array(intval($context['width']),intval($context['height']), $m[0]+$m[2], $m[1]+$m[3]);
+        return array(intval($context['width']),intval($context['height']), $m[0]+$m[2], $m[1]+$m[3], intval($context['canvaswidth']), intval($context['canvasheight']));
     }
     
     function wpAddCSS(){
@@ -572,7 +604,7 @@ class NextendSlider {
         if($controls[0]){
             $js->addLibraryJsLibraryFile('jquery', 'jquery.mousewheel.js');
         }
-        if($controls[1]){
+        if($controls[1] || $this->_sliderParams->get('improvedtouch', 0)){
             $js->addLibraryJsLibraryFile('jquery', 'jquery.touchSwipe.js');
         }
         $js->addLibraryJsLibraryFile('jquery', 'easing.js');
@@ -586,10 +618,38 @@ class NextendSlider {
 
         $js->addLibraryJsFile('jquery', NEXTEND_SMART_SLIDER2_ASSETS . 'js' . DIRECTORY_SEPARATOR . 'motions' . DIRECTORY_SEPARATOR . 'no.js');
         $js->addLibraryJsFile('jquery', NEXTEND_SMART_SLIDER2_ASSETS . 'js' . DIRECTORY_SEPARATOR . 'motions' . DIRECTORY_SEPARATOR . 'fade.js');
+        $js->addLibraryJsFile('jquery', NEXTEND_SMART_SLIDER2_ASSETS . 'js' . DIRECTORY_SEPARATOR . 'motions' . DIRECTORY_SEPARATOR . 'fadestatic.js');
 
         $js->addLibraryJsFile('jquery', NEXTEND_SMART_SLIDER2_ASSETS . 'js' . DIRECTORY_SEPARATOR . 'motions' . DIRECTORY_SEPARATOR . 'slide.js');
+        $js->addLibraryJsFile('jquery', NEXTEND_SMART_SLIDER2_ASSETS . 'js' . DIRECTORY_SEPARATOR . 'motions' . DIRECTORY_SEPARATOR . 'slidestatic.js');
 
         $js->addLibraryJsFile('jquery', NEXTEND_SMART_SLIDER2_ASSETS .  'js' . DIRECTORY_SEPARATOR . 'motions' . DIRECTORY_SEPARATOR . 'transit.js');
     }
 
+}
+
+function nextend_try_to_test_memory_limit(){
+    $works = true;
+    if(function_exists('ini_get')){
+        $memory_limit = @ini_get('memory_limit');
+        if($memory_limit && $memory_limit != ''){
+            $ok = nextend_setting_to_bytes($memory_limit) >= 0x3C00000;
+            if(!$ok) $works = false;
+        }
+    }
+    return $works;
+}
+
+function nextend_setting_to_bytes($setting)
+{
+    static $short = array('k' => 0x400,
+                          'm' => 0x100000,
+                          'g' => 0x40000000);
+
+    $setting = (string)$setting;
+    if (!($len = strlen($setting))) return NULL;
+    $last    = strtolower($setting[$len - 1]);
+    $numeric = 0 + $setting;
+    $numeric *= isset($short[$last]) ? $short[$last] : 1;
+    return $numeric;
 }

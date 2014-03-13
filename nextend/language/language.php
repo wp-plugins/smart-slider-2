@@ -26,7 +26,7 @@ class NextendTextAbstract2{
             }
             
             if(NextendFilesystem::fileexists($f)){
-                self::$translated = parse_ini_file($f) + self::$translated;
+                self::$translated = self::parse_ini_file($f) + self::$translated;
                 self::$loadedfiles[$f] = true;
             }else{
                 self::$loadedfiles[$f] = 0;
@@ -53,6 +53,14 @@ class NextendTextAbstract2{
             $res.= $key.' = "'.$val.'"'."\n";
         }
         echo $res;
+    }
+    
+    static function parse_ini_file($file){
+        if(function_exists('parse_ini_file')){
+            return parse_ini_file($file);
+        }
+        nextendimport('nextend.parse.ini');
+        return NextendIni::parse($file);
     }
 }
 if(getNextend('debuglng', 0)){

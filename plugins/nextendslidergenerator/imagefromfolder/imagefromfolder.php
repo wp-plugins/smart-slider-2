@@ -1,5 +1,7 @@
 <?php
 
+nextendimportsmartslider2('nextend.smartslider.check');
+
 class plgNextendSliderGeneratorImageFromFolder extends NextendPluginBase {
 
     var $_group = 'imagefromfolder';
@@ -8,7 +10,7 @@ class plgNextendSliderGeneratorImageFromFolder extends NextendPluginBase {
         $group[$this->_group] = 'Image';
 
         if (!isset($list[$this->_group])) $list[$this->_group] = array();
-        $list[$this->_group][$this->_group . '_fromfolder'] = array(NextendText::_('From_folder'), $this->getPath() . 'fromfolder' . DIRECTORY_SEPARATOR, true, false, true);
+        $list[$this->_group][$this->_group . '_fromfolder'] = array(NextendText::_('From_folder'), $this->getPath() . 'fromfolder' . DIRECTORY_SEPARATOR, true, false, true, 'image');
     }
 
     function getPath() {

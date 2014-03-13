@@ -71,15 +71,7 @@ class NextendSmartsliderAdminModelSlides extends NextendSmartsliderAdminModelBas
         if($slide['title'] == '') $slide['title'] = NextendText::_('New_slide');
 
         $db = NextendDatabase::getInstance();
-
-        $query = 'INSERT INTO #__nextend_smartslider_slides (title, slide, description, thumbnail, background, published, publish_up, publish_down, first, generator, params, slider, ordering) VALUES (';
-
-        $query.=$db->quote($slide['title']);
-        $query.=','.$db->quote($base64 ? base64_decode($slide['slide']) : $slide['slide']);
-        $query.=','.$db->quote($slide['description']);
-        $query.=','.$db->quote($slide['thumbnail']);
-        $query.=','.$db->quote($slide['background']);
-        $query.=','.$db->quote(isset($slide['published']) ? $slide['published'] : 0);
+        
         if(isset($slide['publishdates'])){
             $date = explode('|*|',$slide['publishdates']);
         }else{
@@ -89,32 +81,34 @@ class NextendSmartsliderAdminModelSlides extends NextendSmartsliderAdminModelBas
             unset($slide['publish_down']);
         }
         $up = strtotime(isset($date[0]) ? $date[0] : '');
-        $query.=','.$db->quote(date('Y-m-d H:i:s', ($up && $up > 0 ? $up : strtotime('-1 day'))));
         $down = strtotime(isset($date[1]) ? $date[1] : '');
-        $query.=','.$db->quote(date('Y-m-d H:i:s', ($down && $down > 0 ? $down : strtotime('+10 years'))));
         
-        $query.=','.$db->quote(isset($slide['first']) ? $slide['first'] : 0);
-        $query.=','.$db->quote(isset($slide['generator']) ? $slide['generator'] : 0);
+        $tmpslide = $slide;
+        unset($tmpslide['title']);
+        unset($tmpslide['slide']);
+        unset($tmpslide['description']);
+        unset($tmpslide['thumbnail']);
+        unset($tmpslide['background']);
+        unset($tmpslide['published']);
+        unset($tmpslide['first']);
+        unset($tmpslide['generator']);
+        unset($tmpslide['publishdates']);
         
-        
-        unset($slide['title']);
-        unset($slide['slide']);
-        unset($slide['description']);
-        unset($slide['thumbnail']);
-        unset($slide['background']);
-        unset($slide['published']);
-        unset($slide['first']);
-        unset($slide['generator']);
-        unset($slide['publishdates']);
-        
-        
-        $query.=','.$db->quote(json_encode($slide));
-        
-        $query.=',' . $db->quote($sliderid);
-        $query.=',' . ($this->getMaxOrdering($sliderid)+1);
-        $query.=');';
-        $db->setQuery($query);
-        $db->query();
+        $db->insert('#__nextend_smartslider_slides', array(
+            'title' => $slide['title'],
+            'slide' => ($base64 ? base64_decode($slide['slide']) : $slide['slide']),
+            'description' => $slide['description'],
+            'thumbnail' => $slide['thumbnail'],
+            'background' => $slide['background'],
+            'published' => (isset($slide['published']) ? $slide['published'] : 0),
+            'publish_up' => date('Y-m-d H:i:s', ($up && $up > 0 ? $up : strtotime('-1 day'))),
+            'publish_down' => date('Y-m-d H:i:s', ($down && $down > 0 ? $down : strtotime('+10 years'))),
+            'first' => (isset($slide['first']) ? $slide['first'] : 0),
+            'generator' => (isset($slide['generator']) ? $slide['generator'] : 0),
+            'params' => json_encode($tmpslide),
+            'slider' => $sliderid,
+            'ordering' => $this->getMaxOrdering($sliderid)+1
+        ));
         
         $slideid = $db->insertid();
         
@@ -129,15 +123,6 @@ class NextendSmartsliderAdminModelSlides extends NextendSmartsliderAdminModelBas
         if($slide['title'] == '') $slide['title'] = NextendText::_('New_slide');
         $db = NextendDatabase::getInstance();
         
-        $query = 'UPDATE #__nextend_smartslider_slides SET ';
-        
-        $query.=' title='.$db->quote($slide['title']);
-        $query.=',slide='.$db->quote($base64 ? base64_decode($slide['slide']) : $slide['slide']);
-        $query.=',description='.$db->quote($slide['description']);
-        $query.=',thumbnail='.$db->quote($slide['thumbnail']);
-        $query.=',background='.$db->quote($slide['background']);
-        $query.=',published='.$db->quote($slide['published']);
-        
         if(isset($slide['publishdates'])){
             $date = explode('|*|',$slide['publishdates']);
         }else{
@@ -147,24 +132,30 @@ class NextendSmartsliderAdminModelSlides extends NextendSmartsliderAdminModelBas
             unset($slide['publish_down']);
         }
         $up = strtotime(isset($date[0]) ? $date[0] : '');
-        $query.=',publish_up='.$db->quote(date('Y-m-d H:i:s', ($up && $up > 0 ? $up : strtotime('-1 day'))));
         $down = strtotime(isset($date[1]) ? $date[1] : '');
-        $query.=',publish_down='.$db->quote(date('Y-m-d H:i:s', ($down && $down > 0 ? $down : strtotime('+10 years'))));
-        unset($slide['title']);
-        unset($slide['slide']);
-        unset($slide['description']);
-        unset($slide['thumbnail']);
-        unset($slide['published']);
-        unset($slide['background']);
-        unset($slide['publishdates']);
-        unset($slide['generator']);
         
-        $query.=',params='.$db->quote(json_encode($slide));
+        $tmpslide = $slide;
+        unset($tmpslide['title']);
+        unset($tmpslide['slide']);
+        unset($tmpslide['description']);
+        unset($tmpslide['thumbnail']);
+        unset($tmpslide['published']);
+        unset($tmpslide['background']);
+        unset($tmpslide['publishdates']);
+        unset($tmpslide['generator']);
         
-        $query.=' WHERE id = '.$db->quote($id);
-        $db->setQuery($query);
-        $db->query();
-        
+        $db->update('#__nextend_smartslider_slides', array(
+            'title' => $slide['title'],
+            'slide' => ($base64 ? base64_decode($slide['slide']) : $slide['slide']),
+            'description' => $slide['description'],
+            'thumbnail' => $slide['thumbnail'],
+            'background' => $slide['background'],
+            'published' => (isset($slide['published']) ? $slide['published'] : 0),
+            'publish_up' => date('Y-m-d H:i:s', ($up && $up > 0 ? $up : strtotime('-1 day'))),
+            'publish_down' => date('Y-m-d H:i:s', ($down && $down > 0 ? $down : strtotime('+10 years'))),
+            'params' => json_encode($tmpslide)
+        ), 'id = '.$db->quote($id));
+
         self::markChanged(NextendRequest::getInt('sliderid'));
         
         return $id;
@@ -189,11 +180,14 @@ class NextendSmartsliderAdminModelSlides extends NextendSmartsliderAdminModelBas
     
     function first($sliderid, $id){
         $db = NextendDatabase::getInstance();
-        $db->setQuery('UPDATE #__nextend_smartslider_slides SET first = 0 WHERE slider='.$db->quote($sliderid));
-        $db->query();
         
-        $db->setQuery('UPDATE #__nextend_smartslider_slides SET first = 1 WHERE id='.$db->quote($id));
-        $db->query();
+        $db->update('#__nextend_smartslider_slides', array(
+            'first' => 0
+        ), 'slider = '.$db->quote($sliderid));
+        
+        $db->update('#__nextend_smartslider_slides', array(
+            'first' => 1
+        ), 'id = '.$db->quote($id));
         
         self::markChanged($sliderid);
         
@@ -201,14 +195,16 @@ class NextendSmartsliderAdminModelSlides extends NextendSmartsliderAdminModelBas
     
     function publish($id){
         $db = NextendDatabase::getInstance();
-        $db->setQuery('UPDATE #__nextend_smartslider_slides SET published = 1 WHERE id='.$db->quote($id));
-        $db->query();
+        $db->update('#__nextend_smartslider_slides', array(
+            'published' => 1
+        ), 'id = '.$db->quote($id));
     }
     
     function unpublish($id){
         $db = NextendDatabase::getInstance();
-        $db->setQuery('UPDATE #__nextend_smartslider_slides SET published = 0 WHERE id='.$db->quote($id));
-        $db->query();
+        $db->update('#__nextend_smartslider_slides', array(
+            'published' => 0
+        ), 'id = '.$db->quote($id));
         
         self::markChanged(NextendRequest::getInt('sliderid'));
         
@@ -237,13 +233,10 @@ class NextendSmartsliderAdminModelSlides extends NextendSmartsliderAdminModelBas
             foreach($ids AS $id){
                 $id = intval($id);
                 if($id > 0){
-                    $query = 'UPDATE #__nextend_smartslider_slides SET ';
+                    $db->update('#__nextend_smartslider_slides', array(
+                        'ordering' => $i
+                    ), 'id = '.$db->quote($id). ' AND slider = '.$db->quote($sliderid));
 
-                    $query.=' ordering='.$db->quote($i);
-
-                    $query.=' WHERE id = '.$db->quote($id). ' AND slider = '.$db->quote($sliderid);
-                    $db->setQuery($query);
-                    $db->query();
                     $i++;
                 }
             }

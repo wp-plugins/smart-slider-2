@@ -19,7 +19,7 @@
         <param name="onmouseclick" type="text" label="Event_on_mouseclick" description="JavaScript_code_to_run_on_the_event" default=""/>
         <param name="onmouseleave" type="text" label="Event_on_mouseleave" description="JavaScript_code_to_run_on_the_event" default=""/>
         
-        <param name="kenburns" type="mixed" label="Ken burns" default="0|*|10000|*|115|*|0-50% 50%">
+        <param name="kenburns" type="mixed" label="Ken burns" default="0|*|10000|*|115|*|0-50% 50%|*|0">
             <param type="onoff" label="Enabled" />
             <param type="text" label="Duration" style="width:40px;">
                 <unit>ms</unit>
@@ -37,6 +37,9 @@
                 <option value="lb-0 100%">Left-bottom</option>
                 <option value="lb-50% 100%">Center-bottom</option>
                 <option value="rb-100% 100%">Right-bottom</option>
+            </param>
+            <param type="text" label="Delay" style="width:40px;">
+                <unit>ms</unit>
             </param>
         </param>
     </params>

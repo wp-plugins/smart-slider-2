@@ -62,6 +62,10 @@
 
             this.initAdvancedView();
             this.initDeviceView();
+            
+            window.getSlide = function(){
+               return $this.getHTML.call($this); 
+            };
 
         },
         getParameterByName: function (name) {
@@ -475,6 +479,17 @@
             slide.find('.ui-sortable').removeClass('ui-sortable');
             slide.appendTo($('body'));
             slide.children().removeAttr('aria-disabled');
+            
+            var items = slide.find('.smart-slider-items');
+            items.each(function(){
+                var $this = $(this);
+                var shortcode = '[';
+                shortcode+=$this.data('item');
+                shortcode+=' values="'+Base64.encode(JSON.stringify($this.data('itemvalues')))+'"';
+                shortcode+=']';
+                $this.replaceWith(shortcode);
+            });
+            
             var html = slide.html();
             slide.remove();
             $('#slideadminmode').val(savedmode);

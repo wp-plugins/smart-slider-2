@@ -11,8 +11,8 @@ class NextendData {
     }
     
     function loadJSON($json) {
-
         $this->_data = json_decode($json, true);
+        if(!is_array($this->_data)) $this->_data = array();
     }
     
     function loadArray($array) {

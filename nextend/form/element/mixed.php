@@ -30,7 +30,7 @@ class NextendElementMixed extends NextendElement {
             $type = NextendXmlGetAttribute($element, 'type');
 
             $class = 'NextendElement' . $type;
-            if (!class_exists($class)) {
+            if (!class_exists($class, false)) {
                 if (!nextendimportpath($this->_form->_xmlfolder . 'element/' . $type)) {
                     nextendimport('nextend.form.element.' . $type);
                 }

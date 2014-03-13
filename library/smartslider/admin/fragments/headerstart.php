@@ -57,6 +57,13 @@ $fonts->addFont('Open Sans', 700);
                     <a class="smartslider-button-link" href="<?php echo $this->route('controller=help'); ?>">
                         <div></div>
                         <?php echo NextendText::_('Help'); ?>
+                        <?php 
+                        global $smartslidercontroller;
+                        $problems = $smartslidercontroller->problems();
+                        if($problems):
+                        ?>
+                        <div class="nextend-possibleproblems"><?php echo $problems; ?></div>
+                        <?php endif; ?>
                     </a>
                 </div>
                 

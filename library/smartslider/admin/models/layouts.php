@@ -21,7 +21,7 @@ class NextendSmartsliderAdminModelLayouts extends NextendSmartsliderAdminModelBa
         return array(
             array(
                 'class' => 'one-column',
-                'slide' => '<div data-parallaxout="0.45" data-delayout="0" data-easingout="linear" data-durationout="500" data-animationout="0" data-playoutafter="0" data-parallaxin="0.45" data-delayin="0" data-easingin="linear" data-durationin="500" data-animationin="0" data-name="Layer #1" class="smart-slider-layer" style="top: 10%; left: 10%; width: 80%; height: 20%; position: absolute; z-index: 7; display: block;" data-animation="slide"><div style="" class="smart-slider-items" data-item="heading" data-itemvalues="{&quot;priority&quot;:&quot;1&quot;,&quot;heading&quot;:&quot;Heading&quot;,&quot;link&quot;:&quot;|*|_self|*|default&quot;,&quot;fontclass&quot;:&quot;sliderfont2&quot;,&quot;skins&quot;:&quot;&quot;,&quot;css&quot;:&quot;padding: 0;\n                    margin: 0;\n                    background: none;\n                    box-shadow: none;&quot;,&quot;class&quot;:&quot;&quot;}">
+                'slide' => '<div data-parallaxout="0.45" data-delayout="0" data-easingout="linear" data-durationout="500" data-animationout="0" data-playoutafter="0" data-parallaxin="0.45" data-delayin="0" data-easingin="linear" data-durationin="500" data-animationin="0" data-name="Layer #1" class="smart-slider-layer" style="top: 10%; left: 10%; width: 80%; height: 20%; position: absolute; z-index: 7; display: block;" data-animation="slide"><div style="" class="smart-slider-items" data-item="heading" data-itemvalues="{&quot;priority&quot;:&quot;1&quot;,&quot;heading&quot;:&quot;Heading&quot;,&quot;link&quot;:&quot;#|*|_self|*|default&quot;,&quot;fontclass&quot;:&quot;sliderfont2&quot;,&quot;skins&quot;:&quot;&quot;,&quot;css&quot;:&quot;padding: 0;\n                    margin: 0;\n                    background: none;\n                    box-shadow: none;&quot;,&quot;class&quot;:&quot;&quot;}">
           <h1 style="padding: 0;
                     margin: 0;
                     background: none;
@@ -32,7 +32,7 @@ class NextendSmartsliderAdminModelLayouts extends NextendSmartsliderAdminModelBa
             ),
             array(
                 'class' => 'two-column',
-                'slide' => '<div data-parallaxout="0.45" data-delayout="0" data-easingout="linear" data-durationout="500" data-animationout="0" data-playoutafter="0" data-parallaxin="0.45" data-delayin="0" data-easingin="linear" data-durationin="500" data-animationin="0" data-name="Layer #1" class="smart-slider-layer" style="top: 10%; left: 10%; width: 80%; height: 20%; position: absolute; z-index: 2; display: block;" data-animation="slide"><div style="" class="smart-slider-items" data-item="heading" data-itemvalues="{&quot;priority&quot;:&quot;1&quot;,&quot;heading&quot;:&quot;Heading&quot;,&quot;link&quot;:&quot;|*|_self|*|default&quot;,&quot;fontclass&quot;:&quot;sliderfont2&quot;,&quot;skins&quot;:&quot;&quot;,&quot;css&quot;:&quot;padding: 0;\n                    margin: 0;\n                    background: none;\n                    box-shadow: none;&quot;,&quot;class&quot;:&quot;&quot;}">
+                'slide' => '<div data-parallaxout="0.45" data-delayout="0" data-easingout="linear" data-durationout="500" data-animationout="0" data-playoutafter="0" data-parallaxin="0.45" data-delayin="0" data-easingin="linear" data-durationin="500" data-animationin="0" data-name="Layer #1" class="smart-slider-layer" style="top: 10%; left: 10%; width: 80%; height: 20%; position: absolute; z-index: 2; display: block;" data-animation="slide"><div style="" class="smart-slider-items" data-item="heading" data-itemvalues="{&quot;priority&quot;:&quot;1&quot;,&quot;heading&quot;:&quot;Heading&quot;,&quot;link&quot;:&quot;#|*|_self|*|default&quot;,&quot;fontclass&quot;:&quot;sliderfont2&quot;,&quot;skins&quot;:&quot;&quot;,&quot;css&quot;:&quot;padding: 0;\n                    margin: 0;\n                    background: none;\n                    box-shadow: none;&quot;,&quot;class&quot;:&quot;&quot;}">
           <h1 style="padding: 0;
                     margin: 0;
                     background: none;
@@ -43,18 +43,18 @@ class NextendSmartsliderAdminModelLayouts extends NextendSmartsliderAdminModelBa
             ),
             array(
                 'class' => 'text-image',
-                'slide' => '<div data-parallaxout="0.45" data-delayout="0" data-easingout="linear" data-durationout="500" data-animationout="0" data-playoutafter="0" data-parallaxin="0.45" data-delayin="0" data-easingin="linear" data-durationin="500" data-animationin="0" data-name="Layer #1" class="smart-slider-layer" style="top: 10%; left: 10%; width: 38%; height: 20%; position: absolute; z-index: 2; display: block;" data-animation="slide"><div style="" class="smart-slider-items" data-item="heading" data-itemvalues="{&quot;priority&quot;:&quot;1&quot;,&quot;heading&quot;:&quot;Heading&quot;,&quot;link&quot;:&quot;|*|_self|*|default&quot;,&quot;fontclass&quot;:&quot;sliderfont2&quot;,&quot;skins&quot;:&quot;&quot;,&quot;css&quot;:&quot;padding: 0;\n                    margin: 0;\n                    background: none;\n                    box-shadow: none;&quot;,&quot;class&quot;:&quot;&quot;}">
+                'slide' => '<div data-parallaxout="0.45" data-delayout="0" data-easingout="linear" data-durationout="500" data-animationout="0" data-playoutafter="0" data-parallaxin="0.45" data-delayin="0" data-easingin="linear" data-durationin="500" data-animationin="0" data-name="Layer #1" class="smart-slider-layer" style="top: 10%; left: 10%; width: 38%; height: 20%; position: absolute; z-index: 2; display: block;" data-animation="slide"><div style="" class="smart-slider-items" data-item="heading" data-itemvalues="{&quot;priority&quot;:&quot;1&quot;,&quot;heading&quot;:&quot;Heading&quot;,&quot;link&quot;:&quot;#|*|_self|*|default&quot;,&quot;fontclass&quot;:&quot;sliderfont2&quot;,&quot;skins&quot;:&quot;&quot;,&quot;css&quot;:&quot;padding: 0;\n                    margin: 0;\n                    background: none;\n                    box-shadow: none;&quot;,&quot;class&quot;:&quot;&quot;}">
           <h1 style="padding: 0;
                     margin: 0;
                     background: none;
                     box-shadow: none;" class="sliderfont2 ">
                   '.NextendText::_('Heading').'
                 </h1>
-        </div></div><div data-parallaxout="0.45" data-delayout="0" data-easingout="linear" data-durationout="500" data-animationout="0" data-playoutafter="0" data-parallaxin="0.45" data-delayin="0" data-easingin="linear" data-durationin="500" data-animationin="0" data-name="Layer #2" class="smart-slider-layer" style="top: 30%; left: 10%; width: 38%; height: 59.967%; position: absolute; z-index: 3; display: block;" data-animation="slide"><div style="" class="smart-slider-items" data-item="paragraph" data-itemvalues="{&quot;content&quot;:&quot;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.&quot;,&quot;fontclass&quot;:&quot;sliderfont6&quot;,&quot;css&quot;:&quot;&quot;,&quot;class&quot;:&quot;&quot;}"><p class="sliderfont6 " style="">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.</p></div></div>                    <div data-parallaxout="0.45" data-delayout="0" data-easingout="linear" data-durationout="500" data-animationout="0" data-playoutafter="0" data-parallaxin="0.45" data-delayin="0" data-easingin="linear" data-durationin="500" data-animationin="0" data-name="Layer #2 - copy" class="smart-slider-layer" style="top: 10%; left: 52%; width: 38%; height: 80%; position: absolute; z-index: 4; display: block;" data-animation="slide"><div style="" class="smart-slider-items" data-item="image" data-itemvalues="{&quot;image&quot;:&quot;http://www.nextendweb.com/static/placeholder.png&quot;,&quot;link&quot;:&quot;|*|_self|*|default&quot;,&quot;size&quot;:&quot;auto|*|&quot;,&quot;alt&quot;:&quot;-&quot;,&quot;css&quot;:&quot;&quot;}"><a href="" onclick="if(this.getAttribute(\'href\') === \'\') return false;" target="_self" style="background: none !important;cursor:default;"> <img src="http://www.nextendweb.com/static/placeholder.png" style="max-width: 100%; ;width:auto;height:;" alt="-"> </a></div></div>'
+        </div></div><div data-parallaxout="0.45" data-delayout="0" data-easingout="linear" data-durationout="500" data-animationout="0" data-playoutafter="0" data-parallaxin="0.45" data-delayin="0" data-easingin="linear" data-durationin="500" data-animationin="0" data-name="Layer #2" class="smart-slider-layer" style="top: 30%; left: 10%; width: 38%; height: 59.967%; position: absolute; z-index: 3; display: block;" data-animation="slide"><div style="" class="smart-slider-items" data-item="paragraph" data-itemvalues="{&quot;content&quot;:&quot;Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.&quot;,&quot;fontclass&quot;:&quot;sliderfont6&quot;,&quot;css&quot;:&quot;&quot;,&quot;class&quot;:&quot;&quot;}"><p class="sliderfont6 " style="">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.</p></div></div>                    <div data-parallaxout="0.45" data-delayout="0" data-easingout="linear" data-durationout="500" data-animationout="0" data-playoutafter="0" data-parallaxin="0.45" data-delayin="0" data-easingin="linear" data-durationin="500" data-animationin="0" data-name="Layer #2 - copy" class="smart-slider-layer" style="top: 10%; left: 52%; width: 38%; height: 80%; position: absolute; z-index: 4; display: block;" data-animation="slide"><div style="" class="smart-slider-items" data-item="image" data-itemvalues="{&quot;image&quot;:&quot;http://www.nextendweb.com/static/placeholder.png&quot;,&quot;link&quot;:&quot;#|*|_self|*|default&quot;,&quot;size&quot;:&quot;auto|*|&quot;,&quot;alt&quot;:&quot;-&quot;,&quot;css&quot;:&quot;&quot;}"><a href="" onclick="if(this.getAttribute(\'href\') === \'\') return false;" target="_self" style="background: none !important;cursor:default;"> <img src="http://www.nextendweb.com/static/placeholder.png" style="max-width: 100%; ;width:auto;height:;" alt="-"> </a></div></div>'
             ),
             array(
                 'class' => 'text-youtube',
-                'slide' => '<div data-parallaxout="0.45" data-delayout="0" data-easingout="linear" data-durationout="500" data-animationout="0" data-playoutafter="0" data-parallaxin="0.45" data-delayin="0" data-easingin="linear" data-durationin="500" data-animationin="0" data-name="Layer #1" class="smart-slider-layer" style="top: 10%; left: 10%; width: 38%; height: 20%; position: absolute; z-index: 2; display: block;" data-animation="slide"><div style="" class="smart-slider-items" data-item="heading" data-itemvalues="{&quot;priority&quot;:&quot;1&quot;,&quot;heading&quot;:&quot;Heading&quot;,&quot;link&quot;:&quot;|*|_self|*|default&quot;,&quot;fontclass&quot;:&quot;sliderfont2&quot;,&quot;skins&quot;:&quot;&quot;,&quot;css&quot;:&quot;padding: 0;\n                    margin: 0;\n                    background: none;\n                    box-shadow: none;&quot;,&quot;class&quot;:&quot;&quot;}">
+                'slide' => '<div data-parallaxout="0.45" data-delayout="0" data-easingout="linear" data-durationout="500" data-animationout="0" data-playoutafter="0" data-parallaxin="0.45" data-delayin="0" data-easingin="linear" data-durationin="500" data-animationin="0" data-name="Layer #1" class="smart-slider-layer" style="top: 10%; left: 10%; width: 38%; height: 20%; position: absolute; z-index: 2; display: block;" data-animation="slide"><div style="" class="smart-slider-items" data-item="heading" data-itemvalues="{&quot;priority&quot;:&quot;1&quot;,&quot;heading&quot;:&quot;Heading&quot;,&quot;link&quot;:&quot;#|*|_self|*|default&quot;,&quot;fontclass&quot;:&quot;sliderfont2&quot;,&quot;skins&quot;:&quot;&quot;,&quot;css&quot;:&quot;padding: 0;\n                    margin: 0;\n                    background: none;\n                    box-shadow: none;&quot;,&quot;class&quot;:&quot;&quot;}">
           
             <h1 style="padding: 0;
                     margin: 0;
@@ -69,7 +69,7 @@ class NextendSmartsliderAdminModelLayouts extends NextendSmartsliderAdminModelBa
             ),
             array(
                 'class' => 'full-image',
-                'slide' => '<div data-parallaxout="0.45" data-delayout="0" data-easingout="linear" data-durationout="500" data-animationout="0" data-playoutafter="0" data-parallaxin="0.45" data-delayin="0" data-easingin="linear" data-durationin="500" data-animationin="0" data-name="Layer #1" class="smart-slider-layer" style="top: 0%; left: 0%; width: 100%; height: 100%; position: absolute; z-index: 1;" data-animation="slide"><div style="" class="smart-slider-items" data-item="image" data-itemvalues="{&quot;image&quot;:&quot;http://www.nextendweb.com/static/placeholder.png&quot;,&quot;link&quot;:&quot;|*|_self|*|default&quot;,&quot;size&quot;:&quot;100%|*|auto&quot;,&quot;alt&quot;:&quot;-&quot;,&quot;css&quot;:&quot;&quot;}"><a href="" onclick="if(this.getAttribute(\'href\') === \'\') return false;" target="_self" style="background: none !important;cursor:default;"> <img src="http://www.nextendweb.com/static/placeholder.png" style="max-width: 100%; ;width:100%;height:auto;" alt="-"> </a></div></div>'
+                'slide' => '<div data-parallaxout="0.45" data-delayout="0" data-easingout="linear" data-durationout="500" data-animationout="0" data-playoutafter="0" data-parallaxin="0.45" data-delayin="0" data-easingin="linear" data-durationin="500" data-animationin="0" data-name="Layer #1" class="smart-slider-layer" style="top: 0%; left: 0%; width: 100%; height: 100%; position: absolute; z-index: 1;" data-animation="slide"><div style="" class="smart-slider-items" data-item="image" data-itemvalues="{&quot;image&quot;:&quot;http://www.nextendweb.com/static/placeholder.png&quot;,&quot;link&quot;:&quot;#|*|_self|*|default&quot;,&quot;size&quot;:&quot;100%|*|auto&quot;,&quot;alt&quot;:&quot;-&quot;,&quot;css&quot;:&quot;&quot;}"><a href="" onclick="if(this.getAttribute(\'href\') === \'\') return false;" target="_self" style="background: none !important;cursor:default;"> <img src="http://www.nextendweb.com/static/placeholder.png" style="max-width: 100%; ;width:100%;height:auto;" alt="-"> </a></div></div>'
             ),
             array(
                 'class' => 'full-youtube',
@@ -148,17 +148,13 @@ class NextendSmartsliderAdminModelLayouts extends NextendSmartsliderAdminModelBa
             $layout['title'] = 'New layout';
 
         $db = NextendDatabase::getInstance();
-
-        $query = 'INSERT INTO #__nextend_smartslider_layouts (title, slide, params) VALUES (';
-
-        $query.=$db->quote($layout['title']);
-        $query.=',' . $db->quote(base64_decode($layout['slide']));
-        $query.=',' . $db->quote('');
-        unset($layout['title']);
-        unset($layout['slide']);
-        $query.=');';
-        $db->setQuery($query);
-        $db->query();
+        
+        $db->insert('#__nextend_smartslider_layouts', array(
+            'title' => $layout['title'],
+            'slide' => base64_decode($layout['slide']),
+            'params' => ''
+        ));
+        
         return $db->insertid();
     }
 
@@ -168,17 +164,12 @@ class NextendSmartsliderAdminModelLayouts extends NextendSmartsliderAdminModelBa
         if ($layout['title'] == '')
             $layout['title'] = 'New layout';
         $db = NextendDatabase::getInstance();
+        
+        $db->update('#__nextend_smartslider_layouts', array(
+            'title' => $layout['title'],
+            'slide' => base64_decode($layout['slide'])
+        ), 'id = ' . $db->quote($id));
 
-        $query = 'UPDATE #__nextend_smartslider_layouts SET ';
-
-        $query.=' title=' . $db->quote($layout['title']);
-        $query.=',slide=' . $db->quote(base64_decode($layout['slide']));
-        unset($layout['title']);
-        unset($layout['slide']);
-
-        $query.=' WHERE id = ' . $db->quote($id);
-        $db->setQuery($query);
-        $db->query();
         return $id;
     }
 

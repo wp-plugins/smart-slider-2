@@ -36,7 +36,7 @@ window.Modernizr.addValueTest = function(property,value){
 
         body.insertBefore(element, null);
         for (var i in properties) {
-            if (element.style[i] !== undefined) {
+            if (typeof element.style[i] != 'undefined') {
                 element.style[i] = value;
             }
         }
@@ -53,7 +53,11 @@ window.Modernizr.addValueTest = function(property,value){
                             return arguments[2].toUpperCase();
                         });
                     }
-                    return el.currentStyle[prop] ? el.currentStyle[prop] : null;
+                    try{
+                        return el.currentStyle[prop] ? el.currentStyle[prop] : null;
+                    }catch(e){
+                        return null; // IE fix
+                    }
                 };
                 return this;
             };

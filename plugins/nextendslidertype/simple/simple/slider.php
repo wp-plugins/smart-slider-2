@@ -9,6 +9,13 @@ if ($backgroundimage && $backgroundimage != '-1') $backgroundimagecss = 'backgro
 
 $flux = (array)NextendParse::parse($this->_sliderParams->get('simplebackgroundanimation', '0|*|bars||blocks'));
 $flux[0] = $this->_backend ? 0 : intval($flux[0]);
+foreach($this->_slides AS $slide){
+    if ($slide['bg'] == ''){
+        $flux[0] = 0;
+        break;
+    }
+}
+
 if (!isset($flux[1])) $flux[1] = 'bars';
 $flux[1] = (array)$flux[1];
 if ($flux[0]) {
@@ -25,9 +32,7 @@ if ($flux[0]) {
             <?php if ($flux[0]): ?>
                 <div class="nextend-flux">
                     <?php foreach ($this->_slides AS $slide): ?>
-                        <?php if ($slide['bg']): ?>
-                            <img src="<?php echo $slide['bg']; ?>" class="nextend-slide-bg"<?php if ($slide['first']) echo ' style="z-index:2;position: absolute; top: 0px; left: 0px;" '; ?>/>
-                        <?php endif; ?>
+                        <img src="<?php echo $slide['bg']; ?>" class="nextend-slide-bg"<?php if ($slide['first']) echo ' style="z-index:2;position: absolute; top: 0px; left: 0px;" '; ?>/>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
@@ -38,7 +43,7 @@ if ($flux[0]) {
                         <img src="<?php echo $slide['bg']; ?>" class="nextend-slide-bg"/>
                     <?php endif; ?>
                     <?php if ($this->_backend && strpos($slide['classes'], 'smart-slider-slide-active') !== false): ?>
-                        <img src="<?php echo $slide['bg']; ?>" class="nextend-slide-bg"/>
+                        <img src="<?php echo ($slide['bg'] ? $slide['bg'] : 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'); ?>" class="nextend-slide-bg"/>
                     <?php endif; ?>
                     <div class="smart-slider-canvas-inner">
                         <?php echo $slide['slide']; ?>

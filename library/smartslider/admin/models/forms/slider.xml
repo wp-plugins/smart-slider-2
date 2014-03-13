@@ -57,6 +57,11 @@
         <param type="onoff" name="blockrightclick" label="Block_right_click" default="0" description="" />
     </params>
     <params name="slides" label="Slides">
+        <param type="radio" name="backgroundresize" label="Resize slide backgrounds" default="cover" >
+            <option value="0">Disabled</option>
+            <option value="cover">Cover mode</option>
+            <option value="contain">Contain mode</option>
+        </param>
         <param type="onoff" name="randomize" label="Randomize_slides" default="0" description="" />
     </params>
     <params name="autoplay" label="Autoplay_settings">

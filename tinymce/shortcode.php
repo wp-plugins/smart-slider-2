@@ -60,7 +60,7 @@ function nextendsmartslider2_button_dialog(){
                   ED = null;
                   
               function addToEditor(id){
-                  ED.execCommand('mceInsertContent', false, '[smartslider2 slider="'+id+'"]');
+                  ED.execCommand('mceInsertContent', false, '<div>[smartslider2 slider="'+id+'"]</div>');
               }
               
               function NextendSmartSliderModalInit(){

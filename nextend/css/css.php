@@ -119,7 +119,7 @@ class NextendCss {
     }
 
     function generateCSS($group = null, $serve = true) {
-        if (!$group && class_exists('NextendFontsGoogle')) {
+        if (!$group && class_exists('NextendFontsGoogle', false)) {
             $fonts = NextendFontsGoogle::getInstance();
             $fonts->generateFonts();
         }

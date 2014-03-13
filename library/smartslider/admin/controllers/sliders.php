@@ -20,7 +20,8 @@ class NextendSmartsliderAdminControllerSliders extends NextendSmartsliderAdminCo
             if (NextendRequest::getInt('save')) {
                 $slidersModel = $this->getModel('sliders');
                 if ($sliderid = $slidersModel->createQuick()) {
-                    header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider&action=dashboard&sliderid=' . $sliderid));
+                    $slidersModel->loadGeneratorFontSet($sliderid);
+                    header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider&action=changedynamiclayout&fontset=1&sliderid=' . $sliderid));
                     exit;
                 }
             }
@@ -158,7 +159,7 @@ class NextendSmartsliderAdminControllerSliders extends NextendSmartsliderAdminCo
         };
     }
 
-    function generatorAction() {
+    function generatorstartAction() {
         if ($this->canDo('slider.edit')) {
             $slidersModel = $this->getModel('sliders');
             if (!$slidersModel->getSlider(NextendRequest::getInt('sliderid'))) {
@@ -168,6 +169,51 @@ class NextendSmartsliderAdminControllerSliders extends NextendSmartsliderAdminCo
             if (NextendRequest::getInt('save')) {
                 if ($sliderid = $slidersModel->saveGenerator(NextendRequest::getInt('sliderid'), NextendRequest::getVar('generator', ''), NextendRequest::getVar('slide', ''))) {
                     header('LOCATION: ' . $this->route('controller=sliders&view=sliders_generator&action=generator&sliderid=' . $sliderid));
+                    exit;
+                }
+            }
+
+            $this->display('default', 'source');
+        } else {
+            $this->noaccess();
+        }
+    }
+
+    function generatorsettingsAction() {
+        if ($this->canDo('slider.edit')) {
+            $slidersModel = $this->getModel('sliders');
+            if (!$slidersModel->getSlider(NextendRequest::getInt('sliderid'))) {
+                $this->redirectToSliders();
+            }
+
+            if (NextendRequest::getInt('save')) {
+                if ($sliderid = $slidersModel->saveGeneratorSettings(NextendRequest::getInt('sliderid'), NextendRequest::getVar('generator', ''))) {
+                    if(isset($_POST['generator']) && isset($_POST['generator']['enabled']) && $_POST['generator']['enabled'] == 0){
+                        header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider&action=dashboard&sliderid=' . $sliderid));
+                    }else if(NextendRequest::getInt('gotopreset', 0)){
+                        header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider&action=changedynamiclayout&sliderid=' . $sliderid));
+                    }else{
+                        header('LOCATION: ' . $this->route('controller=sliders&view=sliders_generator&action=generatoredit&sliderid=' . $sliderid));
+                    }
+                    exit;
+                }
+            }
+            $this->display('default', 'settings');
+        } else {
+            $this->noaccess();
+        }
+    }
+
+    function generatoreditAction() {
+        if ($this->canDo('slider.edit')) {
+            $slidersModel = $this->getModel('sliders');
+            if (!$slidersModel->getSlider(NextendRequest::getInt('sliderid'))) {
+                $this->redirectToSliders();
+            }
+
+            if (NextendRequest::getInt('save')) {
+                if ($sliderid = $slidersModel->saveGeneratorSlide(NextendRequest::getInt('sliderid'), NextendRequest::getVar('slide', ''))) {
+                    header('LOCATION: ' . $this->route('controller=sliders&view=sliders_generator&action=generatoredit&sliderid=' . $sliderid));
                     exit;
                 }
             }
@@ -259,16 +305,22 @@ class NextendSmartsliderAdminControllerSliders extends NextendSmartsliderAdminCo
     }
     
     function importFile($targetzip, $showmessage = true){
-        $zip = new ZipArchive;
-        $res = $zip->open($targetzip);
-        if ($res === TRUE) {
-            $slider = $zip->getFromName('slider.ss2');
+        nextendimport('nextend.externals.zip_read');
+        $zipfile = new NextendZipfile;
+        $zipfile->read_zip($targetzip);
+        
+        if (count($zipfile->files)) {
+            $data = array();
+            foreach($zipfile->files AS $file){
+                $data[$file['name']] = $file['data'];
+            }
+            $slider = isset($data['slider.ss2']) ? $data['slider.ss2'] : 0;
             if($slider){
                 $slidersModel = $this->getModel('sliders');
                 $sliderid = $slidersModel->import(unserialize($slider));
                 if($showmessage) NextendMessage::success(NextendText::_('Success'), NextendText::_('1_Slider_imported'));
                 if($sliderid){
-                    $slides = $zip->getFromName('slides.ss2');
+                    $slides = isset($data['slides.ss2']) ? $data['slides.ss2'] : 0;
                     if($slides){
                         $slidesModel = $this->getModel('slides');
                         $slides = unserialize($slides);
@@ -278,7 +330,7 @@ class NextendSmartsliderAdminControllerSliders extends NextendSmartsliderAdminCo
                         }
                         if($showmessage) NextendMessage::success(NextendText::_('Success'), count($slides).'&nbsp;'.NextendText::_('Slides_imported'));
                     }
-                    $fonts = $zip->getFromName('fonts.ss2');
+                    $fonts = isset($data['fonts.ss2']) ? $data['fonts.ss2'] : 0;
                     if($fonts){
                         NextendSmartSliderStorage::set('font'.$sliderid, json_encode(unserialize($fonts)));
                         if($showmessage) NextendMessage::success(NextendText::_('Success'), NextendText::_('1_font_set_imported'));
@@ -287,7 +339,7 @@ class NextendSmartsliderAdminControllerSliders extends NextendSmartsliderAdminCo
                 }
             }
         }else{
-            NextendMessage::error(NextendText::_('Error'), NextendText::_('Unable_to_unzip_the_file_Error_code').$res);                            
+            NextendMessage::error(NextendText::_('Error'), NextendText::_('Unable_to_unzip_the_file_Error_code'));                            
         }
     }
     

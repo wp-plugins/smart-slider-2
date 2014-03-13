@@ -64,13 +64,6 @@ if(NextendRequest::getCmd('action', '') == '' || (NextendRequest::getCmd('view',
         $i++;
         $active = $sliderid == $slider['id'];
 
-        $generator = json_decode($slider['generator'], true);
-        if ($generator && isset($generator['enabled']) && $generator['enabled']) {
-            $generator = true;
-        }else{
-            $generator = false;
-        }
-
         ?>
         <dt class="<?php echo $c; ?> smartslider-button-blue-active smartslider-icon-container <?php echo $active ? 'subactive' : ''; ?> <?php echo $active && NextendRequest::getCmd('controller') == 'sliders' ? 'active' : ''; ?>">
             <a class="smartslider-button-link"
@@ -84,18 +77,6 @@ if(NextendRequest::getCmd('action', '') == '' || (NextendRequest::getCmd('view',
                             <a href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=edit&sliderid=' . $slider['id']); ?>">
                                 <span class="smartslider-qtip-icon create_slider"></span>
                                 <?php echo NextendText::_('Edit_slider'); ?>
-                            </a>
-                        </li>
-                    <?php endif; ?>
-                    
-                    <?php if (!$j15 && $accessSliderEdit): ?>
-                        <li class="smartslider-icon-container">
-                            <a href="<?php echo $this->route('controller=sliders&view=sliders_generator&action=generator&sliderid=' . $slider['id']); ?>">
-                                <span class="smartslider-qtip-icon generator"></span>
-                                <?php echo NextendText::_('Generator'); ?>
-                                <?php if ($generator): ?>
-                                    <span class="smartslider-qtip-icon activegreen"></span>
-                                <?php endif; ?>
                             </a>
                         </li>
                     <?php endif; ?>

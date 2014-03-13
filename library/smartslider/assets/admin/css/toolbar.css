@@ -200,3 +200,18 @@
     /* W3C Markup, IE10 Release Preview */ 
     background-image: linear-gradient(to bottom, #bb6843 0%, #9f3624 100%);
 }
+
+.smartslider-toolbar .smartslider-toolbar-controllers .smartslider-support{
+    position: relative;
+}
+
+.smartslider-toolbar .smartslider-toolbar-controllers .smartslider-support .nextend-possibleproblems{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: #BB533B;
+  text-align: center;
+}

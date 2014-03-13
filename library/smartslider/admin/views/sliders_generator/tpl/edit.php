@@ -1,5 +1,26 @@
 <?php
-global $smartslidergeneratorslide;
+global $smartslidergeneratorslide, $slidegenerator, $generatorinstance;
+
+nextendimportsmartslider2('nextend.smartslider.generator');
+
+$slidersModel = $this->getModel('sliders');
+$slider = $slidersModel->getSlider(NextendRequest::getInt('sliderid'));
+
+$smartslidergenerator = (array)json_decode($slider['generator'], true);
+
+$slidegenerator = null;
+$generatorParams = new NextendData();
+$generatorParams->loadArray($smartslidergenerator);
+$source = $generatorParams->get('source', '');
+if ($source) {
+    $generatorSlideParams = new NextendData();
+    $generatorSlideParams->loadArray(json_decode($slider['slide'], true));
+    $generator = new NextendSmartsliderGenerator($generatorParams, $generatorSlideParams, NextendRequest::getInt('sliderid'));
+    $generatorinstance = $generator->initDatasource($source, true);
+    $slidegenerator = $generator;
+}else{
+    // Here should be a redirect for the generator start!
+}
 
 $this->loadFragment('headerstart');
 ?>
@@ -28,12 +49,13 @@ $this->loadFragment('secondcolstart');
 <form id="smartslider-form" action="" onsubmit="return (parseInt(njQuery('#generateslidesgeneratorgenerateslides_1').val()) == 1 && parseInt(njQuery('#generateslidesgeneratorgenerateslides_2').val()) == 0 ? confirm('\'Generate slides\' without static switch will delete and generate your dynamic slides. Are you sure?') : true)" method="post">
     <?php
     NextendForm::tokenize();
-    $slidersModel = $this->getModel('sliders');
-    $slider = $slidersModel->getSlider(NextendRequest::getInt('sliderid'));
-
-    $smartslidergenerator = (array)json_decode($slider['generator'], true);
-
-    $xml = $slidersModel->editGeneratorForm($smartslidergenerator);
+    
+    $xml = $slidersModel->editGeneratorSlide($smartslidergenerator);
+    if(intval(NextendSmartSliderSettings::get('generatordesignermode', 1))){
+        if($generator->_datasource && count($generator->_datasource)){
+            echo '<script type="text/javascript">window.samplegeneratordata = '.json_encode($generator->_datasource).';</script>';
+        }
+    }
 
     $smartslidergeneratorslide = (array)json_decode($slider['slide'], true);
 

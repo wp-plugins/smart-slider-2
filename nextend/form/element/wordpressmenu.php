@@ -7,9 +7,9 @@ class NextendElementWordpressmenu extends NextendElementList{
         $menus = get_terms('nav_menu');
         $ids = array();
         
-        for($i = 0; $i < count($menus); $i++){
-            $this->_xml->addChild('option', htmlspecialchars($menus[$i]->name))->addAttribute('value', $menus[$i]->term_id);
-            $ids[] = $menus[$i]->term_id;
+        foreach($menus AS $menu){
+            $this->_xml->addChild('option', ($menu->name))->addAttribute('value', $menu->term_id);
+            $ids[] = $menu->term_id;
         }
         
         $this->_value = $this->_form->get($this->_name, $this->_default);

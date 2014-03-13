@@ -4,7 +4,7 @@ Tags: slider,layer slider,slide,responsive slider,gallery slider,carousel,image 
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 2.3.5
+Stable tag: 2.3.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -112,6 +112,20 @@ Or you can get the shortcode - [View](http://www.nextendweb.com/wp-content/uploa
 4. Screenshot from the backend, which will help you through the set up process with easily understandable features.
 
 == Changelog ==
+
+= 2.3.7 =
+* Feature: Quick image generator with extended fields
+* Feature: Generator step-by-step view
+* Feature: Layout normalization for generators
+* Feature: Slider presets for generated sliders
+* Feature: Background image resize modes: cover and contain
+* Feature: WordPress error checker added: checks for wp_head and wp_footer
+* Feature: Memory limit check for background image resize and fade in on load.
+* Feature: New universal unzip method to give import wider PHP support
+* Fix: parse_ini_file function alternative added when the function disabled
+* Fix: Custom zip algorithm for import and export
+* Fix: Item optimizations
+* Fix: Generator field name normalization. Older field names are still available for compatibility, but better to use new ones as they are supported by the generator layouts.
 
 = 2.3.5 =
 * Feature: Layer background color added

@@ -28,7 +28,7 @@ class NextendSliderWordpress extends NextendSlider{
         $type = $this->_slider->get('type', 'default');
         
         $class = 'plgNextendSlidertype' . $type;
-        if (!class_exists($class)) {
+        if (!class_exists($class, false)) {
             echo 'Error in slider type!';
             return false;
         }

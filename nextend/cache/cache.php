@@ -33,7 +33,7 @@ class NextendCache{
     function createCacheFolder($path){
         if(NextendFilesystem::existsFolder($path)) return;
         if(NextendFilesystem::createFolder($path)) return;
-        echo NextendText::sprintf('Couldn\'t create the required cache dir: %s. Please make sure that the folder writeable by PHP!', $path);
+        echo '<br />'.NextendText::sprintf('Couldn\'t create the required cache dir: %s. Please make sure that the folder writeable by PHP!', $path);
         exit;
     }
     
@@ -119,6 +119,10 @@ class NextendCache{
             $hash.=$this->_files[$i].filemtime($this->_files[$i]);
         }
         return md5($this->parseHash($hash).$this->_text);
+    }
+    
+    function createHashFromArray($array){
+        return md5($this->parseHash(implode($array, ',')));
     }
     
     function parseHash($hash){

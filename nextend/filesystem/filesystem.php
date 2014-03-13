@@ -87,6 +87,10 @@ class NextendFilesystemAbstract {
         return $folders;
     }
     
+    static function is_writable($path){
+        return is_writable($path);
+    }
+    
     static function createFolder($path){
         return mkdir($path, 0777, true);
     }

@@ -89,5 +89,25 @@ class NextendSmartsliderAdminController extends NextendController {
 
         $this->display('default');
     }
+    
+    function problems(){
+        $count = 0;
+        if(nextendIsWordPress()){
+            $nextenderror = get_option( 'nextend_error' );
+            if ( $nextenderror !== false && is_array($nextenderror)){
+                if(isset($nextenderror['missinghead'])){
+                    foreach($nextenderror['missinghead'] AS $url){
+                        $count++;
+                    }
+                }
+                if(isset($nextenderror['missingfooter'])){
+                    foreach($nextenderror['missingfooter'] AS $url){
+                        $count++;
+                    }
+                }
+            }
+        }
+        return $count;
+    }
 
 }

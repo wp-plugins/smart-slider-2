@@ -1,4 +1,13 @@
 <?php
+if(isset($_GET['clearlog'])){
+    if(nextendIsWordPress()){
+        delete_option( 'nextend_error' );
+        wp_safe_redirect( $this->route('controller=help') );
+    }
+    else header('Location: '. $this->route('controller=help'));
+    exit;
+}
+
 $this->loadFragment('headerstart');
 ?>
 <?php
@@ -84,315 +93,46 @@ $css->addCssLibraryFile('form.css');
           </tr>                          
         </tbody>             
       </table>               
-	  <h2><?php echo NextendText::_('Documentation'); ?></h2>             
-      <div class="doc">                 
-        <div class='categorycontainer nextend-clearfix'>              
-          <div class="left">            
-            <dl>              
-              <dt>    <i></i>                
-                <span><?php echo NextendText::_('Installation_General'); ?>
-                </span>                 
-              </dt>              
-              <dd>                
-                <ul>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/installation-on-joomla/"><?php echo NextendText::_('Install_instruction_for_Joomla'); ?>
-                    <span class="platform">Joomla                     
-                    </span></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/how-to-create-a-smart-slider-2-module/"><?php echo NextendText::_('How_to_create_a_Smart_Slider_2_module'); ?>
-                    <span class="platform">Joomla                     
-                    </span></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/installation-wordpress/"><?php echo NextendText::_('Install_instruction_for_WordPress'); ?>
-                    <span class="wordpress">WordPress                     
-                    </span></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/system-requirements/"><?php echo NextendText::_('System_requirements_PHP_SQL_etc'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/download-section/"><?php echo NextendText::_('Download_section_cancel_subscription'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/changelog"><?php echo NextendText::_('Changelog_for_Smart_Slider_2'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/known-problems/"><?php echo NextendText::_('Known_problems'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/translation/"><?php echo NextendText::_('Translation'); ?></a>                  
-                  </li>                
-                </ul>              
-              </dd>            
-            </dl>            
-            <dl>              
-              <dt>                     
-                <span><?php echo NextendText::_('Usage'); ?>
-                </span>                 
-              </dt>              
-              <dd>                
-                <ul>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/basics/"><?php echo NextendText::_('Basics'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/slider-and-widgets/"><?php echo NextendText::_('Slider_and_widgets'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/slide-layers-and-items/"><?php echo NextendText::_('Slide_layers_and_items'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/layer-animation/"><?php echo NextendText::_('Slide_layer_animation'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/layouts/"><?php echo NextendText::_('Layout'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/generator/"><?php echo NextendText::_('Generator'); ?></a>                  
-                  </li>             
-                </ul>              
-              </dd>            
-            </dl>            
-            <dl>              
-              <dt>                     
-                <span><?php echo NextendText::_('Settings_in_depth'); ?>                
-                </span>                 
-              </dt>              
-              <dd>                
-                <ul>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/global-settings/"><?php echo NextendText::_('Global_settings'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/fonts/"><?php echo NextendText::_('Fonts'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/slider-settings/"><?php echo NextendText::_('Slider_settings'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/slide-settings/"><?php echo NextendText::_('Slide_settings'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/layout-settings/"><?php echo NextendText::_('Layout_settings'); ?></a>                  
-                  </li>                    
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/import-export/"><?php echo NextendText::_('Import_and_Export'); ?></a>                  
-                  </li>      
-                </ul>              
-              </dd>            
-            </dl>            
-            <dl>              
-              <dt>                     
-                <span><?php echo NextendText::_('Slider_types'); ?>
-                </span>                 
-              </dt>              
-              <dd>                
-                <ul>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/simple-slider-type/"><?php echo NextendText::_('Simple_slider_type'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/full-page-slider-type/"><?php echo NextendText::_('Full_page_type'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/horizontal-accordion-slider-type/"><?php echo NextendText::_('Horizontal_accordion_slider_type'); ?></a>
-		  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/vertical-accordion-slider-type/"><?php echo NextendText::_('Vertical_accordion_slider_type'); ?></a> 
-                  </li>                
-                </ul>              
-              </dd>            
-            </dl>            
-            <dl>              
-              <dt>                     
-                <span><?php echo NextendText::_('Slider_widgets'); ?>
-                </span>                 
-              </dt>              
-              <dd>                
-                <ul>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/widgets/"><?php echo NextendText::_('More_about_widgets'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/arrows/"><?php echo NextendText::_('Arrows'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/bullets"><?php echo NextendText::_('Bullets'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/autoplay-button/"><?php echo NextendText::_('Autoplay_button'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/indicator-autoplay"><?php echo NextendText::_('Indicator_autoplay'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/bar"><?php echo NextendText::_('Bar'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/thumbnails"><?php echo NextendText::_('Thumbnails'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/shadows"><?php echo NextendText::_('Shadows'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/html"><?php echo NextendText::_('HTML'); ?></a>                  
-                  </li>                
-                </ul>              
-              </dd>            
-            </dl>          
-          </div>          
-          <div class="right">            
-            <dl>              
-              <dt>                     
-                <span><?php echo NextendText::_('Items'); ?>                 
-                </span>                 
-              </dt>              
-              <dd>                
-                <ul>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/button/"><?php echo NextendText::_('Button'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/caption/"><?php echo NextendText::_('Caption'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/fade/"><?php echo NextendText::_('Fade'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/flipper/"><?php echo NextendText::_('Flipper'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/heading/"><?php echo NextendText::_('Heading'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/html-item/"><?php echo NextendText::_('HTML'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/iframe/"><?php echo NextendText::_('Iframe'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/paragraph/"><?php echo NextendText::_('Paragraph'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/special/"><?php echo NextendText::_('Special'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/tag/"><?php echo NextendText::_('Tag'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/youtube/"><?php echo NextendText::_('YouTube'); ?></a>                  
-                  </li>                
-                </ul>              
-              </dd>            
-            </dl>            
-            <dl>              
-              <dt>                     
-                <span><?php echo NextendText::_('Generators'); ?>                 
-                </span>                 
-              </dt>              
-              <dd>                
-                <ul>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/facebook-generator/"><?php echo NextendText::_('Facebook'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/flickr-generator/"><?php echo NextendText::_('Flickr'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/instagram-generator/"><?php echo NextendText::_('Instagram'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/youtube-generator/"><?php echo NextendText::_('YouTube'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/twitter-generator/"><?php echo NextendText::_('Twitter'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/image-from-folder-joomla-generator/"><?php echo NextendText::_('Image_from_folder'); ?>      
-                    <span class="platform">Joomla                     
-                    </span></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/joomla-content-generator/"><?php echo NextendText::_('Joomla_content'); ?>          
-                    <span class="platform">Joomla                     
-                    </span></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/k2-items-generator/"><?php echo NextendText::_('K2_items'); ?>
-                    <span class="platform">Joomla                     
-                    </span></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/cobalt-cck-generator/"><?php echo NextendText::_('Cobalt_CCK'); ?>
-                    <span class="platform">Joomla                     
-                    </span></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/ignite-gallery-generator/"><?php echo NextendText::_('Ignite_Gallery'); ?>          
-                    <span class="platform">Joomla                     
-                    </span></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/phoca-gallery-generator/"><?php echo NextendText::_('Phoca_Gallery'); ?>                     
-                    <span class="platform">Joomla                     
-                    </span></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/virtuemart2-generator/"><?php echo NextendText::_('Virtuemart_2'); ?>   
-                    <span class="platform">Joomla                     
-                    </span></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/redshop-generator/"><?php echo NextendText::_('redSHOP'); ?>                      
-                    <span class="platform">Joomla                     
-                    </span></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/joomshopping-generator/"><?php echo NextendText::_('JoomShopping'); ?>                      
-                    <span class="platform">Joomla                     
-                    </span></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/image-from-folder-wordpress-generator/"><?php echo NextendText::_('Image_from_folder'); ?>
-                    <span class="wordpress">WordPress                     
-                    </span></a>                  
-                  </li>                  
-                  <li>                  
-                  <a target="_blank"  href="http://www.nextendweb.com/wiki/smart-slider-documentation/posts-generator/"><?php echo NextendText::_('Posts'); ?>                 
-                    <span class="wordpress">WordPress                     
-                    </span></a>                  
-                  </li>                
-                </ul>              
-              </dd>            
-            </dl>            
-            <dl>              
-              <dt>                     
-                <span><?php echo NextendText::_('Extra_features'); ?>
-                </span>                 
-              </dt>              
-              <dd>                
-                <ul>                  
-                  <li>                  
-                  <a href="http://www.nextendweb.com/wiki/smart-slider-documentation/javascript-api/"><?php echo NextendText::_('JavaScript_API'); ?></a>                  
-                  </li>                  
-                  <li>                  
-                  <a href="http://www.nextendweb.com/wiki/smart-slider-documentation/advanced-generator-functions/"><?php echo NextendText::_('Advanced_generator_functions'); ?></a>                  
-                  </li>                
-                </ul>              
-              </dd>            
-            </dl>          
-          </div>          
-          <div style="clear:both;">          
-          </div>                          
-        </div>           
-      </div>                
-      <h2><?php echo NextendText::_('Tutorial_videos'); ?></h2>               
-        <div class="tutorial-videos nextend-clearfix">
-            <iframe width="640" height="360" src="//www.youtube.com/embed/videoseries?list=PLSawiBnEUNfvCEnV5dGOAQABZ8TBx8fJg&vq=hd1080&hd=1" frameborder="0" allowfullscreen></iframe>                 
-        </div>                        
+	  <h2><?php echo NextendText::_('Possible problems'); ?></h2>             
+    <div class="doc">
+    <?php
+    if(nextendIsWordPress()){
+        $nextenderror = get_option( 'nextend_error' );
+        if ( $nextenderror !== false && is_array($nextenderror)){
+            if(isset($nextenderror['missinghead'])){
+                foreach($nextenderror['missinghead'] AS $url){
+                    NextendMessage::error(NextendText::_('get_header() or wp_head() call is missing from the template!'), 'Related page: '.$url.'<br /><br />Make sure that get_header() exists in the current template of the page or post at the beginning<br />Make sure that wp_head() exists before the closing &lt;/head&gt; tag in the [theme folder]/header.php<br /><a href="http://codex.wordpress.org/Function_Reference/wp_head" target="_blank">http://codex.wordpress.org/Function_Reference/wp_head</a>');
+                }
+            }
+            if(isset($nextenderror['missingfooter'])){
+                foreach($nextenderror['missingfooter'] AS $url){
+                    NextendMessage::error(NextendText::_('get_footer() or wp_footer() call is missing from the template!'), 'Related page: '.$url.'<br /><br />Make sure that get_footer() exists in the current template of the page or post at the end of the file<br />Make sure that wp_footer() exists before the closing &lt;/body&gt; tag in the [theme folder]/footer.php<br /><a href="http://codex.wordpress.org/Function_Reference/wp_footer" target="_blank">http://codex.wordpress.org/Function_Reference/wp_footer</a>');
+                }
+            }
+        }
+    }
+    ob_start();
+    NextendMessage::show();
+    $messages = ob_get_clean();
+    if($messages){
+        echo $messages;
+    }else{
+        NextendMessage::success('Everything seems fine!');
+        NextendMessage::show();
+    }
+    ?>
+        <div style="margin: 0 15px;">
+            <a class="button b" href="<?php echo $this->route('controller=help&clearlog=1'); ?>">Clear error log</a>
+            <?php if(nextendIsWordPress()){ ?>
+                <br /><br /><br />
+                <p>You can disable this log on the Nextend configuration with "<b>Log possible problems</b>" parameter: <a class="button small" href="<?php echo admin_url('options-general.php?page=nextend_settings_page'); ?>">Nextend configuration</a></p>
+            <?php } ?>
+        </div>
+    </div>
+    <h2><?php echo NextendText::_('Tutorial_videos'); ?></h2>               
+    <div class="tutorial-videos nextend-clearfix">
+        <iframe width="640" height="360" src="//www.youtube.com/embed/videoseries?list=PLSawiBnEUNfvCEnV5dGOAQABZ8TBx8fJg&vq=hd1080&hd=1" frameborder="0" allowfullscreen></iframe>                 
+    </div>
 </div>   
 </form>
 

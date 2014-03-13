@@ -53,3 +53,36 @@
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
 }
+
+.ni .smartslider-dynamic-thumb.selected,
+.ni .smartslider-dynamic-thumb.notselected{
+    cursor: pointer;
+    width: 200px;
+    margin: 10px 10px 30px;
+    line-height: 0;
+}
+
+.ni .smartslider-dynamic-thumb.selected img,
+.ni .smartslider-dynamic-thumb.notselected img{
+    margin: 0;
+    width: 100%;
+}
+
+.ni .smartslider-dynamic-thumb.selected div,
+.ni .smartslider-dynamic-thumb.notselected div{
+    top: 100%;;
+    /*bottom: 0;*/
+    height: auto;
+}
+
+.ni .smartslider-dynamic-thumb.selected div{
+    background: #000;
+    background: RGBA(0,0,0,0.65);
+    background: #1D6ADD;
+    background-image: -ms-linear-gradient(top, #2A99E7 0%, #1D6ADD 100%);
+    background-image: -moz-linear-gradient(top, #2A99E7 0%, #1D6ADD 100%);
+    background-image: -o-linear-gradient(top, #2A99E7 0%, #4A91D6ADD901 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #2A99E7), color-stop(1, #1D6ADD));
+    background-image: -webkit-linear-gradient(top, #2A99E7 0%, #1D6ADD 100%);
+    background-image: linear-gradient(to bottom, #2A99E7 0%, #1D6ADD 100%);
+}

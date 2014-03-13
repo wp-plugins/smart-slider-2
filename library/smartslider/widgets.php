@@ -31,7 +31,7 @@ class NextendSliderWidgets {
         foreach($this->_enabledWidgets AS $k => $v){
             if(nextendIsJoomla()) JPluginHelper::importPlugin('nextendsliderwidget'.$k);
             $class = 'plgNextendSliderWidget'.$k.$v;
-            if(class_exists($class)) $this->_widgets[$k] = call_user_func(array($class, 'render'), $slider, $id, $params);
+            if(class_exists($class, false)) $this->_widgets[$k] = call_user_func(array($class, 'render'), $slider, $id, $params);
         }
 
     }

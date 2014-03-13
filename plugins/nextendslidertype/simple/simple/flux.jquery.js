@@ -370,6 +370,7 @@ window.flux = {
                     'z-index': 101,
                     'cursor': 'auto'
                 };
+            if(typeof img1 == 'undefined') return false;
 
             // Does this image have an associated link?
             if ($(img1).data('href')) {

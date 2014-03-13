@@ -1,5 +1,6 @@
 <?php
 nextendimportsmartslider2('nextend.smartslider.settings');
+nextendimportsmartslider2('nextend.smartslider.check');
 
 class plgNextendSliderGeneratorFacebook extends NextendPluginBase {
 

@@ -34,10 +34,6 @@
                     // if we've already found a container and it's more "inner" than this, then continue
                     //if (innermostContainer && $.contains(this.containers[i].element[0], innermostContainer.element[0])) {
                     if (innermostContainer && parseInt(this.containers[i].element.css('zIndex')) < parseInt(innermostContainer.element.css('zIndex'))) {
-                        if(window.ssdrag){
-                            innermostContainer = window.dummySortable;
-                            innermostIndex = this.containers.indexOf(innermostContainer);
-                        }
                         continue;
                     }
 
@@ -51,11 +47,17 @@
                         this.containers[i].containerCache.over = 0;
                     }
                 }
-
             }
             // if no intersecting containers found, return
             if (!innermostContainer) {
                 return;
+            }
+            if(typeof event.processed == 'undefined' && innermostContainer != window.dummySortable){
+                event.processed = true;
+            }else{
+                innermostContainer = window.dummySortable;
+                innermostIndex = this.containers.indexOf(innermostContainer);
+                
             }
 
             // move the item into the container if it's not there already

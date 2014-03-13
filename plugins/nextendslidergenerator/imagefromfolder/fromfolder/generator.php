@@ -7,8 +7,8 @@ class NextendGeneratorImagefromfolder_fromfolder extends NextendGeneratorAbstrac
     function NextendGeneratorImagefromfolder_fromfolder($data) {
         parent::__construct($data);
         $this->_variables = array(
-            'image_url' => NextendText::_('Url_to_the_image'),
-            'file_name' => NextendText::_('Name_of_the_image_file')
+            'image' => NextendText::_('Url_to_the_image'),
+            'title' => NextendText::_('Name_of_the_image_file')
         );
     }
 
@@ -23,8 +23,8 @@ class NextendGeneratorImagefromfolder_fromfolder extends NextendGeneratorAbstrac
             $ext = strtolower(pathinfo($files[$i], PATHINFO_EXTENSION));
             if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png') {
                 $data[$j] = array();
-                $data[$j]['image_url'] = NextendUri::pathToUri($folder.$files[$i]);
-                $data[$j]['file_name'] = $files[$i];
+                $data[$j]['thumbnail'] = $data[$j]['image'] = $data[$j]['image_url'] = NextendUri::pathToUri($folder.$files[$i]);
+                $data[$j]['title'] = $data[$j]['file_name'] = $files[$i];
                 $j++;
             }
         }

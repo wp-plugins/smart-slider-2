@@ -28,24 +28,24 @@ $this->loadFragment('secondcolstart');
 <div class="blue-container">
   <table class="pane-table smartslider-slider-create">
     <tr class="smartslider-slider-create-image">
-        <?php if(!$isMage): ?><td><img src="<?php echo NextendUri::pathToUri(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/images/create-quick.png') ?>" /></td><?php endif; ?>
+        <td><img src="<?php echo NextendUri::pathToUri(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/images/create-quick.png') ?>" /></td>
         <td><img src="<?php echo NextendUri::pathToUri(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/images/create-manual.png') ?>" /></td>
         <td><img src="<?php echo NextendUri::pathToUri(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/images/create-dynamic.png') ?>" /></td>
     </tr>
     <tr class="smartslider-slider-create-heading">
-        <?php if(!$isMage): ?><td>Quick slider</td><?php endif; ?>
+        <td>Quick slider</td>
         <td>Manual slider</td>
         <td>Dynamic slider</td>
     </tr>
     <tr class="smartslider-slider-create-note">
-        <?php if(!$isMage): ?><td>Fasten your seatbelt, because it was designed to be as simply and fast to setup as it could possibly be. Create an image slider in minutes.</td><?php endif; ?>
+        <td>Fasten your seatbelt, because it was designed to be as simply and fast to setup as it could possibly be. Create an image slider in minutes.</td>
         <td>Build a new slider from layers and items. Your imagination is the only limit for sliders!  Ideal for homepages, showcases and presentations.</td>
         <td>Generate sliders from external sources. Show the most popular products from your webshop, blog posts from a category or pictures from a folder.</td>
     </tr>
     <tr class="smartslider-slider-create-button">
-        <?php if(!$isMage): ?><td>
+        <td>
             <a class="button big b" href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=createquick'); ?>">Start</a>
-        </td><?php endif; ?>
+        </td>
         <td>
             <a class="button big b" href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=createmanual'); ?>">Start</a>
         </td>

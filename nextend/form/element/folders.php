@@ -14,6 +14,8 @@ class NextendElementFolders extends NextendElementList {
             }else if(nextendIsWordpress()){
                 $folder = wp_upload_dir();
                 $folder = $folder['basedir'].'/';
+            }else if(nextendIsMagento()){
+                $folder = Mage::getBaseDir('media').'/';
             }
         }
         $this->addFolder($folder);

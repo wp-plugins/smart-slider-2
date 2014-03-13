@@ -7,7 +7,12 @@
         </param>
         <param type="text" name="cachepath" label="Cache path" default="cache/" description="" />
         
-        <param type="onoff" name="safemode" default="0" label="Load CSS and Javascript in safe mode" description="Safe mode solves a problem when the stylesheet is missing, but it could cause flickering." />
+        <param type="radio" name="safemode" default="0" label="CSS and Javascript load mode" description="Safe mode solves a problem when the stylesheet is missing, but it could cause flickering.">
+            <option value="0">Normal</option>
+            <option value="2">Alternative #1</option>
+            <option value="1">Safe mode</option>
+        </param>
         <param type="onoff" name="debuglng" label="Debug_language" default="0" />
+        <param type="onoff" name="logproblems" label="Log possible problems" default="1" />
     </params>
 </root>

@@ -31,17 +31,20 @@ $css->addCssFile(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/css/firstcolslidetoolbox.
                     timeout = null;
                 pane.on('mouseenter', function(){
                     if(timeout) clearTimeout(timeout);
-                    pane.addClass('active');
-                    
-                    pane.stop().animate({
-                        height: pane.prop('scrollHeight')
-                    },{
-                        complete: function(){
-                            pane.css('overflow', 'auto');
-                            $(window).trigger('resize');
-                        }
-                    });
+                    timeout = setTimeout(function(){
+                        pane.addClass('active');
+                        
+                        pane.stop().animate({
+                            height: pane.prop('scrollHeight')
+                        },{
+                            complete: function(){
+                                pane.css('overflow', 'auto');
+                                $(window).trigger('resize');
+                            }
+                        });
+                    }, 400);
                 }).on('mouseleave', function(){
+                    if(timeout) clearTimeout(timeout);
                     timeout = setTimeout(function(){
                         pane.stop().animate({
                             height: 48
@@ -97,6 +100,9 @@ $css->addCssFile(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/css/firstcolslidetoolbox.
                         </div>
                         <div class="smartslider-slide-layout-pane-inner nextend-clearfix">
                             <?php
+                            nextendimportsmartslider2('nextend.smartslider.items');
+                            $items = new NextendSliderItems('nextend-smart-slider-0', true);
+                            
                             $layoutsModel = $this->getModel('layouts');
                             ?>
                             <div class="smartslider-slide-layout-default">
@@ -110,7 +116,7 @@ $css->addCssFile(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/css/firstcolslidetoolbox.
                                         <a class="smartslider-load-layout" href="#"></a>
 
                                         <div class="smartslider-layout-container">
-                                            <?php echo $layout['slide']; ?>
+                                            <?php echo $items->render($layout['slide']); ?>
                                         </div>
                                     </div>
                                 <?php
@@ -132,7 +138,7 @@ $css->addCssFile(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/css/firstcolslidetoolbox.
                                             <a class="smartslider-button-link smartslider-load-layout"
                                                href="#"><?php echo $layout['title']; ?></a>
                                         <div class="smartslider-layout-container">
-                                            <?php echo $layout['slide']; ?>
+                                            <?php echo $items->render($layout['slide']); ?>
                                         </div>
                                         </dt>
                                     <?php

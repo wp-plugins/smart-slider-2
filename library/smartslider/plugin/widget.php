@@ -1,5 +1,7 @@
 <?php
 
+nextendimport('nextend.parse.parse');
+
 class plgNextendSliderWidgetAbstract extends NextendPluginBase {
     
     static function getDisplayClass($value, $hasHover){

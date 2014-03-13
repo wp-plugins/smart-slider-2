@@ -5,7 +5,8 @@ $nextend = array(
     'cachetime' => 'static',
     'cachepath' => null,
     'gzip' => 0,
-    'debuglng' => 0
+    'debuglng' => 0,
+    'logproblems' => 1
 );
 
 function getNextend($prop, $default = ''){

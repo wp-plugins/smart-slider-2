@@ -7,6 +7,10 @@
   width: @width;
   height: @height;
   float: left;
+  
+  .x-rtl &{
+      float: right;
+  }
 
   .smart-slider-border1 {
     position: relative;
@@ -45,7 +49,8 @@
     width: @canvaswidth;
     height: @canvasheight;
     z-index: 2;
-    display: none;
+    display: block;
+    -webkit-backface-visibility:hidden;
   }
 
   .smart-slider-canvas-inner {
@@ -56,7 +61,7 @@
 
   .smart-slider-slide-active {
     z-index: 3;
-    display: block;
+    /*display: block;*/
   }
 
   .smart-slider-layer {

@@ -12,8 +12,7 @@
         </param>
         <param name="width" type="text" label="Width" default="100%"/>
         <param name="css" type="textarea" label="CSS" default=""/>
-        <param name="fadeclass" type="text" label="Class" default=""/>
-        <param name="class" type="text" label="Custom_css_class" default=""/>
+        <param name="fadeclass" type="text" label="Custom_css_class" default=""/>
 		
         <param name="onmouseenter" type="text" label="Event_on_mouseenter" description="JavaScript_code_to_run_on_the_event" default=""/>
         <param name="onmouseclick" type="text" label="Event_on_mouseclick" description="JavaScript_code_to_run_on_the_event" default=""/>

@@ -52,10 +52,15 @@
                 nextendajax: 1,
                 mode: 'subform'
             });
+            var newd = {};
+            for(k in d){
+                if(typeof d[k] == 'string' || typeof d[k] == 'number') newd[k] = d[k];
+            }
+            
             var xhrArgs = {
                 url: this.form.url,
                 handleAs: 'json',
-                content: d,
+                content: newd,
                 load: dojo.hitch(this, 'load'),
                 error: dojo.hitch(this, 'error')
             };

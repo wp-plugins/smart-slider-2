@@ -29,7 +29,7 @@ class NextendTab {
             $type = NextendXmlGetAttribute($element, 'type');
             $name = NextendXmlGetAttribute($element, 'name');
             $class = 'NextendElement' . $type;
-            if (!class_exists($class)) {
+            if (!class_exists($class, false)) {
                 if (!nextendimportpath($this->_form->_xmlfolder . 'element/' . $type)) {
                     nextendimport('nextend.form.element.' . $type);
                 }

@@ -23,8 +23,7 @@
             $('.smartslider-savelayout').on('click', function (e) {
                 e.preventDefault();
                 if ($this.slide[0].ssanimation === 0) {
-                    var html = $this.layers.getHTML(),
-                        base64HTML = Base64.encode(html),
+                    var base64HTML = Base64.encode($this.layers.getHTML()),
                         title = $('#slidetitle').val();
                     if (title == '') {
                         alert(window.ss2lang.Title_is_empty_Save_failed);
@@ -42,14 +41,14 @@
                                 slide: base64HTML
                             }
                         },
-                        success: function () {
+                        success: function (layoutdata) {
                             var dts = $dl.find('> dt');
                             var dt = $('<dt class="'+((dts.length + 1) % 2 ? 'odd' : 'even')+
                             ' smartslider-button-blue-active smartslider-icon-container">' +
                                 '<a class="smartslider-button-link smartslider-load-layout" href="#">' + title + '</a>' +
                                 '<div class="smartslider-layout-container"></div>' +
                             '</dt>');
-                            dt.find('.smartslider-layout-container').html(html);
+                            dt.find('.smartslider-layout-container').html(layoutdata);
                             dt.appendTo($dl);
                             dt.find('.smartslider-load-layout').on('click', function (e) {
                                 e.preventDefault();

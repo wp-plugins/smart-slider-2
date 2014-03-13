@@ -7,18 +7,23 @@
             options.flux[0] = (options.flux[0] && parseInt(options.flux[0])) ? true : false;
 
             this._super(parent, $el, options);
-
-            this.smartsliderborder2 = $el.find('.smart-slider-border2');
+        },
+        afterInit: function(){
+            var _this = this;
+            this._super();
+            this.smartsliderborder2 = this.$slider.find('.smart-slider-border2');
+            this.slideList.not(this.slideList.eq(this._active)).css('left', '-1000%');
 
             this.$this.on('mainanimationoutend', function () {
                 var $slide = this.slideList.eq(_this._lastActive);
-                $slide.css('display', 'none');
+                //$slide.css('display', 'none');
             });
             $(this).on('load.firstsub', function () {
                 $(this).off('load.firstsub');
             });
         },
         sizeInited: function () {
+            if(njQuery('#'+this.id+' .nextend-flux img').length != this.slideList.length) this.options.flux[0] = 0;
             if (this.options.flux[0]) {
                 this.flux = new flux.slider('#'+this.id+' .nextend-flux', {
                     transitions: this.options.flux[1],
@@ -330,7 +335,7 @@
         __animateInHorizontal: function ($slide, reversed, end) {
 
             var option = this._animationOptions.next;
-            return ssAnimationManager.getAnimation((reversed && option.parallax >= 1) ? 'slidelefttoright' : 'sliderighttoleft', $slide, {
+            return ssAnimationManager.getAnimation((reversed && option.parallax >= 1) ? 'slidestaticlefttoright' : 'slidestaticrighttoleft', $slide, {
                 width: this.slideDimension.w,
                 height: this.slideDimension.h,
                 intervalIn: option.duration,
@@ -350,7 +355,7 @@
                 option = this._animationOptions.current,
                 target = option.parallax < 1 ? {width: this.smartsliderborder2.width() * option.parallax} : {};
 
-            return ssAnimationManager.getAnimation((reversed && option.parallax >= 1) ? 'slidelefttoright' : 'sliderighttoleft', $slide, {
+            return ssAnimationManager.getAnimation((reversed && option.parallax >= 1) ? 'slidestaticlefttoright' : 'slidestaticrighttoleft', $slide, {
                 width: this.slideDimension.w,
                 height: this.slideDimension.h,
                 intervalOut: option.duration,
@@ -368,7 +373,7 @@
         __animateInVertical: function ($slide, reversed, end) {
 
             var option = this._animationOptions.next;
-            return ssAnimationManager.getAnimation((reversed && option.parallax >= 1) ? 'slidetoptobottom' : 'slidebottomtotop', $slide, {
+            return ssAnimationManager.getAnimation((reversed && option.parallax >= 1) ? 'slidestatictoptobottom' : 'slidestaticbottomtotop', $slide, {
                 width: this.slideDimension.w,
                 height: this.slideDimension.h,
                 intervalIn: option.duration,
@@ -388,7 +393,7 @@
                 option = this._animationOptions.current,
                 target = option.parallax < 1 ? {height: this.smartsliderborder2.height() * option.parallax} : {};
 
-            return ssAnimationManager.getAnimation((reversed && option.parallax >= 1) ? 'slidetoptobottom' : 'slidebottomtotop', $slide, {
+            return ssAnimationManager.getAnimation((reversed && option.parallax >= 1) ? 'slidestatictoptobottom' : 'slidestaticbottomtotop', $slide, {
                 width: this.slideDimension.w,
                 height: this.slideDimension.h,
                 intervalOut: option.duration,
@@ -406,7 +411,7 @@
         __animateInFade: function ($slide, reversed, end) {
 
             var option = this._animationOptions.next;
-            return ssAnimationManager.getAnimation('fade', $slide, {
+            return ssAnimationManager.getAnimation('fadestatic', $slide, {
                 width: this.slideDimension.w,
                 height: this.slideDimension.h,
                 intervalIn: option.duration,
@@ -423,7 +428,7 @@
 
             var option = this._animationOptions.current;
 
-            return ssAnimationManager.getAnimation('fade', $slide, {
+            return ssAnimationManager.getAnimation('fadestatic', $slide, {
                 width: this.slideDimension.w,
                 height: this.slideDimension.h,
                 intervalOut: option.duration,
@@ -436,7 +441,7 @@
             });
         },
         initTouch: function () {
-            if((this.options.touchanimation != 'horizontal' && this.options.touchanimation != 'vertical')){
+            if((this.options.touchanimation != 'horizontal' && this.options.touchanimation != 'vertical') || (typeof jQuery != 'undefined' && typeof jQuery.UIkit != 'undefined')){
                 this._super();
                 return;
             }
@@ -471,19 +476,19 @@
                             next = active + 1;
                             if (next === _this.slideList.length) next = 0;
                             _this.slideList.eq(active).css('left', -distance);
-                            _this.slideList.eq(next).css('left', _this.slideDimension.w-distance).css('display', 'block');
+                            _this.slideList.eq(next).css('left', _this.slideDimension.w-distance)/*.css('display', 'block')*/;
                         }else if(direction == 'right'){
                             next = active - 1;
                             if (next < 0) next = _this.slideList.length - 1;
                             _this.slideList.eq(active).css('left', distance);
-                            _this.slideList.eq(next).css('left', -_this.slideDimension.w+distance).css('display', 'block');
+                            _this.slideList.eq(next).css('left', -_this.slideDimension.w+distance)/*.css('display', 'block')*/;
                         }
                         
                         if(phase=="end"){
                             reset = [];
                             if(distance < 75){
                                 _this.slideList.eq(active).css('left', 0);
-                                _this.slideList.eq(next).css('left', 0).css('display', 'none');
+                                if(next !== null) _this.slideList.eq(next).css('left', '-1000%');
                             }
                         }
                     }else if(_this.options.touchanimation == 'vertical'){
@@ -491,19 +496,19 @@
                             next = active + 1;
                             if (next === _this.slideList.length) next = 0;
                             _this.slideList.eq(active).css('top', -distance);
-                            _this.slideList.eq(next).css('top', _this.slideDimension.h-distance).css('display', 'block');
+                            _this.slideList.eq(next).css('top', _this.slideDimension.h-distance).css('left', '0')/*.css('display', 'block')*/;
                         }else if(direction == 'down'){
                             next = active - 1;
                             if (next < 0) next = _this.slideList.length - 1;
                             _this.slideList.eq(active).css('top', distance);
-                            _this.slideList.eq(next).css('top', -_this.slideDimension.h+distance).css('display', 'block');
+                            _this.slideList.eq(next).css('top', -_this.slideDimension.h+distance).css('left', '0')/*.css('display', 'block')*/;
                         }
                         
                         if(phase=="end"){
                             reset = [];
                             if(distance < 75){
                                 _this.slideList.eq(active).css('top', 0);
-                                if(next !== null) _this.slideList.eq(next).css('top', 0).css('display', 'none');
+                                if(next !== null) _this.slideList.eq(next).css('left', '-1000%')/*.css('display', 'none')*/;
                             }
                         }
                     }
@@ -643,7 +648,7 @@
             this.slideList.eq(lastActive).animate(target,{
                 duration: 300,
                 complete: function(){
-                    $(this).css('display', 'none').css(prop, 0);
+                    $(this).css(prop, 0).css('left', '-1000%');
                     _this.$this.trigger('mainanimationoutend');
                     _this.mainanimationended();
                 }

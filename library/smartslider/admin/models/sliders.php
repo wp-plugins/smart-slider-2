@@ -48,6 +48,24 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
         $form->loadXMLFile($configurationXmlFile);
 
         echo $form->render('slider');
+        
+        $group = array();
+        $list = array();
+        NextendPlugin::callPlugin('nextendslidergenerator', 'onNextendSliderGeneratorList', array(&$group, &$list));
+        if(isset($list['imagefromfolder']['imagefromfolder_quickimage'])){
+            $path = $list['imagefromfolder']['imagefromfolder_quickimage'][1];
+
+            $form = new NextendForm();
+            $form->set('class', 'nextend-smart-slider-admin');
+            $form->loadArray($data);
+            
+            $form->loadXMLFile($path.'config.xml');
+    
+            echo $form->render('generator');
+        }else{
+            echo 'Quick image plugin is missing!';
+        }
+
     }
 
     function renderAddForm($data = array()) {
@@ -89,6 +107,11 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
         $form->set('class', 'nextend-smart-slider-admin');
         $form->set('manual', 'http://www.nextendweb.com/wiki/smart-slider-documentation/');
         $form->set('support', 'http://www.nextendweb.com/smart-slider#support');
+        
+        if(!empty($data)){
+            if(!isset($data['backgroundresize'])) $data['backgroundresize'] = 0; // If old version doesn't have background resize, then leave in that way
+        }
+        
         $form->loadArray($data);
 
         $form->loadXMLFile($configurationXmlFile);
@@ -104,19 +127,20 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
             $slider['title'] = NextendText::_('New_slider');
 
         $db = NextendDatabase::getInstance();
-
-        $query = 'INSERT INTO #__nextend_smartslider_sliders (title, type, params, generator, slide) VALUES (';
-
-        $query .= $db->quote($slider['title']);
+        
+        $title = $slider['title'];
         unset($slider['title']);
-        $query .= ',' . $db->quote($slider['type']);
+        $type = $slider['type'];
         unset($slider['type']);
-        $query .= ',' . $db->quote(json_encode($slider));
-        $query .= ", ''";
-        $query .= ", ''";
-        $query .= ');';
-        $db->setQuery($query);
-        $db->query();
+        
+        $db->insert('#__nextend_smartslider_sliders', array(
+            'title' => $title,
+            'type' => $type,
+            'params' => json_encode($slider),
+            'generator' => '',
+            'slide' => ''
+        ));
+
         return $db->insertid();
     }
 
@@ -127,17 +151,15 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
             $slider['title'] = NextendText::_('New_slider');
 
         $db = NextendDatabase::getInstance();
+        
+        $db->insert('#__nextend_smartslider_sliders', array(
+            'title' => $slider['title'],
+            'type' => $slider['type'],
+            'generator' => $slider['generator'],
+            'slide' => $slider['slide'],
+            'params' => $slider['params']
+        ));
 
-        $query = 'INSERT INTO #__nextend_smartslider_sliders (title, type, generator, slide, params) VALUES (';
-
-        $query .= $db->quote($slider['title']);
-        $query .= ',' . $db->quote($slider['type']);
-        $query .= ',' . $db->quote($slider['generator']);
-        $query .= ',' . $db->quote($slider['slide']);
-        $query .= ',' . $db->quote($slider['params']);
-        $query .= ');';
-        $db->setQuery($query);
-        $db->query();
         return $db->insertid();
     }
 
@@ -148,20 +170,17 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
             $slider['title'] = NextendText::_('New_slider');
 
         $db = NextendDatabase::getInstance();
-
-        $query = 'UPDATE #__nextend_smartslider_sliders SET ';
-
-        $query .= ' title=' . $db->quote($slider['title']);
+        
+        $title = $slider['title'];
         unset($slider['title']);
-
-        $query .= ',type=' . $db->quote($slider['type']);
+        $type = $slider['type'];
         unset($slider['type']);
-
-        $query .= ',params=' . $db->quote(json_encode($slider));
-
-        $query .= ' WHERE id = ' . $db->quote($id);
-        $db->setQuery($query);
-        $db->query();
+        
+        $db->update('#__nextend_smartslider_sliders', array(
+            'title' => $title,
+            'type' => $type,
+            'params' => json_encode($slider)
+        ), 'id = ' . $db->quote($id));
         
         self::markChanged($id);
 
@@ -193,20 +212,83 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
         return $configurationXmlFile;
     }
 
+    function saveGeneratorSettings($id, $generator) {
+
+        $db = NextendDatabase::getInstance();
+        
+        $db->update('#__nextend_smartslider_sliders', array(
+            'generator' => json_encode($generator)
+        ), 'id = ' . $db->quote($id));
+        
+        self::markChanged($id);
+
+        return $id;
+    }
+
     function saveGenerator($id, $generator, $slide, $base64 = true) {
 
         $db = NextendDatabase::getInstance();
-
-        $query = 'UPDATE #__nextend_smartslider_sliders SET ';
-
-        $query .= 'generator=' . $db->quote(json_encode($generator));
+        
         if($base64) $slide['slide'] = base64_decode($slide['slide']);
-        $query .= ',slide=' . $db->quote(json_encode($slide));
+        
+        $db->update('#__nextend_smartslider_sliders', array(
+            'generator' => json_encode($generator),
+            'slide' => json_encode($slide)
+        ), 'id = ' . $db->quote($id));
 
-        $query .= ' WHERE id = ' . $db->quote($id);
-        $db->setQuery($query);
-        $db->query();
+        $this->generateSlidesWithGenerator($id, $generator, $slide);
+        
+        self::markChanged($id);
 
+        return $id;
+    }
+
+    function editGeneratorSlide($data = array()) {
+
+        $css = NextendCss::getInstance();
+        $js = NextendJavascript::getInstance();
+
+        $css->addCssLibraryFile('common.css');
+        $css->addCssLibraryFile('window.css');
+        $css->addCssLibraryFile('configurator.css');
+
+        $configurationXmlFile = dirname(__FILE__) . '/forms/generatoredit.xml';
+        $js->loadLibrary('dojo');
+
+        nextendimport('nextend.form.form');
+        $form = new NextendForm();
+        $form->set('class', 'nextend-smart-slider-admin');
+        $form->set('manual', 'http://www.nextendweb.com/wiki/smart-slider-documentation/');
+        $form->set('support', 'http://www.nextendweb.com/smart-slider#support');
+        $form->loadArray($data);
+
+        $form->loadXMLFile($configurationXmlFile);
+
+        echo $form->render('generator');
+        return $configurationXmlFile;
+    }
+
+    function saveGeneratorSlide($id, $slide, $base64 = true) {
+
+        $db = NextendDatabase::getInstance();
+        
+        if($base64) $slide['slide'] = base64_decode($slide['slide']);
+        
+        $db->update('#__nextend_smartslider_sliders', array(
+            'slide' => json_encode($slide)
+        ), 'id = ' . $db->quote($id));
+
+        $slider = $this->getSlider($id);
+        $generator = (array)json_decode($slider['generator'], true);
+        
+        $this->generateSlidesWithGenerator($id, $generator, $slide);
+        
+        self::markChanged($id);
+
+        return $id;
+    }
+    
+    function generateSlidesWithGenerator($id, $generator, $slide){
         $generatorParams = new NextendData();
         $generatorParams->loadArray($generator);
 
@@ -243,9 +325,6 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
                 }
             }
         }
-        self::markChanged($id);
-
-        return $id;
     }
 
     function delete($id) {
@@ -273,25 +352,9 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
         unset($slider['id']);
 
         $slider['title'] .= ' - copy';
+        
+        $newsliderid = $this->import($slider);
 
-        $query = 'INSERT INTO #__nextend_smartslider_sliders ( ';
-
-        foreach ($slider AS $k => $v) {
-            $query .= $db->quoteName($k) . ',';
-        }
-        $query = rtrim($query, ",");
-
-        $query .= ') VALUES (';
-
-        foreach ($slider AS $k => $v) {
-            $query .= $db->quote($v) . ',';
-        }
-        $query = rtrim($query, ",");
-        $query .= ');';
-        $db->setQuery($query);
-        $db->query();
-
-        $newsliderid = $db->insertid();
         if(!$newsliderid) return false;
 
         $slidesModel = $this->getModel('slides');
@@ -382,7 +445,7 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
         $csslines = preg_replace_callback('/url\((.*?)\)/', 'ss2_css_image_replace', $csslines);
         
         $googlefonts = '';
-        if (class_exists('NextendFontsGoogle')) {
+        if (class_exists('NextendFontsGoogle', false)) {
             $fonts = NextendFontsGoogle::getInstance();
             $googlefonts = '<link rel="stylesheet" type="text/css" href="'.$fonts->getFontUrl().'">'."\n";
         }
@@ -427,51 +490,44 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
     
     function createQuick(){
         $post = NextendRequest::getVar('slider', array());
+        $generatorpost = NextendRequest::getVar('generator', array());
         
         $name = $post['name'];
         
         unset($post['name']);
         
-        $params = json_decode('{"size":"800|*|500|*|1","responsive":"1|*|0","globalfontsize":"12|*|16|*|20","margin":"0|*|0|*|0|*|0|*|px","simplebackgroundimage":"","simplebackgroundimagesize":"auto","simplepadding":"0|*|0|*|0|*|0","simpleborder":"0|*|3E3E3Eff","simpleborderradius":"0|*|0|*|0|*|0","simpleresponsivemaxwidth":"3000","improvedtouch":"0","simpleskins":"","simpleslidercss":"","simpleanimation":"horizontal","simpleanimationproperties":"1500|*|0|*|easeInOutQuint|*|1","simplebackgroundanimation":"0|*|bars","fadeonload":"1|*|0","playfirstlayer":"0","mainafterout":"1","inaftermain":"1","controls":"0|*|0|*|0","blockrightclick":"0","randomize":"0","autoplay":"1|*|8000","autoplayfinish":"0|*|loop|*|current","stopautoplay":"1|*|1|*|1","resumeautoplay":"0|*|1|*|0","widgetarrow":"transition","widgetarrowdisplay":"1|*|always|*|1|*|1","previousposition":"left|*|0|*|%|*|top|*|height\/2-previousheight\/2|*|%","previous":"plugins\/nextendsliderwidgetarrow\/transition\/transition\/previous\/my-test.png","nextposition":"right|*|0|*|%|*|top|*|height\/2-nextheight\/2|*|%","next":"plugins\/nextendsliderwidgetarrow\/transition\/transition\/next\/my-test.png","arrowbackground":"00000080","arrowbackgroundhover":"7670c7ff","widgetbullet":"numbers","widgetbulletdisplay":"1|*|always|*|1|*|1","bulletposition":"left|*|0|*|%|*|bottom|*|5|*|%","bulletwidth":"100%","bulletorientation":"horizontal","bulletalign":"center","bullet":"plugins\/nextendsliderwidgetbullet\/numbers\/numbers\/bullets\/square.png","bulletbackground":"00000060","bulletbackgroundhover":"7670C7ff","fontclassnumber":"sliderfont7","bulletbar":"none","bulletshadow":"none","bulletbarcolor":"00000060","bullethumbnail":"0|*|top","thumbnailsizebullet":"100|*|60","bulletthumbnail":"00000060","widgets":"arrow"}', true);
+        $params = json_decode('{"size":"800|*|500|*|1","responsive":"1|*|0","globalfontsize":"12|*|16|*|20","margin":"0|*|0|*|0|*|0|*|px","simplebackgroundimage":"","simplebackgroundimagesize":"auto","simplepadding":"0|*|0|*|0|*|0","simpleborder":"0|*|3E3E3Eff","simpleborderradius":"0|*|0|*|0|*|0","simpleresponsivemaxwidth":"3000","improvedtouch":"0","simpleskins":"","simpleslidercss":"","simpleanimation":"horizontal","simpleanimationproperties":"1500|*|0|*|easeInOutQuint|*|1","simplebackgroundanimation":"0|*|bars","fadeonload":"1|*|0","playfirstlayer":"0","mainafterout":"1","inaftermain":"1","controls":"0|*|0|*|0","blockrightclick":"0","randomize":"0","autoplay":"1|*|8000","autoplayfinish":"0|*|loop|*|current","stopautoplay":"1|*|1|*|1","resumeautoplay":"0|*|1|*|0","widgetarrow":"transition","widgetarrowdisplay":"1|*|always|*|1|*|1","previousposition":"left|*|0|*|%|*|top|*|height\/2-previousheight\/2|*|%","previous":"plugins\/nextendsliderwidgetarrow\/transition\/transition\/previous\/my-test.png","nextposition":"right|*|0|*|%|*|top|*|height\/2-nextheight\/2|*|%","next":"plugins\/nextendsliderwidgetarrow\/transition\/transition\/next\/my-test.png","arrowbackground":"00000080","arrowbackgroundhover":"7670c7ff","widgetbullet":"numbers","widgetbulletdisplay":"1|*|always|*|1|*|1","bulletposition":"left|*|0|*|%|*|bottom|*|5|*|%","bulletwidth":"100%","bulletorientation":"horizontal","bulletalign":"center","bullet":"plugins\/nextendsliderwidgetbullet\/numbers\/numbers\/bullets\/square.png","bulletbackground":"00000060","bulletbackgroundhover":"7670C7ff","fontclassnumber":"sliderfont7","bulletbar":"none","bulletshadow":"none","bulletbarcolor":"00000060","bullethumbnail":"0|*|top","thumbnailsizebullet":"100|*|60","bulletthumbnail":"00000060","widgets":"arrow","backgroundresize":"cover"}', true);
         $post['autoplay'] = '1|*|8000';
         $params = $post+$params;
+        
+        $generator = array(
+            'enabled' => 1,
+            'source' => 'imagefromfolder_quickimage',
+            'cachetime' => 1,
+            'generateslides' => '1000|*|0|*|0',
+            'generatorgroup' => 1
+        );
+        $generator = $generatorpost + $generator;
+        
+        $slide = array();
+        NextendPlugin::callPlugin('nextendslidergeneratorlayouts', 'onNextendSliderGeneratorLayouts', array('image_extended', &$slide));
+        $slide = $slide['default']['slide'];
         
         $slider = array(
             'title' => $name,
             'type' => 'simple',
             'params' => json_encode($params),
-            'generator' => '',
-            'slide' => ''
+            'generator' => json_encode($generator),
+            'slide' => json_encode($slide)
         );
         $sliderid = $this->import($slider);
         if($sliderid){
-            if(count($_POST['images'])){
-                $slide = array(
-                    'slide' => '',
-                    'description' => '',
-                    'published' => 1,
-                    'publish_up' => '',
-                    'publish_down' => '',
-                    'first' => 0,
-                    'generator' => 0
-                );
-                
-                $slidesModel = $this->getModel('slides');
-                
-                foreach($_POST['images'] AS $image){
-                    $slide['title'] = basename($image);
-                    $slide['thumbnail'] = $image;
-                    $slide['background'] = '00000000|*|'.$image;
-                    
-                    $slidesModel->create($sliderid, $slide, false);
-                }
-            }
             self::markChanged($sliderid);
             return $sliderid;
         }
     }
 
-    function editDynamicForm($data = array()) {
+    function editDynamicForm($data = array(), $control = 'dynamic', $onlyFilter = false) {
         
         $group = array();
         $list = array();
@@ -492,19 +548,21 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
             $js->loadLibrary('dojo');
     
             nextendimport('nextend.form.form');
-            $form = new NextendForm();
-            $form->loadArray($data);
-    
-            $form->loadXMLFile($configurationXmlFile);
-    
-            echo $form->render('dynamic');
+            if(!$onlyFilter){
+                $form = new NextendForm();
+                $form->loadArray($data);
+        
+                $form->loadXMLFile($configurationXmlFile);
+        
+                echo $form->render($control);
+            }
             
             $form = new NextendForm();
             $form->loadArray($data);
     
             $form->loadXMLFile($list[$cgroup][$ctype][1].'config.xml');
     
-            echo $form->render('dynamic');
+            echo $form->render($control);
             
             return $list[$cgroup][$ctype][1].'config.xml';
         }
@@ -521,7 +579,8 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
         $cgroup = NextendRequest::getVar('group');
         $ctype = NextendRequest::getVar('type');
         if(isset($list[$cgroup]) && isset($list[$cgroup][$ctype])){
-            include $list[$cgroup][$ctype][1].'slide.php';
+            $slide = array();
+            NextendPlugin::callPlugin('nextendslidergeneratorlayouts', 'onNextendSliderGeneratorLayouts', array($list[$cgroup][$ctype][5], &$slide));
             $slide = $slide['default']['slide'];
             
             $dynamic = NextendRequest::getVar('dynamic', array());
@@ -547,7 +606,7 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
             $slider = array(
                 'title' => $name,
                 'type' => 'simple',
-                'params' => '{"size":"'.$size.'","responsive":"1|*|0","globalfontsize":"12|*|16|*|20","margin":"0|*|0|*|0|*|0|*|px","simplebackgroundimage":"","simplebackgroundimagesize":"auto","simplepadding":"0|*|0|*|0|*|0","simpleborder":"0|*|3E3E3Eff","simpleborderradius":"0|*|0|*|0|*|0","simpleresponsivemaxwidth":"3000","improvedtouch":"0","simpleskins":"","simpleslidercss":"","simpleanimation":"horizontal","simpleanimationproperties":"1500|*|0|*|easeInOutQuint|*|1","simplebackgroundanimation":"0|*|bars","fadeonload":"1|*|0","playfirstlayer":"0","mainafterout":"1","inaftermain":"1","controls":"0|*|0|*|0","blockrightclick":"0","randomize":"0","autoplay":"1|*|8000","autoplayfinish":"0|*|loop|*|current","stopautoplay":"1|*|1|*|1","resumeautoplay":"0|*|1|*|0","widgetarrow":"transition","widgetarrowdisplay":"1|*|always|*|1|*|1","previousposition":"left|*|0|*|%|*|top|*|height\/2-previousheight\/2|*|%","previous":"plugins\/nextendsliderwidgetarrow\/transition\/transition\/previous\/my-test.png","nextposition":"right|*|0|*|%|*|top|*|height\/2-nextheight\/2|*|%","next":"plugins\/nextendsliderwidgetarrow\/transition\/transition\/next\/my-test.png","arrowbackground":"00000080","arrowbackgroundhover":"7670c7ff","widgetbullet":"numbers","widgetbulletdisplay":"1|*|always|*|1|*|1","bulletposition":"left|*|0|*|%|*|bottom|*|5|*|%","bulletwidth":"100%","bulletorientation":"horizontal","bulletalign":"center","bullet":"plugins\/nextendsliderwidgetbullet\/numbers\/numbers\/bullets\/square.png","bulletbackground":"00000060","bulletbackgroundhover":"7670C7ff","fontclassnumber":"sliderfont7","bulletbar":"none","bulletshadow":"none","bulletbarcolor":"00000060","bullethumbnail":"0|*|top","thumbnailsizebullet":"100|*|60","bulletthumbnail":"00000060","widgets":"arrow"}',
+                'params' => '{"size":"'.$size.'","responsive":"1|*|0","globalfontsize":"12|*|16|*|20","margin":"0|*|0|*|0|*|0|*|px","simplebackgroundimage":"","simplebackgroundimagesize":"auto","simplepadding":"0|*|0|*|0|*|0","simpleborder":"0|*|3E3E3Eff","simpleborderradius":"0|*|0|*|0|*|0","simpleresponsivemaxwidth":"3000","improvedtouch":"0","simpleskins":"","simpleslidercss":"","simpleanimation":"horizontal","simpleanimationproperties":"1500|*|0|*|easeInOutQuint|*|1","simplebackgroundanimation":"0|*|bars","fadeonload":"1|*|0","playfirstlayer":"0","mainafterout":"1","inaftermain":"1","controls":"0|*|0|*|0","blockrightclick":"0","randomize":"0","autoplay":"1|*|8000","autoplayfinish":"0|*|loop|*|current","stopautoplay":"1|*|1|*|1","resumeautoplay":"0|*|1|*|0","widgetarrow":"transition","widgetarrowdisplay":"1|*|always|*|1|*|1","previousposition":"left|*|0|*|%|*|top|*|height\/2-previousheight\/2|*|%","previous":"plugins\/nextendsliderwidgetarrow\/transition\/transition\/previous\/my-test.png","nextposition":"right|*|0|*|%|*|top|*|height\/2-nextheight\/2|*|%","next":"plugins\/nextendsliderwidgetarrow\/transition\/transition\/next\/my-test.png","arrowbackground":"00000080","arrowbackgroundhover":"7670c7ff","widgetbullet":"numbers","widgetbulletdisplay":"1|*|always|*|1|*|1","bulletposition":"left|*|0|*|%|*|bottom|*|5|*|%","bulletwidth":"100%","bulletorientation":"horizontal","bulletalign":"center","bullet":"plugins\/nextendsliderwidgetbullet\/numbers\/numbers\/bullets\/square.png","bulletbackground":"00000060","bulletbackgroundhover":"7670C7ff","fontclassnumber":"sliderfont7","bulletbar":"none","bulletshadow":"none","bulletbarcolor":"00000060","bullethumbnail":"0|*|top","thumbnailsizebullet":"100|*|60","bulletthumbnail":"00000060","widgets":"arrow","backgroundresize":"cover"}',
                 'generator' => json_encode($generator),
                 'slide' => json_encode($slide)
             );
@@ -585,6 +644,27 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
     
     function changeDynamicLayout($sliderid){
         $slider = $this->getSlider($sliderid);
+        
+        $sliderParams = new NextendData();
+        $sliderParams->loadJSON($slider['params']);
+        
+        $sliders = array();
+        NextendPlugin::callPlugin('nextendslidergeneratorlayouts', 'onNextendSliderGeneratorSlider', array(&$sliders, $sliderParams->get('size', null)));
+        $sliderpreset = NextendRequest::getVar('sliderpreset', '');
+        if(isset($sliders[$sliderpreset])){
+            $slider = $sliders[$sliderpreset]['slider']+$slider;
+            
+            $db = NextendDatabase::getInstance();
+            
+            $db->update('#__nextend_smartslider_sliders', array(
+                'type' => $slider['type'],
+                'params' => $slider['params']
+            ), 'id = ' . $db->quote($sliderid));
+            
+            self::markChanged($sliderid);            
+        }
+        
+        
         $generatorParams = new NextendData();
         $generatorParams->loadJSON($slider['generator']);
         
@@ -604,51 +684,49 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
             if($sourcetype) break;
         }
         
-        $path = $sourcetype[1];
-        include($path.'slide.php');
+        $slide = array();
+        NextendPlugin::callPlugin('nextendslidergeneratorlayouts', 'onNextendSliderGeneratorLayouts', array($sourcetype[5], &$slide));
         
-        $layout = NextendRequest::getVar('layout', 'default');
-        if(!isset($slide[$layout])) $layout = 'default';
-        
-        
-      if(isset($slide[$layout]['slider'])) $generatorParams->loadArray($slide[$layout]['slider']);
-        
-        $this->saveGenerator($sliderid, $generatorParams->toArray(), $slide[$layout]['slide'], false);
-        
-
-        $generateslides = NextendParse::parse($generatorParams->get('generateslides', '0|*|0|*|0'));
-        $createslides = intval($generateslides[1]);
-        if($generatorParams->get('enabled', 0) && $createslides === 1){
-
-            nextendimportsmartslider2('nextend.smartslider.generator');
-
-            $slidesModel = $this->getModel('slides');
-            $slidesModel->deleteBySlider($sliderid);
-
-            $staticslides = intval($generateslides[2]);
-
-            $generatorSlideParams = new NextendData();
-            $generatorSlideParams->loadArray($slide[$layout]['slide']);
-
-            $generator = new NextendSmartsliderGenerator($generatorParams, $generatorSlideParams, $sliderid);
-
-            if($staticslides){
-                $slides = $generator->generateSlides($sliderid);
-                foreach($slides AS $slide){
-                    unset($slide['id']);
-                    $slidesModel->create($sliderid, $slide, false);
-                }
-            }else{
-                $slides = $generator->generateSlides($sliderid, false);
-                $slidesModel->deleteGeneratedBySlider($sliderid);
-                foreach($slides AS $k => $slide){
-                    unset($slide['id']);
-                    $slide['generator'] = $k+1;
-                    $slidesModel->create($sliderid, $slide, false);
+        $layout = NextendRequest::getVar('layout', '');
+        if(isset($slide[$layout])){
+            if(isset($slide[$layout]['slider'])) $generatorParams->loadArray($slide[$layout]['slider']);
+            
+            $this->saveGenerator($sliderid, $generatorParams->toArray(), $slide[$layout]['slide'], false);
+            
+            
+            $generateslides = NextendParse::parse($generatorParams->get('generateslides', '0|*|0|*|0'));
+            $createslides = intval($generateslides[1]);
+            if($generatorParams->get('enabled', 0) && $createslides === 1){
+            
+                nextendimportsmartslider2('nextend.smartslider.generator');
+            
+                $slidesModel = $this->getModel('slides');
+                $slidesModel->deleteBySlider($sliderid);
+            
+                $staticslides = intval($generateslides[2]);
+            
+                $generatorSlideParams = new NextendData();
+                $generatorSlideParams->loadArray($slide[$layout]['slide']);
+            
+                $generator = new NextendSmartsliderGenerator($generatorParams, $generatorSlideParams, $sliderid);
+            
+                if($staticslides){
+                    $slides = $generator->generateSlides($sliderid);
+                    foreach($slides AS $slide){
+                        unset($slide['id']);
+                        $slidesModel->create($sliderid, $slide, false);
+                    }
+                }else{
+                    $slides = $generator->generateSlides($sliderid, false);
+                    $slidesModel->deleteGeneratedBySlider($sliderid);
+                    foreach($slides AS $k => $slide){
+                        unset($slide['id']);
+                        $slide['generator'] = $k+1;
+                        $slidesModel->create($sliderid, $slide, false);
+                    }
                 }
             }
         }
-        
         return $sliderid;
     }
     

@@ -2,7 +2,7 @@
 
 class NextendFontsGoogle {
     
-    var $_fonts;
+    var $_fonts = array();
     
     function NextendFontsGoogle() {
         $this->_fonts = array();
@@ -63,7 +63,7 @@ class NextendFontsGoogle {
         $url = substr($url, 0, -1);
         $subset = explode(',',$subset);
         $subset = array_filter(array_unique($subset));
-        $url.='&amp;subset='.implode(',', $subset);
+        $url.='&subset='.implode(',', $subset);
         return $url;
     }
 }

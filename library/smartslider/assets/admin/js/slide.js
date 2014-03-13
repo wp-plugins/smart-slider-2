@@ -58,11 +58,11 @@ window.ssadmin = 1;
             this.hidden = $('#' + hidden);
             this.$slider = $('#' + id);
             
-            this.initBG();
-            
             this.$slide = this.$slider.find('.smart-slider-canvas').eq(active);
             this.editAndList();
             this.ssadminLayers = scope.ssadminLayers = new ssadminLayersClass(this.$slide, this, layouturl);
+            
+            this.initBG();
 
             $('#smartslider-form').submit(function () {
                 if ($this.$slide[0].ssanimation === 0) {
@@ -92,7 +92,7 @@ window.ssadmin = 1;
                     bgimage.css('display', 'none');
                 }else{
                     bgimage.css('display', 'block');
-                    bgimage.attr('src', s[1]);
+                    bgimage.attr('src', $this.ssadminLayers.items.fillItemWithSample(s[1]));
                 }
                 if(s[0].substr(6,8) == '00'){
                     canvas.css('background', '');
@@ -100,7 +100,7 @@ window.ssadmin = 1;
                     canvas.css('background', '#'+s[0].substr(0,6));
                     canvas.css('background', hex2rgba(s[0]));
                 }
-            });
+            }).trigger('change');;
         },
         initTopbar: function () {
             var $this = this;

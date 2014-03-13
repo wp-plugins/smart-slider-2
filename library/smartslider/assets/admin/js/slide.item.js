@@ -6,6 +6,10 @@
             var $this = this;
             this.layers = layers;
             this.slide = layers.slide;
+            
+            if(typeof window.samplegeneratordata !== 'undefined'){
+                this.fillItemWithSample = this._fillItemWithSample;
+            }
 
             this.activeItem = $({});
             this.activeItemType = '';
@@ -168,8 +172,10 @@
                     next = item.next('.smart-slider-items');
                 if (next.length === 1) {
                     next.data('ssoption').before(ui.item.data('ssoption'));
-                } else {
+                } else if(ui.item.parent().length){
                     ui.item.closest('.smart-slider-layer').data('ssoptgroup').append(ui.item.data('ssoption'));
+                }else{
+                    ui.item.remove();
                 }
             }
         },
@@ -289,7 +295,9 @@
                 this.switchToItemTab();
         },
         updateCurrentItem: function () {
-            var data = {},
+            var _this = this,
+                data = {},
+                odata = {},
                 re = new RegExp('item_' + this.activeItemType + "\\[(.*?)\\]", ""),
                 form = this.form[this.activeItemType],
                 html = form.template,
@@ -303,6 +311,8 @@
                 var $el = $(this),
                     name = $el.attr('name').match(re)[1];
                 data[name] = $el.val();
+                odata[name] = data[name];
+                data[name] = _this.fillItemWithSample(data[name]);
                 var _data = parser.parse(name, data[name]);
                 for (var k in _data) {
                     var reg = new RegExp('\\{' + k + '\\}', 'g');
@@ -313,14 +323,83 @@
             
             var helpers = this.activeItem.find('.ui-helper');
             $('<div />').append(helpers);
-
             this.activeItem.html(parser.render($(html
                 .replace(/\{\{id\}\}/g, "nextend-smart-slider-0")
-                .replace(/\{\{uuid\}\}/g, $.fn.uid())
-                .replace(/\\"/g, "&quot;")
-                .replace(/\\'/g, "&#039;")), data));
+                .replace(/\{\{uuid\}\}/g, $.fn.uid())), data));
             this.activeItem.append(helpers);
-            this.activeItem.ssdata('itemvalues', JSON.stringify(data));
+            this.activeItem.ssdata('itemvalues', JSON.stringify(odata));
+        },
+        fillItemWithSample: function(value){
+            return value;
+        },
+        _fillItemWithSample: function(value){
+            try{
+                return value.replace(/(\{nextend\|\|([a-zA-Z0-9,\|\|]+)\()?(\{\|(.*?)\-([0-9]+)\|\})(\)\})?/g, function(){
+                    var i = parseInt(arguments[5])-1;
+                    if(typeof window.samplegeneratordata[i] !== 'undefined' && typeof window.samplegeneratordata[i][arguments[4]] !== 'undefined'){
+                        var s = window.samplegeneratordata[i][arguments[4]];
+                        if(arguments[1] == ""){
+                            return s;
+                        }else{
+                            var fns = arguments[2].split('||');
+                            for (var i = fns.length - 1; i >= 0; i--) {
+                                var fn = fns[i].split(',');
+                                switch (fn[0]) {
+                                    case 'cleanhtml':
+                                        s = strip_tags(s, '<p><a><b><br><br/><i>');
+                                        break;
+                                    case 'removehtml':
+                                        s = strip_tags(s);
+                                        break;
+                                    case 'splitbychars':
+                                        s = s.substr(fn[1], fn[2])
+                                        break;
+                                    case 'splitbywords':
+                                        var len = s.length;
+                                        var pos = fn[2] > len ? len : s.indexOf(' ', fn[2]);
+                                        if(pos == -1) pos = len;
+                                        s = s.substr(0, pos);
+                                        break;
+                                    case 'findimage':
+                                        var index = typeof fn[1] != 'undefined' ? parseInt(fn[1]) - 1 : 0;
+                                        var re = /<img.*?src=[\'"](.*?)[\'"][^>]*>/gi,
+                                            r = [],
+                                            tmp = null;
+                                        while(tmp = re.exec(s)){
+                                            r.push(tmp[1]);
+                                        };
+                                        if (r.length && typeof r[index] != 'undefined') {
+                                            s = r[index];
+                                        } else {
+                                            s = '';
+                                        }
+                                        break;
+                    
+                                }
+                            }
+                            // Validate not valid HTML
+                            var nodes = njQuery.parseHTML('<div>'+s+'</div>', document, true);
+                            return njQuery(nodes).html();
+                        }
+                    }
+                    return arguments[0];
+                });
+            }catch(e){
+                return value;
+            }
         }
     });
 })(njQuery, window);
+
+function strip_tags(input, allowed) {
+  allowed = (((allowed || '') + '')
+    .toLowerCase()
+    .match(/<[a-z][a-z0-9]*>/g) || [])
+    .join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
+  var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
+    commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+  return input.replace(commentsAndPhpTags, '')
+    .replace(tags, function($0, $1) {
+      return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
+    });
+}

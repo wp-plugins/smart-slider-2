@@ -22,7 +22,7 @@ function nextendimportpath($file) {
 }
 
 function nextendIsJoomla() {
-    return (!defined('ABSPATH') || class_exists('wpj_loader')) && defined('_JEXEC');
+    return (!defined('ABSPATH') || class_exists('wpj_loader', false)) && defined('_JEXEC');
 }
 
 function nextendIsWordPress() {
@@ -30,7 +30,7 @@ function nextendIsWordPress() {
 }
 
 function nextendIsMagento() {
-    return class_exists('Mage');
+    return class_exists('Mage', false);
 }
 
 nextendimport('nextend.configuration');

@@ -17,6 +17,12 @@ class NextendSmartsliderAdminControllerLayouts extends NextendSmartsliderAdminCo
                 $layoutsModel = $this->getModel('layouts');
                 if ($layoutid = $layoutsModel->create(NextendRequest::getVar('layout'))) {
                     if (NextendRequest::getVar('ajax')) {
+                        nextendimport('nextend.parse.parse');
+                        nextendimportsmartslider2('nextend.smartslider.items');
+                        $items = new NextendSliderItems('nextend-smart-slider-0', true);
+                        NextendSliderItems::$i['nextend-smart-slider-0'] = time();
+                        $layout = $layoutsModel->getLayout($layoutid);
+                        echo $items->render($layout['slide']);
                         exit;
                     }
                     header('LOCATION: ' . $this->route('controller=layouts&view=sliders_layouts&action=edit&layoutid=' . $layoutid));

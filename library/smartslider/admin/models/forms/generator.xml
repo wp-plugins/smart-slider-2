@@ -1,8 +1,6 @@
 <root translate="smartslider">
     <params name="generator" label="Generator_settings">
-        <param name="enabled" type="onoff" label="Enabled" default="0" />
-        <param label="Generators with full version" type="trial" name="trial" src="http://www.nextendweb.com/demo/smartslider2/trial/generators_joomla.png" wpsrc="http://www.nextendweb.com/demo/smartslider2/trial/generators_wp.png" />
-        <param size="10" class=" heightauto" name="source" type="plugingroup" label="Source" plugingroup="nextendslidergenerator" method="onNextendSliderGeneratorList" file="config.xml" php="generator.php" description="Choose_the_generator_what_you_would_like_to_use_It_will_updates_the_Variables_field" />
+        <param name="enabled" type="onoff" label="Enabled" default="1" />
         <param name="cachetime" type="text" label="Cache expiration" default="24" style="width:30px;">
             <unit>hours</unit>
         </param>
@@ -13,7 +11,5 @@
         </param>
 
         <param type="text" name="generatorgroup" label="Group_result" default="1" style="width:30px;" description="This_option_allows_you_to_show_multiple_record_from_the_source_generator_on_one_slide" />
-
-        <param name="variables" type="container" label="Variables" description="You_can_copy_and_paste_these_variables_into_any_field_of_the_slide_editor_These_variables_will_turn_into_real_data_when_the_slider_shows" />
     </params>
 </root>

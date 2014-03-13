@@ -23,12 +23,15 @@ class NextendSmartSliderStorage {
         $db = NextendDatabase::getInstance();
         $sql = '';
         if(self::get($key) === null){
-            $sql = "INSERT INTO #__nextend_smartslider_storage VALUES (NULL , ".$db->quote($key).", ".$db->quote($value).")";
+            $db->insert('#__nextend_smartslider_storage', array(
+                'key' => $key,
+                'value' => $value
+            ));
         }else{
-            $sql = "UPDATE #__nextend_smartslider_storage SET " . $db->quoteName('value') . " = ".$db->quote($value)." WHERE " . $db->quoteName('key') . " = ".$db->quote($key);
+            $db->update('#__nextend_smartslider_storage', array(
+                'value' => $value
+            ), $db->quoteName('key') . " = ".$db->quote($key));
         }
-        $db->setQuery($sql);
-        $db->query();
         self::$cache[$key] = $value;
     }
 

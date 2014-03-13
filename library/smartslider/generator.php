@@ -23,7 +23,7 @@ class NextendSmartsliderGenerator {
         $this->_slide = $slide;
         $this->_sliderid = $sliderid;
 
-        if (class_exists('Tidy')) {
+        if (class_exists('Tidy', false)) {
             $this->_tidy = true;
         }
         $this->_tidyInputEncoding = NextendSmartSliderSettings::get('tidy-input-encoding', 'utf8');
@@ -39,7 +39,7 @@ class NextendSmartsliderGenerator {
 
     }
 
-    function initDatasource($source) {
+    function initDatasource($source, $forcedGeneratorObj = false) {
         $tmp = $this->_generator->toArray();
         unset($tmp['generateslides']);
         $hash = md5($this->_number * $this->_generatorgroup.json_encode($tmp));
@@ -76,8 +76,18 @@ class NextendSmartsliderGenerator {
                 'data' => $this->_datasource
             );
             NextendSmartSliderStorage::set('generator'.$this->_sliderid, json_encode($cached));
+            if($forcedGeneratorObj) return $generator;
         }else{
             $this->_datasource = $cached['data'];
+            if($forcedGeneratorObj){
+                $v = explode('_', $source);
+                require_once($this->_list[$v[0]][$source][1] . 'generator.php');
+        
+                $class = 'NextendGenerator' . $source;
+                $generator = new $class($this->_generator);
+                
+                return $generator;
+            }
         }
     }
 
@@ -149,7 +159,8 @@ class NextendSmartsliderGenerator {
         return $slide;
     }
 
-    function replaceText($text) {
+    function replaceText($text, $parseItems = true) {
+        if($parseItems) $text = preg_replace_callback("/\[([a-zA-Z]+) values=\"(.*?)\"]/", array($this, 'onParseItem'), $text);
         return preg_replace_callback('/(\{nextend\|\|([a-zA-Z0-9,\|\|]+)\()?(\{\|(.*?)\-([0-9]+)\|\})(\)\})?/msS', array($this, 'onFunctionData'), $text);
     }
 
@@ -159,6 +170,11 @@ class NextendSmartsliderGenerator {
 
     function onData($matches) {
         return $this->getData(intval($matches[5]) - 1, $matches[4], $matches[3]);
+    }
+    
+    function onParseItem($matches){
+        $itemdata = json_decode(base64_decode($matches[2]), true);
+        return '['.$matches[1].' values="'.base64_encode(json_encode($this->replaceText($itemdata, false))).'"]';
     }
 
     function onAttributeData($matches) {

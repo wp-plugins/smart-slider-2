@@ -31,7 +31,7 @@
  *              Google Code Old Page: http://code.google.com/p/php-mobile-detect/
  * @version     2.6.3
  */
-if(!class_exists('Mobile_Detect')){
+if(!class_exists('Mobile_Detect', false)){
     class Mobile_Detect {
     
         protected $scriptVersion = '2.6.3';
