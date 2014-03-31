@@ -11,8 +11,16 @@ class NextendCacheCss extends NextendCache {
     }
 
     function parseFile($content, $path, $i) {
-        return preg_replace('#url\([\'"]([^"\'\)]+)[\'"]\)#', 'url(' . str_replace(array('http://', 'https://'), '//', NextendFilesystem::pathToAbsoluteURL(dirname($path))) . '/$1)', $content);
-    }    
+        $this->path = $path;
+        return preg_replace_callback('#url\([\'"]([^"\'\)]+)[\'"]\)#', array($this, 'makeUrl'), $content);
+    }
+    
+    function makeUrl($matches){
+        if(substr($matches[1], 0, 5) == 'data:') return $matches[0];
+        if(substr($matches[1], 0, 4) == 'http') return $matches[0];
+        if(substr($matches[1], 0, 2) == '//') return $matches[0];
+        return 'url(' . str_replace(array('http://', 'https://'), '//', NextendFilesystem::pathToAbsoluteURL(dirname($this->path))) . '/'.$matches[1].')';
+    }     
     
     function parseCached($cached){
         return $cached;

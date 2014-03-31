@@ -67,7 +67,7 @@ $generatorParams->loadJSON($slider['generator']);
     
     <?php if ($accessSliderEdit): ?>
     <div class="smartslider-button smartslider-back smartslider-button-grey smartslider-button-blue-active smartslider-icon-container ">
-        <a href="<?php echo $this->route('controller=slider&view=sliders_slider&action=dashboard&refreshcache=1&sliderid=' . $sliderid); ?>" class="smartslider-button-link"><span class="smartslider-icon smartslider-action-icon smartslider-action-icon-refresh"></span><?php echo NextendText::_('Refresh cache'); ?></a>
+        <a href="<?php echo $this->route('controller=slider&view=sliders_slider&action=dashboard&refreshcache=1&sliderid=' . $sliderid); ?>" class="smartslider-button-link"><span class="smartslider-icon smartslider-action-icon smartslider-action-icon-refresh"></span><?php echo NextendText::_('Refresh_cache'); ?></a>
     </div>
     <?php endif; ?>
     
@@ -82,7 +82,7 @@ $generatorParams->loadJSON($slider['generator']);
         <a href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=export&sliderid=' . $sliderid); ?>" class="smartslider-button-link"><span class="smartslider-icon smartslider-action-icon smartslider-action-icon-export"></span><?php echo NextendText::_('Export'); ?></a>
     </div>
     <div class="smartslider-button smartslider-back smartslider-button-grey smartslider-button-blue-active smartslider-icon-container ">
-        <a href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=exporthtml&sliderid=' . $sliderid); ?>" class="smartslider-button-link"><span class="smartslider-icon smartslider-action-icon smartslider-action-icon-export"></span><?php echo NextendText::_('Export as HTML'); ?></a>
+        <a href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=exporthtml&sliderid=' . $sliderid); ?>" class="smartslider-button-link"><span class="smartslider-icon smartslider-action-icon smartslider-action-icon-export"></span><?php echo NextendText::_('Export_as_HTML'); ?></a>
     </div>
     <?php endif; ?>
     
@@ -108,18 +108,18 @@ if(!$j15 && $accessSliderEdit && $generatorParams->get('enabled', null) !== null
 <h2>Generator</h2>
 <div class="smartslider-button-wrap">
     <div class="smartslider-button smartslider-back smartslider-button-grey smartslider-button-blue-active smartslider-icon-container">
-        <a href="<?php echo $this->route('controller=sliders&view=sliders_generator&action=generatorstart&sliderid=' . $sliderid); ?>" class="smartslider-button-link"><span class="smartslider-icon smartslider-action-icon smartslider-action-icon-generator"></span><?php echo NextendText::_('Change source'); ?></a>
+        <a href="<?php echo $this->route('controller=sliders&view=sliders_generator&action=generatorstart&sliderid=' . $sliderid); ?>" class="smartslider-button-link"><span class="smartslider-icon smartslider-action-icon smartslider-action-icon-generator"></span><?php echo NextendText::_('Change_source'); ?></a>
     </div>
     <div class="smartslider-button smartslider-back smartslider-button-grey smartslider-button-blue-active smartslider-icon-container">
         <a href="<?php echo $this->route('controller=sliders&view=sliders_generator&action=generatorsettings&sliderid=' . $sliderid); ?>" class="smartslider-button-link"><span class="smartslider-icon smartslider-action-icon smartslider-action-icon-generator-settings"></span><?php echo NextendText::_('Settings'); ?></a>
     </div>
     <div class="smartslider-button smartslider-back smartslider-button-grey smartslider-button-blue-active smartslider-icon-container">
-        <a href="<?php echo $this->route('controller=sliders&view=sliders_generator&action=generatoredit&sliderid=' . $sliderid); ?>" class="smartslider-button-link"><span class="smartslider-icon smartslider-action-icon smartslider-action-icon-generator-edit-layout"></span><?php echo NextendText::_('Edit layout'); ?></a>
+        <a href="<?php echo $this->route('controller=sliders&view=sliders_generator&action=generatoredit&sliderid=' . $sliderid); ?>" class="smartslider-button-link"><span class="smartslider-icon smartslider-action-icon smartslider-action-icon-generator-edit-layout"></span><?php echo NextendText::_('Edit_layout'); ?></a>
     </div>
     
     <?php if ($generatorParams->get('enabled', 0)): ?>
     <div class="smartslider-button smartslider-back smartslider-button-grey smartslider-button-blue-active smartslider-icon-container">
-        <a href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=changedynamiclayout&sliderid=' . $sliderid); ?>" class="smartslider-button-link"><span class="smartslider-icon smartslider-action-icon smartslider-action-icon-generator-layout"></span><?php echo NextendText::_('Change layout'); ?></a>
+        <a href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=changedynamiclayout&sliderid=' . $sliderid); ?>" class="smartslider-button-link"><span class="smartslider-icon smartslider-action-icon smartslider-action-icon-generator-layout"></span><?php echo NextendText::_('Change_layout'); ?></a>
     </div>
     <?php endif; ?>
 </div>

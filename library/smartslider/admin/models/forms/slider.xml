@@ -55,6 +55,16 @@
             <param type="onoff" label="Keyboard"/>
         </param>
         <param type="onoff" name="blockrightclick" label="Block_right_click" default="0" description="" />
+        <param type="mixed" name="imageload" label="Image load" default="0|*|0">
+            <param type="radio" label="Mode">
+                <option value="0">Normal</option>
+                <option value="2">Delayed load</option>
+                <option value="1">Lazy load</option>
+            </param>
+            <param type="text" label="Load neighbor" style="width:40px;">
+                <unit value="slides">slides</unit>
+            </param>
+        </param>
     </params>
     <params name="slides" label="Slides">
         <param type="radio" name="backgroundresize" label="Resize slide backgrounds" default="cover" >

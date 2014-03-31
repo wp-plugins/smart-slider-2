@@ -117,7 +117,7 @@ $css->addCssLibraryFile('form.css');
     if($messages){
         echo $messages;
     }else{
-        NextendMessage::success('Everything seems fine!');
+        NextendMessage::success(NextendText::_('Everything_seems_fine'));
         NextendMessage::show();
     }
     ?>

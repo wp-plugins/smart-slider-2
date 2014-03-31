@@ -36,13 +36,13 @@ if(NextendRequest::getCmd('action', '') == '' || (NextendRequest::getCmd('view',
     $sliders = $slider ? array($slider) : array();
     $action = NextendRequest::getCmd('action', '');
     $url = $this->route('controller=sliders&view=sliders_slider');
-    $label = 'Back to sliders';
+    $label = 'Back_to_sliders';
     if($action == 'createdynamic' && NextendRequest::getCmd('step') == 2){
         $url = $this->route('controller=sliders&view=sliders_slider&action=createdynamic');
         $label = 'Back to create  dynamic slider';
     }elseif($action != 'dashboard' && $sliderid){
         $url = $this->route('controller=sliders&view=sliders_slider&action=dashboard&sliderid='.$sliderid);
-        $label = 'Back to dashboard';
+        $label = 'Back_to_dashboard';
     }
     ?>
     <div class="smartslider-button smartslider-back smartslider-button-grey smartslider-button-blue-active smartslider-icon-container">

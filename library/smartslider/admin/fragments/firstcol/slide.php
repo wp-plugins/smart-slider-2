@@ -101,7 +101,7 @@ $css->addCssFile(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/css/firstcolslidetoolbox.
                         <div class="smartslider-slide-layout-pane-inner nextend-clearfix">
                             <?php
                             nextendimportsmartslider2('nextend.smartslider.items');
-                            $items = new NextendSliderItems('nextend-smart-slider-0', true);
+                            $items = new NextendSliderItems('nextend-smart-slider-0', $this, true);
                             
                             $layoutsModel = $this->getModel('layouts');
                             ?>

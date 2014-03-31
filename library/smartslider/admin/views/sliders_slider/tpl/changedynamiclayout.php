@@ -130,7 +130,7 @@ $this->loadFragment('secondcolstart');
     ?>
     <div style="clear:both;height: 10px; width:100%"></div>
 </div>
-
+<?php if(!empty($slide)): ?>
 <h2>Choose layout - optional</h2>
 <div class="blue-container">
     <?php
@@ -140,6 +140,7 @@ $this->loadFragment('secondcolstart');
     ?>
     <div style="clear:both;height: 10px; width:100%"></div>
 </div>
+<?php endif; ?>
 
 </form>
 

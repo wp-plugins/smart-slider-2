@@ -10,15 +10,15 @@
         <param type="onoff" name="jquery" label="Load_jQuery_on_frontend" description="If_you_choose_not_to_load_please_make_sure_that_jQuery_version_18_or_higher_loaded_on_your_frontend" default="1" />
         <param type="onoff" name="translate3d" label="Hardware_acceleration_on_sliders" default="1" description="If_you_see_flickers_in_some_browsers_you_can_try_to_disable_this" />
         <param type="text" label="Placeholder_for_images" name="placeholder" default="http://www.nextendweb.com/static/placeholder.png" />
-        <param type="onoff" label="Resize remote urls" name="resizeremote" default="0" />
+        <param type="onoff" label="Resize_remote_urls" name="resizeremote" default="0" />
     </params>
-    <params name="reponsive" label="Responsive mode">
-        <param type="radio" label="Based on" name="responsivebasedon" default="combined" description="">
-            <option value="device">Real device detection</option>
-            <option value="screen">Maximum screen width</option>
+    <params name="reponsive" label="Responsive_mode">
+        <param type="radio" label="Based_on" name="responsivebasedon" default="combined" description="">
+            <option value="device">Real_device_detection</option>
+            <option value="screen">Maximum_screen_width</option>
             <option value="combined">Combined</option>
         </param>
-        <param type="mixed" label="Maximum screen width" name="responsivescreenwidth" default="1024|*|640" description="">
+        <param type="mixed" label="Maximum_screen_width" name="responsivescreenwidth" default="1024|*|640" description="">
             <param type="text" label="Tablet" style="width:40px;">
                 <unit>px</unit>
             </param>
@@ -26,15 +26,16 @@
                 <unit>px</unit>
             </param>
         </param>
-        <param type="mixed" label="Slide editor ratios" name="slideeditorratios" default="1.0|*|1.0|*|0.7|*|0.5" description="">
+        <param type="mixed" label="Slide_editor_ratios" name="slideeditorratios" default="1.0|*|1.0|*|0.7|*|0.5" description="">
             <param type="text" label="All" style="width:40px;" />
             <param type="text" label="Desktop" style="width:40px;" />
             <param type="text" label="Tablet" style="width:40px;" />
             <param type="text" label="Mobile" style="width:40px;" />
         </param>
+        <param type="onoff" name="devicespecificimages" label="Device specific images" default="0" />
     </params>
     <params name="generator" label="Generator">
-        <param type="onoff" label="Designer mode" name="generatordesignermode" default="1" description="In generator slide editor, the variables will be filled with values from the source." />
+        <param type="onoff" label="Designer_mode" name="generatordesignermode" default="1" description="In_generator_slide_editor_the_variables_will_be_filled_with_values_from_the_source" />
     </params>
     <params name="tidy" label="Tidy_settings">
         <param type="list" default="utf8" name="tidy-input-encoding" label="Input_encoding" description="When_you_got_strange_characters_in_slide_editor_you_should_try_to_set_this_up_properly">

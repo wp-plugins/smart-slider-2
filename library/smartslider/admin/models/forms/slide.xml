@@ -12,6 +12,13 @@
             <param type="color" alpha="1" label="Color" />
             <param type="image" label="Image" />
         </param>
+        <param name="backgroundmore" type="mixed" label="Background" default="|*||*||*||*|" description="" test="devicespecificimages">
+            <param type="image" label="Desktop retina image" />
+            <param type="image" label="Tablet image" mixedstyle="clear: both;" />
+            <param type="image" label="Tablet retina image" />
+            <param type="image" label="Mobile image" mixedstyle="clear: both;" />
+            <param type="image" label="Mobile retina image" />
+        </param>
         <param type="mixed" name="link" label="Link" default="|*|self" >
             <param type="url" label="Link" />
             <param type="list" label="Taget window">

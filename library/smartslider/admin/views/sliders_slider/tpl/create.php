@@ -33,14 +33,14 @@ $this->loadFragment('secondcolstart');
         <td><img src="<?php echo NextendUri::pathToUri(NEXTEND_SMART_SLIDER2_ASSETS . 'admin/images/create-dynamic.png') ?>" /></td>
     </tr>
     <tr class="smartslider-slider-create-heading">
-        <td>Quick slider</td>
-        <td>Manual slider</td>
-        <td>Dynamic slider</td>
+        <td><?php echo NextendText::_('Quick_slider'); ?></td>
+        <td><?php echo NextendText::_('Manual_slider'); ?></td>
+        <td><?php echo NextendText::_('Dynamic_slider'); ?></td>
     </tr>
     <tr class="smartslider-slider-create-note">
-        <td>Fasten your seatbelt, because it was designed to be as simply and fast to setup as it could possibly be. Create an image slider in minutes.</td>
-        <td>Build a new slider from layers and items. Your imagination is the only limit for sliders!  Ideal for homepages, showcases and presentations.</td>
-        <td>Generate sliders from external sources. Show the most popular products from your webshop, blog posts from a category or pictures from a folder.</td>
+        <td><?php echo NextendText::_('Fasten_your_seatbelt_because_it_was_designed_to_be_as_simply_and_fast_to_setup_as_it_could_possibly_be_Create_an_image_slider_in_minutes'); ?></td>
+        <td><?php echo NextendText::_('Build_a_new_slider_from_layers_and_items_Your_imagination_is_the_only_limit_for_sliders_Ideal_for_homepages_showcases_and_presentations'); ?></td>
+        <td><?php echo NextendText::_('Generate_sliders_from_external_sources_Show_the_most_popular_products_from_your_webshop_blog_posts_from_a_category_or_pictures_from_a_folder'); ?></td>
     </tr>
     <tr class="smartslider-slider-create-button">
         <td>
@@ -57,7 +57,7 @@ $this->loadFragment('secondcolstart');
   </table>
 </div>
 
-<h2>Import sample slider</h2>
+<h2><?php echo NextendText::_('Import_sample_slider'); ?></h2>
 <div class="blue-container">
 <?php
 NextendMessage::show();

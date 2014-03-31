@@ -24,11 +24,11 @@ class plgNextendSliderItemAbstract extends NextendPluginBase {
         return "{nothing}";
     }
     
-    function render($data, $id, $sliderid){
-        return $this->_render($data, $id, $sliderid);
+    function render($data, $id, $sliderid, $items){
+        return $this->_render($data, $id, $sliderid, $items);
     }
     
-    function renderAdmin($data, $id, $sliderid){
+    function renderAdmin($data, $id, $sliderid, $items){
         global $slidegenerator;
         
         $json = $data->toJson();
@@ -39,14 +39,14 @@ class plgNextendSliderItemAbstract extends NextendPluginBase {
             $slidegenerator->_slidePointer = 0;
             $data->loadArray($slidegenerator->createSlide(0, $data->toArray(), true));
         }
-        return '<div class="smart-slider-items" data-item="'.$this->_identifier.'" data-itemvalues="'.htmlspecialchars($json, ENT_QUOTES).'">'.$this->_renderAdmin($data, $id, $sliderid).'</div>';
+        return '<div class="smart-slider-items" data-item="'.$this->_identifier.'" data-itemvalues="'.htmlspecialchars($json, ENT_QUOTES).'">'.$this->_renderAdmin($data, $id, $sliderid, $items).'</div>';
     }
     
-    function _render($data, $id, $sliderid){
+    function _render($data, $id, $sliderid, $items){
         return $this->getTemplate();
     }
     
-    function _renderAdmin($data, $id, $sliderid){
+    function _renderAdmin($data, $id, $sliderid, $items){
         return $this->getTemplate();
     }
     

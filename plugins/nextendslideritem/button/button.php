@@ -29,7 +29,7 @@ class plgNextendSliderItemButton extends plgNextendSliderItemAbstract {
         ";
     }
     
-    function _render($data, $id, $sliderid){
+    function _render($data, $id, $sliderid, $items){
         $link = (array)NextendParse::parse($data->get('link', ''));
         if(!isset($link[1])) $link[1] = '';
         
@@ -60,7 +60,7 @@ class plgNextendSliderItemButton extends plgNextendSliderItemAbstract {
 </style>';
     }
     
-    function _renderAdmin($data, $id, $sliderid){
+    function _renderAdmin($data, $id, $sliderid, $items){
         $link = (array)NextendParse::parse($data->get('link', ''));
         if(!isset($link[1])) $link[1] = '';
         

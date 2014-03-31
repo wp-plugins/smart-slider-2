@@ -16,11 +16,36 @@ class NextendSliderCache {
 
         $recache = false;
         $cached = json_decode(NextendSmartSliderStorage::get('slidercache' . $sliderid), true);
+        
+      	if(nextendIsWordpress()){		    		    
+      		  $time = current_time( 'timestamp');
+      	}else{
+      		  $time = time();
+      	}
+        
+        nextendimportsmartslider2('nextend.smartslider.admin.models.slides');
+        $slidesModel = new NextendSmartsliderAdminModelSlides(null);
+        $slides = $slidesModel->getSlides($sliderid, '');
+        
+        $slideexpire = null;
+        foreach($slides AS $s){
+            $publish_up = strtotime($s['publish_up']);
+            if($publish_up && $publish_up > $time && ($slideexpire == null || $publish_up < $slideexpire)){
+                $slideexpire = $publish_up;
+            }
+            
+            $publish_down = strtotime($s['publish_down']);
+            if($publish_down && $publish_down > $time && ($slideexpire == null || $publish_down < $slideexpire)){
+                $slideexpire = $publish_down;
+            }
+        }
 
         if (is_array($cached)) {
             if (NextendSmartSliderStorage::get('sliderchanged' . $sliderid) == 1) {
                 $recache = true;
             } else if (isset($cached['time']) && isset($cached['expire']) && $cached['time'] < time() - $cached['expire'] * 60 * 60) {
+                $recache = true;
+            } else if (isset($cached['slideexpire']) && $cached['slideexpire'] < $time) {
                 $recache = true;
             }
         } else {
@@ -49,12 +74,17 @@ class NextendSliderCache {
                 'time' => time(),
                 'data' => $data
             );
+            
             if ($this->slider->_generatorParams->get('enabled', 0)) {
                 $generatorcached = json_decode(NextendSmartSliderStorage::get('generator' . $sliderid), true);
                 if (is_array($generatorcached)) {
                     $cached['time'] = $generatorcached['time'];
                     $cached['expire'] = $this->slider->_generatorParams->get('cachetime', '24');
                 }
+            }
+            
+            if($slideexpire){
+                $cached['slideexpire'] = $slideexpire;
             }
 
             NextendSmartSliderStorage::set('slidercache' . $sliderid, json_encode($cached));
@@ -97,8 +127,29 @@ class NextendSliderCache {
                 }
             }
         }
+        
+        $slider = $data['html'];
+        if(nextendIsJoomla()){
+            if(version_compare(JVERSION, '1.6.0', 'ge')){
+                $dispatcher = JDispatcher::getInstance();
+      			     JPluginHelper::importPlugin('content');
+                $article = new stdClass();
+                $article->text = $slider;
+                $_p = array();
+                $dispatcher->trigger('onContentPrepare', array('com_smartslider2', &$article, &$_p, 0));
+                if(!empty($article->text)) $slider = $article->text;
+            }
+        }elseif(nextendIsWordPress()){
+            if(!function_exists('ss2_attr_shortcode')){
+                function ss2_attr_shortcode($matches){
+                    return 'data-'.$matches[1].'="'.str_replace('"', '&quot;',do_shortcode(str_replace('&quot;','"',$matches[2]))).'"';
+                }
+            }
+            $slider = preg_replace_callback("/data-(click|enter|leave)=\"(.*?)\"/", "ss2_attr_shortcode", $slider);
+            $slider = do_shortcode($slider);
+        }
 
-        echo $data['html'];
+        echo $slider;
     }
 
     function render() {

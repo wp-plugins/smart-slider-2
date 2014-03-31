@@ -84,7 +84,7 @@ class plgNextendSliderGeneratorlayoutsDefaultlayouts extends NextendPluginBase {
                 'publish_up' => '',
                 'publish_down' => '',
                 'first' => 0,
-                'link' => '{|url-1|}',
+                'link' => '{|url-1|}|*|_self',
                 'generator' => 0
         ));
     }
@@ -106,7 +106,7 @@ class plgNextendSliderGeneratorlayoutsDefaultlayouts extends NextendPluginBase {
                 'publish_up' => '',
                 'publish_down' => '',
                 'first' => 0,
-                'link' => '{|url-1|}',
+                'link' => '{|url-1|}|*|_self',
                 'generator' => 0
         ));
     }
@@ -128,7 +128,7 @@ class plgNextendSliderGeneratorlayoutsDefaultlayouts extends NextendPluginBase {
                 'publish_up' => '',
                 'publish_down' => '',
                 'first' => 0,
-                'link' => '{|url-1|}',
+                'link' => '{|url-1|}|*|_self',
                 'generator' => 0
         ));
     }
@@ -150,6 +150,7 @@ class plgNextendSliderGeneratorlayoutsDefaultlayouts extends NextendPluginBase {
                 'publish_up' => '',
                 'publish_down' => '',
                 'first' => 0,
+                'link' => '|*|_self',
                 'generator' => 0
         ));
     }
@@ -171,6 +172,7 @@ class plgNextendSliderGeneratorlayoutsDefaultlayouts extends NextendPluginBase {
                 'publish_up' => '',
                 'publish_down' => '',
                 'first' => 0,
+                'link' => '|*|_self',
                 'generator' => 0
         ));
     }
@@ -192,6 +194,7 @@ class plgNextendSliderGeneratorlayoutsDefaultlayouts extends NextendPluginBase {
                 'publish_up' => '',
                 'publish_down' => '',
                 'first' => 0,
+                'link' => '|*|_self',
                 'generator' => 0
         ));
     }
@@ -213,6 +216,7 @@ class plgNextendSliderGeneratorlayoutsDefaultlayouts extends NextendPluginBase {
                 'publish_up' => '',
                 'publish_down' => '',
                 'first' => 0,
+                'link' => '|*|_self',
                 'generator' => 0
         ));
     }
@@ -234,6 +238,7 @@ class plgNextendSliderGeneratorlayoutsDefaultlayouts extends NextendPluginBase {
                 'publish_up' => '',
                 'publish_down' => '',
                 'first' => 0,
+                'link' => '|*|_self',
                 'generator' => 0
         ));
     }
@@ -255,6 +260,7 @@ class plgNextendSliderGeneratorlayoutsDefaultlayouts extends NextendPluginBase {
                 'publish_up' => '',
                 'publish_down' => '',
                 'first' => 0,
+                'link' => '|*|_self',
                 'generator' => 0
         ));
     }
@@ -276,6 +282,7 @@ class plgNextendSliderGeneratorlayoutsDefaultlayouts extends NextendPluginBase {
                 'publish_up' => '',
                 'publish_down' => '',
                 'first' => 0,
+                'link' => '|*|_self',
                 'generator' => 0
         ));
     }
@@ -297,6 +304,7 @@ class plgNextendSliderGeneratorlayoutsDefaultlayouts extends NextendPluginBase {
                 'publish_up' => '',
                 'publish_down' => '',
                 'first' => 0,
+                'link' => '|*|_self',
                 'generator' => 0
         ));
     }
@@ -318,6 +326,7 @@ class plgNextendSliderGeneratorlayoutsDefaultlayouts extends NextendPluginBase {
                 'publish_up' => '',
                 'publish_down' => '',
                 'first' => 0,
+                'link' => '|*|_self',
                 'generator' => 0
         ));
     }
@@ -339,7 +348,7 @@ class plgNextendSliderGeneratorlayoutsDefaultlayouts extends NextendPluginBase {
                 'publish_up' => '',
                 'publish_down' => '',
                 'first' => 0,
-                'link' => '{|url-1|}',
+                'link' => '{|url-1|}|*|_self',
                 'generator' => 0
         ));
     }

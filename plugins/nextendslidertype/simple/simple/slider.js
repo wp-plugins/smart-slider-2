@@ -84,7 +84,7 @@
             });
             
             this.imagesinited = false;
-            this.$slider.waitForImages(function () {
+            this.load(function () {
                 $.each(_this.slidebgList, function(){
                     var $img = $(this);
                     var im = $("<img/>").attr("src", $img.attr("src"));
@@ -94,6 +94,15 @@
                 _this.imagesinited = true;
                 _this.$slider.trigger('imagesinited');
             });
+            
+            this.slidebgList.on('lazyloaded', function(){
+                var $img = $(this);
+                var im = $("<img/>").attr("src", $img.attr("src"));
+                $img.data('ss-w', im[0].width < 10 ? _this.variables.canvaswidth : im[0].width);
+                $img.data('ss-h', im[0].height < 10 ? _this.variables.canvasheight : im[0].height);
+                if(typeof _this.variables.oCanvasWidth != 'undefined') $img.height(parseInt(_this.variables.oCanvasWidth/$img.data('ss-w')*$img.data('ss-h')));
+            });
+            
 
             this.variablesRefreshed();
         },
@@ -118,7 +127,7 @@
     
                 if (!modechanged && (this.lastAvailableWidth == availableWidth || !this.options.responsive.downscale && ratio < 1)) {
                     var _this = this;
-                    this.$slider.waitForImages(function () {
+                    this.load(function () {
                         $(_this).trigger('load');
                     });
                     return true;
@@ -173,6 +182,8 @@
 
             var canvasHeight = parseInt(canvases.data('ss-h') * ratio2);
             
+            this.variables.oCanvasWidth = oCanvasWidth;
+
             if (this.options.flux[0]) this.flux.changeSize(oCanvasWidth, canvasHeight);
 
             canvases.width(canvasWidth).height(canvasHeight).css({
@@ -225,7 +236,7 @@
             $(this).trigger('resize', [ratio, canvasWidth, canvasHeight]);
 
             var _this = this;
-            this.$slider.waitForImages(function () {
+            this.load(function () {
                 $(_this).trigger('load');
             });
             
@@ -324,12 +335,12 @@
 
         __animateInNo: function ($slide, reversed, end) {
             if (end) end();
-            return ssAnimationManager.getAnimation('no', $slide, {});
+            return ssAnimationManager.getAnimation('nostatic', $slide, {});
         },
 
         __animateOutNo: function ($slide, reversed, end) {
             if (end) end();
-            return ssAnimationManager.getAnimation('no', $slide, {});
+            return ssAnimationManager.getAnimation('nostatic', $slide, {});
         },
 
         __animateInHorizontal: function ($slide, reversed, end) {

@@ -10,7 +10,7 @@ class plgNextendSliderGeneratorQuickImage extends NextendPluginBase {
         $group[$this->_group] = 'Image';
 
         if (!isset($list[$this->_group])) $list[$this->_group] = array();
-        $list[$this->_group][$this->_group . '_quickimage'] = array(NextendText::_('Quick image'), $this->getPath() . 'quickimage' . DIRECTORY_SEPARATOR, true, false, true, 'image_quick');
+        $list[$this->_group][$this->_group . '_quickimage'] = array(NextendText::_('Quick_image'), $this->getPath() . 'quickimage' . DIRECTORY_SEPARATOR, true, false, true, 'image_quick');
     }
 
     function getPath() {

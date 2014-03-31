@@ -45,6 +45,8 @@ class NextendSmartsliderAdminModelItem extends NextendSmartsliderAdminModelBase 
         $form->loadArray($data);
 
         $form->loadXMLFile($configurationXmlFile);
+        
+        $form->devicespecificimages = NextendSmartSliderSettings::get('devicespecificimages', 0);
 
         echo $form->render('item_'.$type);
     }

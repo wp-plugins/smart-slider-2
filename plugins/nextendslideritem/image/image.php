@@ -21,7 +21,7 @@ class plgNextendSliderItemImage extends plgNextendSliderItemAbstract {
         </div>';
     }
     
-    function _render($data, $id, $sliderid){
+    function _render($data, $id, $sliderid, $items){
         $link = (array)NextendParse::parse($data->get('link', ''));
         if(!isset($link[1])) $link[1] = '';
         
@@ -101,14 +101,27 @@ class plgNextendSliderItemImage extends plgNextendSliderItemAbstract {
             </style>
             ';
         }
+        
+        $image = $data->get('image', '');
+        $imagemore = (array)NextendParse::parse($data->get('imagemore'));
+        $image = array(
+            'desktop' => (empty($image) ? 0 : $image),
+            'desktopretina' => (empty($imagemore[0]) ? 0 : $imagemore[0]),
+            'tablet' => (empty($imagemore[1]) ? 0 : $imagemore[1]),
+            'tabletretina' => (empty($imagemore[2]) ? 0 : $imagemore[2]),
+            'mobile' => (empty($imagemore[3]) ? 0 : $imagemore[3]),
+            'mobileretina' => (empty($imagemore[4]) ? 0 : $imagemore[4]),
+        );
+        
+        
         return $style.'<div '.$attr.'>
             '.($link[0] != '#' ? '<a href="'.$link[0].'" target="'.$link[1].'" style="display: block;background: none !important;">' : '').'
-                <img id="'.$id.'" src="'.$data->get('image', '').'" style="display: block; max-width: 100%; '.htmlspecialchars($data->get('css', '')).';width:'.$size[0].';height:'.$size[1].';" class="'.$data->get('kenburnsclass', '').'" alt="'.htmlspecialchars($data->get('alt', '')).'" title="'.htmlspecialchars($data->get('title', '')).'" />
+                <img id="'.$id.'" '.$items->slider->makeImg($image, $items->slide).' style="display: block; max-width: 100%; '.htmlspecialchars($data->get('css', '')).';width:'.$size[0].';height:'.$size[1].';" class="'.$data->get('kenburnsclass', '').'" alt="'.htmlspecialchars($data->get('alt', '')).'" title="'.htmlspecialchars($data->get('title', '')).'" />
             '.($link[0] != '#' ? '</a>' : '').'
         </div>';
     }
     
-    function _renderAdmin($data, $id, $sliderid){
+    function _renderAdmin($data, $id, $sliderid, $items){
     
         $link = (array)NextendParse::parse($data->get('link', ''));
         if(!isset($link[1])) $link[1] = '';

@@ -26,6 +26,8 @@ class NextendTab {
 
         $this->_elements = array();
         foreach ($this->_xml->param AS $element) {
+            $test = NextendXmlGetAttribute($element, 'test');
+            if(!empty($test) && (!isset($this->_form->{$test}) || !$this->_form->{$test})) continue;
             $type = NextendXmlGetAttribute($element, 'type');
             $name = NextendXmlGetAttribute($element, 'name');
             $class = 'NextendElement' . $type;

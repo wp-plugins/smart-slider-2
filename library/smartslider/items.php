@@ -5,13 +5,16 @@ class NextendSliderItems {
 
     var $id = 0;
     
+    var $slider = null;
+    
     var $items = null;
     
     var $admin = false;
 
-    function NextendSliderItems($id, $admin) {
+    function NextendSliderItems($id, $slider, $admin) {
     
         $this->id = $id;
+        $this->slider = $slider;
         $this->admin = $admin;
         $this->items = array();
         if(!isset(self::$i[$id])) self::$i[$id] = 0;
@@ -19,7 +22,8 @@ class NextendSliderItems {
         NextendPlugin::callPlugin('nextendslideritem', 'onNextendSliderItemShortcode', array(&$this->items));
     }
     
-    function render($slider){
+    function render($slider, $slide = -1){
+        $this->slide = $slide;
         return preg_replace_callback("/\[([a-zA-Z]+) values=\"(.*?)\"]/", array($this, 'makeItem'), $slider);
     }
     
@@ -30,9 +34,9 @@ class NextendSliderItems {
             if($data->_data != null){
                 ++self::$i[$this->id];
                 if($this->admin){
-                    return $this->items[$args[1]]->renderAdmin($data, $this->id.'item'.self::$i[$this->id], $this->id);
+                    return $this->items[$args[1]]->renderAdmin($data, $this->id.'item'.self::$i[$this->id], $this->id, $this);
                 }
-                return $this->items[$args[1]]->render($data, $this->id.'item'.self::$i[$this->id], $this->id);
+                return $this->items[$args[1]]->render($data, $this->id.'item'.self::$i[$this->id], $this->id, $this);
             }
         }
         return '';

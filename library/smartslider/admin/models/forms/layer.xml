@@ -11,7 +11,7 @@
             <param name="top" type="text" label="Top" default="" style="width:50px;" />
             <param name="width" type="text" label="Width" default="" style="width:50px;" />
             <param name="height" type="text" label="Height" default="" style="width:50px;" />
-            <param type="mixed" label="Show on" name="show" default="1|*|1|*|1" description="">
+            <param type="mixed" label="Show_on" name="show" default="1|*|1|*|1" description="">
                 <param type="onoff" label="Desktop" />
                 <param type="onoff" label="Tablet" />
                 <param type="onoff" label="Mobile" />

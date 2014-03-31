@@ -219,10 +219,16 @@ class NextendSlider {
                 }
             }
             $slides[$i]['style'] = $style;
-            $slides[$i]['bg'] = false;
-            if (isset($bg[1]) && $bg[1] != '') {
-                    $slides[$i]['bg'] = $bg[1];
-            }
+            
+            $bgmore = (array)NextendParse::parse($slides[$i]['params']->get('backgroundmore'));
+            $slides[$i]['bg'] = array(
+                'desktop' => (empty($bg[1]) ? 0 : $bg[1]),
+                'desktopretina' => (empty($bgmore[0]) ? 0 : $bgmore[0]),
+                'tablet' => (empty($bgmore[1]) ? 0 : $bgmore[1]),
+                'tabletretina' => (empty($bgmore[2]) ? 0 : $bgmore[2]),
+                'mobile' => (empty($bgmore[3]) ? 0 : $bgmore[3]),
+                'mobileretina' => (empty($bgmore[4]) ? 0 : $bgmore[4]),
+            );
             
             $link = $params->get('link', '');
             $link = (array)NextendParse::parse($link);
@@ -293,7 +299,7 @@ class NextendSlider {
                 $imageCache = new NextendCacheImage();
                 for($i = 0; $i < count($this->_slides); $i++){
                     $imageCache->setBackground(substr($this->_slides[$i]['background'],0,6));
-                    $this->_slides[$i]['bg'] = $imageCache->resizeImage($this->_slides[$i]['bg'], $canvasWidth, $canvasHeight, $backgroundresize, $resizeremote);
+                    $this->_slides[$i]['bg']['desktop'] = $imageCache->resizeImage($this->_slides[$i]['bg']['desktop'], $canvasWidth, $canvasHeight, $backgroundresize, $resizeremote);
                 }
             }else if(NextendSmartSliderSettings::get('debugmessages', 1)){
                 echo "It seems like the <a href='http://php.net/manual/en/ini.core.php#ini.memory-limit'>memory_limit</a> on the server is too low for the background resize. Please set it minimum 60M and reload the page! You can disable this message in <a href='http://www.nextendweb.com/wiki/smart-slider-documentation/global-settings/'>global configuration</a> 'Frontend debug message' option.";
@@ -303,6 +309,7 @@ class NextendSlider {
         $css = NextendCss::getInstance();
         
         $widgets = new NextendSliderWidgets($this, $id);
+        $items = new NextendSliderItems($id, $this, $this->_backend);
         
         ob_start();
         if(!$this->_backend && $fadeonload[0]){
@@ -310,9 +317,6 @@ class NextendSlider {
         }
         include($this->_typePath . 'slider.php');
         $slider = ob_get_clean();
-        
-        $items = new NextendSliderItems($id, $this->_backend);
-        $slider = $items->render($slider);
         
         if(!$this->_backend){
             NextendPlugin::callPlugin('nextendslideritem', 'onNextendSliderRender', array(&$slider, $id));
@@ -323,24 +327,26 @@ class NextendSlider {
             $slider = preg_replace( '/data-enter=""/', '', $slider ); // Remove unnecessary attributes...
             $slider = preg_replace( '/data-click=""/', '', $slider ); // Remove unnecessary attributes...
         
-            if(nextendIsJoomla()){
-                if(version_compare(JVERSION, '1.6.0', 'ge')){
-                    $dispatcher = JDispatcher::getInstance();
-          			     JPluginHelper::importPlugin('content');
-                    $article = new stdClass();
-                    $article->text = $slider;
-                    $_p = array();
-                    $dispatcher->trigger('onContentPrepare', array('com_smartslider2', &$article, &$_p, 0));
-                    if(!empty($article->text)) $slider = $article->text;
-                }
-            }elseif(nextendIsWordPress()){
-                if(!function_exists('ss2_attr_shortcode')){
-                    function ss2_attr_shortcode($matches){
-                        return 'data-'.$matches[1].'="'.str_replace('"', '&quot;',do_shortcode(str_replace('&quot;','"',$matches[2]))).'"';
+            if($cache == false){
+                if(nextendIsJoomla()){
+                    if(version_compare(JVERSION, '1.6.0', 'ge')){
+                        $dispatcher = JDispatcher::getInstance();
+              			     JPluginHelper::importPlugin('content');
+                        $article = new stdClass();
+                        $article->text = $slider;
+                        $_p = array();
+                        $dispatcher->trigger('onContentPrepare', array('com_smartslider2', &$article, &$_p, 0));
+                        if(!empty($article->text)) $slider = $article->text;
                     }
+                }elseif(nextendIsWordPress()){
+                    if(!function_exists('ss2_attr_shortcode')){
+                        function ss2_attr_shortcode($matches){
+                            return 'data-'.$matches[1].'="'.str_replace('"', '&quot;',do_shortcode(str_replace('&quot;','"',$matches[2]))).'"';
+                        }
+                    }
+                    $slider = preg_replace_callback("/data-(click|enter|leave)=\"(.*?)\"/", "ss2_attr_shortcode", $slider);
+                    $slider = do_shortcode($slider);
                 }
-                $slider = preg_replace_callback("/data-(click|enter|leave)=\"(.*?)\"/", "ss2_attr_shortcode", $slider);
-                $slider = do_shortcode($slider);
             }
         }
 
@@ -501,6 +507,10 @@ class NextendSlider {
         );
         $p['blockrightclick'] = intval($this->_sliderParams->get('blockrightclick', 0));
         
+        $imageload = NextendParse::parse($this->_sliderParams->get('imageload', '0|*|0'));
+        $p['lazyload'] = intval($imageload[0]);
+        $p['lazyloadneighbor'] = intval($imageload[1]);
+
         return $p;
     }
     
@@ -561,6 +571,16 @@ class NextendSlider {
             $context
         ), $this->getId());
         
+        $imageload = NextendParse::parse($this->_sliderParams->get('imageload', '0|*|0'));
+        $lazyload = intval($imageload[0]);
+        if($lazyload){
+            $css->addCssFile(array(
+                $this->getId().'spinner',
+                NEXTEND_SMART_SLIDER2_ASSETS . 'less' . DIRECTORY_SEPARATOR . 'spinner.less',
+                array('id' => '~"#' . $this->getId() . '"')
+            ), $this->getId());
+        }
+        
         if(strpos($context['margin'], '%')){
             $m = explode('% ', $context['margin']);
             $m[1] = $m[1]/100*intval($context['width']);
@@ -597,6 +617,7 @@ class NextendSlider {
         $js->addJsAssetsFile('class.js');
         $js->loadLibrary('jquery');
         
+        $js->addLibraryJsLibraryFile('jquery', 'jquery.unveil.js');
         $js->addLibraryJsLibraryFile('jquery', 'jquery.waitforimages.js');
 
         $controls = NextendParse::parse($this->_sliderParams->get('controls', '0|*|0'));
@@ -617,6 +638,8 @@ class NextendSlider {
         $js->addLibraryJsFile('jquery', NEXTEND_SMART_SLIDER2_ASSETS . 'js' . DIRECTORY_SEPARATOR . 'layers.js');
 
         $js->addLibraryJsFile('jquery', NEXTEND_SMART_SLIDER2_ASSETS . 'js' . DIRECTORY_SEPARATOR . 'motions' . DIRECTORY_SEPARATOR . 'no.js');
+        $js->addLibraryJsFile('jquery', NEXTEND_SMART_SLIDER2_ASSETS . 'js' . DIRECTORY_SEPARATOR . 'motions' . DIRECTORY_SEPARATOR . 'nostatic.js');
+        
         $js->addLibraryJsFile('jquery', NEXTEND_SMART_SLIDER2_ASSETS . 'js' . DIRECTORY_SEPARATOR . 'motions' . DIRECTORY_SEPARATOR . 'fade.js');
         $js->addLibraryJsFile('jquery', NEXTEND_SMART_SLIDER2_ASSETS . 'js' . DIRECTORY_SEPARATOR . 'motions' . DIRECTORY_SEPARATOR . 'fadestatic.js');
 
@@ -624,6 +647,51 @@ class NextendSlider {
         $js->addLibraryJsFile('jquery', NEXTEND_SMART_SLIDER2_ASSETS . 'js' . DIRECTORY_SEPARATOR . 'motions' . DIRECTORY_SEPARATOR . 'slidestatic.js');
 
         $js->addLibraryJsFile('jquery', NEXTEND_SMART_SLIDER2_ASSETS .  'js' . DIRECTORY_SEPARATOR . 'motions' . DIRECTORY_SEPARATOR . 'transit.js');
+    }
+    
+    function makeImg($src, $i){
+        static $loader = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+        static $lazyloadneighbor = null;
+        static $lazyload = null;
+        $notlazy = false;
+        if($lazyloadneighbor == null){
+            $imageload = NextendParse::parse($this->_sliderParams->get('imageload', '0|*|0'));
+            $lazyload = intval($imageload[0]);
+            $lazyloadneighbor = intval($imageload[1]);
+        }
+        if($lazyload == 0) $notlazy = true;
+        if(!$notlazy && $this->_activeSlide == $i) $notlazy = true;
+        
+        if(!$notlazy && $lazyloadneighbor){
+            $dist = abs($this->_activeSlide - $i);
+            $distback = abs($i - count($this->_slides) - 1);
+            if($distback < $dist){
+                $dist = $distback;
+            }
+            if($dist <= $lazyloadneighbor) $notlazy = true;
+        }
+        
+        $data = '';
+        $startimage = '';
+        if(is_array($src)){
+            foreach($src AS $k => $v){
+                if(!$v) continue;
+                $data.='data-'.$k.'="'.$v.'" ';
+            }
+            if($src['mobile']){
+                $startimage = $src['mobile'];
+            }else{
+                if($src['tablet']){
+                    $startimage = $src['tablet'];
+                }else{
+                    $startimage = $src['desktop'];
+                }
+            }
+        }else{
+            $startimage = $src;
+        }
+        if($notlazy) return ' src="'.$startimage.'" '.$data;
+        return ' src="'.$loader.'" '.$data;
     }
 
 }

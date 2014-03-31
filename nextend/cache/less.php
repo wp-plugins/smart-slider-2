@@ -31,15 +31,23 @@ class NextendCacheLess extends NextendCache{
     
     function parseFile($content, $path, $i){
         $this->_less->setVariables($this->_context[$i]);
+        $this->path = $path;
         return 
             preg_replace('/;;/', ';',
               preg_replace('/d: ;/', '',
-                  preg_replace('#url\([\'"]([^"\'\)]+)[\'"]\)#', 'url('.NextendFilesystem::pathToAbsoluteURL(dirname($path)).'/$1)', 
+                  preg_replace_callback('#url\([\'"]([^"\'\)]+)[\'"]\)#', array($this, 'makeUrl'), 
                     $this->_less->compile($content)
                   )
               )
             );
     }
+    
+    function makeUrl($matches){
+        if(substr($matches[1], 0, 5) == 'data:') return $matches[0];
+        if(substr($matches[1], 0, 4) == 'http') return $matches[0];
+        if(substr($matches[1], 0, 2) == '//') return $matches[0];
+        return 'url('.NextendFilesystem::pathToAbsoluteURL(dirname($this->path)).'/'.$matches[1].')';
+    }        
     
     function parseHash($hash){
         return $hash.json_encode($this->_context);
