@@ -40,6 +40,9 @@ if(NextendRequest::getCmd('action', '') == '' || (NextendRequest::getCmd('view',
     if($action == 'createdynamic' && NextendRequest::getCmd('step') == 2){
         $url = $this->route('controller=sliders&view=sliders_slider&action=createdynamic');
         $label = 'Back to create  dynamic slider';
+    }elseif(NextendRequest::getVar('type', '') != 'quick' && $sliderid && ($action == 'generatorstart' || $action == 'generatorsettings' || $action == 'generatoredit' || $action == 'changedynamiclayout') ){
+        $url = $this->route('controller=sliders&view=sliders_slider&action=generatordashboard&sliderid='.$sliderid);
+        $label = 'Back to generator dashboard';
     }elseif($action != 'dashboard' && $sliderid){
         $url = $this->route('controller=sliders&view=sliders_slider&action=dashboard&sliderid='.$sliderid);
         $label = 'Back_to_dashboard';

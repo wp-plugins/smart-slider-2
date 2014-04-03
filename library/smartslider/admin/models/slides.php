@@ -212,9 +212,13 @@ class NextendSmartsliderAdminModelSlides extends NextendSmartsliderAdminModelBas
         
     }
     
-    function deleteBySlider($sliderid){
+    function deleteBySlider($sliderid, $generator = null){
         $db = NextendDatabase::getInstance();
-        $db->setQuery('DELETE FROM #__nextend_smartslider_slides WHERE slider = '.$db->quote($sliderid));
+        $where = '';
+        if($generator != null){
+            $where = ' AND generator '.$generator;
+        }
+        $db->setQuery('DELETE FROM #__nextend_smartslider_slides WHERE slider = '.$db->quote($sliderid).$where);
         $db->query();
         
         self::markChanged(NextendRequest::getInt('sliderid'));

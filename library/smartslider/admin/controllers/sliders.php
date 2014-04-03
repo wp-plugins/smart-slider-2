@@ -21,7 +21,7 @@ class NextendSmartsliderAdminControllerSliders extends NextendSmartsliderAdminCo
                 $slidersModel = $this->getModel('sliders');
                 if ($sliderid = $slidersModel->createQuick()) {
                     $slidersModel->loadGeneratorFontSet($sliderid);
-                    header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider&action=changedynamiclayout&fontset=1&sliderid=' . $sliderid));
+                    header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider&action=changedynamiclayout&type=quick&fontset=1&sliderid=' . $sliderid));
                     exit;
                 }
             }
@@ -53,7 +53,7 @@ class NextendSmartsliderAdminControllerSliders extends NextendSmartsliderAdminCo
                     $slidersModel = $this->getModel('sliders');
                     if ($sliderid = $slidersModel->createDynamic()) {
                         $slidersModel->loadGeneratorFontSet($sliderid);
-                        header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider&action=changedynamiclayout&fontset=1&sliderid=' . $sliderid));
+                        header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider&action=changedynamiclayout&type=quick&fontset=1&sliderid=' . $sliderid));
                         exit;
                     }
                 }
@@ -78,7 +78,12 @@ class NextendSmartsliderAdminControllerSliders extends NextendSmartsliderAdminCo
             if (NextendRequest::getInt('save')) {
                 $slidersModel = $this->getModel('sliders');
                 if ($sliderid = $slidersModel->changeDynamicLayout(NextendRequest::getInt('sliderid'))) {
-                    header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider&action=dashboard&sliderid=' . $sliderid));
+                    
+                    if(NextendRequest::getVar('type', '') == 'quick'){
+                        header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider&action=dashboard&sliderid=' . $sliderid));
+                    }else{
+                        header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider&action=generatordashboard&sliderid=' . $sliderid));
+                    }
                     exit;
                 }
             }
@@ -95,6 +100,15 @@ class NextendSmartsliderAdminControllerSliders extends NextendSmartsliderAdminCo
                 $slidersModel->refreshCache(NextendRequest::getInt('sliderid'));
             }
             $this->display('default', 'dashboard');
+        }else{
+            $this->noaccess();
+        }
+    }
+    
+    function generatordashboardAction(){
+        $slidersModel = $this->getModel('sliders');
+        if ($slidersModel->getSlider(NextendRequest::getInt('sliderid'))) {
+            $this->display('default', 'generatordashboard');
         }else{
             $this->noaccess();
         }
@@ -213,7 +227,7 @@ class NextendSmartsliderAdminControllerSliders extends NextendSmartsliderAdminCo
 
             if (NextendRequest::getInt('save')) {
                 if ($sliderid = $slidersModel->saveGeneratorSlide(NextendRequest::getInt('sliderid'), NextendRequest::getVar('slide', ''))) {
-                    header('LOCATION: ' . $this->route('controller=sliders&view=sliders_generator&action=generatoredit&sliderid=' . $sliderid));
+                    header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider&action=generatordashboard&sliderid=' . $sliderid));
                     exit;
                 }
             }

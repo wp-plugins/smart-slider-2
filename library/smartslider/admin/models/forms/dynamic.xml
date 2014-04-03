@@ -11,6 +11,6 @@
             <param type="onoff" label="Canvas_size"/>
         </param>
         <param type="text" name="slides" label="Slides" default="5" description="" style="width:30px;" />
-        <param type="onoff" name="static" label="Create real slides" default="0" />
+        <param type="onoff" name="static" label="Create real slides" default="1" />
     </params>
 </root>

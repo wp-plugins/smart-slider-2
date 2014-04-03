@@ -3,8 +3,8 @@ Contributors: nextendweb
 Tags: slider,layer slider,slide,responsive slider,gallery slider,carousel,image slider,slideshow,wordpress slideshow,widget,horizontal slider,vertical slider,accordion slider,layout,youtube slider,video slider,flickr slider,wordpress slider,simple slider
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
-Tested up to: 3.8
-Stable tag: 2.3.8
+Tested up to: 3.9
+Stable tag: 2.3.9
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -77,29 +77,41 @@ If you have any problem or feature request for this plugin, please feel free to 
 = 1. How do I add the slider to my site? =
 You can add your slider via the widget control panel or by shortcode.
 
-= 2. What should I do when the CSS are not loaded or I experience any problem? =
+= 2. What should I do when the slides/images appear under each other? =
+Usually it means that Smart Slider can't load the required stylesheets into your site. Try to set "CSS and Javascript load mode" mode into 'Alternative #1' and see if it works for you. [See this option in the documentation](http://www.nextendweb.com/wiki/nextend-framework-documentation/configuration-wordpress/)
+
+If it doesn't work, feel free to [contact us!](http://www.nextendweb.com/smart-slider/#support)
+
+= 3. What should I do when I see blank area where the slider should show or the slider doesn't work? =
+It means that there is a JavaScript error on your site which blocks other scripts(for example Smart Slider's scripts). You can open up the browser debugger window with F12 button and check the console if it shows error or not. If you solve these errors Smart Slider should work fine.
+
+Usual problem is that you have the latest WordPress version, but your theme loads very old jQuery version (1.7 or older) and the WordPress admin bar throws a JavaScript error. In this case, you have to remove the old jQuery from your theme's functions.php.
+
+If you are unable to solve these problems, feel free to [contact us!](http://www.nextendweb.com/smart-slider/#support)
+
+= 4. What should I do when I experience any problem? =
 [Contact us!](http://www.nextendweb.com/smart-slider/#support)
 
-= 3. Why should I upgrade the slider to FULL version? =
+= 5. Why should I upgrade the slider to FULL version? =
 Because it has a plenty of extra setting, new slider type, new slider animations, new items, new slider generators and new items. Also includes personal support because we know if you have a problem with a menu you need a solution as soon as possible.
 
-= 4. Is Smart Slider 2 is totally responsive? =
+= 6. Is Smart Slider 2 is totally responsive? =
 Smart Slider 2 is 100% responsive with each items, so it will fit perfectly into your page, regardless of the size of your desktop screen or device.
 
-= 5. Can I customize the fonts of the slider? =
+= 7. Can I customize the fonts of the slider? =
 Yes you can customize everything for every state. (hover, active, opened) The slider comes with Google Web Font support, allowing you to pick from over a dozen font families. To make using Google Fonts even easier, we have created a font manager interface that simplifies the process and preview it.
 
-= 6. Can I show multiple instances of slider on one page? =
+= 8. Can I show multiple instances of slider on one page? =
 Yes you can use multiple slider widgets and slider shortcodes.
 
-= 7. How to upgrade to FULL version of the slider? =
+= 9. How to upgrade to FULL version of the slider? =
 If you installed this version, then you have to deactivate and delete it, then install the FULL slider version! Our system keep your previously created sliders.
 
-= 8. How to include a slider in a post or a page? =
+= 10. How to include a slider in a post or a page? =
 `[smartslider2 slider="Here comes the slider id"]`
 Or you can get the shortcode - [View](http://www.nextendweb.com/wp-content/uploads/2013/09/shortcodemethod.png)
 
-= 9. How to include a slider into header.php or other PHP files? =
+= 11. How to include a slider into header.php or other PHP files? =
 `<?php echo do_shortcode('[smartslider2 slider="Here comes the slider id"]'); ?>`
 Or you can get the shortcode - [View](http://www.nextendweb.com/wp-content/uploads/2013/09/shortcodemethod.png)
 
@@ -112,6 +124,10 @@ Or you can get the shortcode - [View](http://www.nextendweb.com/wp-content/uploa
 4. Screenshot from the backend, which will help you through the set up process with easily understandable features.
 
 == Changelog ==
+
+= 2.3.9 =
+* Feature: Quick slider mode simplification
+* Feature: Generator configuration moved into a sub view
 
 = 2.3.8 =
 * Feature: Lazy-loading

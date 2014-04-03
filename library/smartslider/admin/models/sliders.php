@@ -299,7 +299,6 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
             nextendimportsmartslider2('nextend.smartslider.generator');
 
             $slidesModel = $this->getModel('slides');
-            //$slidesModel->deleteBySlider($id);
 
             $staticslides = intval($generateslides[2]);
 
@@ -310,9 +309,12 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
             $generator = new NextendSmartsliderGenerator($generatorParams, $generatorSlideParams, $id);
 
             if($staticslides){
+                $slidesModel->deleteBySlider($id, '!= 0'); // Remove old generated slides
+                
                 $slides = $generator->generateSlides($id);
                 foreach($slides AS $slide){
                     unset($slide['id']);
+                    $slide['generator'] = -1;
                     $slidesModel->create($id, $slide, false);
                 }
             }else{
@@ -504,7 +506,7 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
             'enabled' => 1,
             'source' => 'imagefromfolder_quickimage',
             'cachetime' => 1,
-            'generateslides' => '1000|*|0|*|0',
+            'generateslides' => '1000|*|1|*|1',
             'generatorgroup' => 1
         );
         $generator = $generatorpost + $generator;
@@ -523,6 +525,9 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
         $sliderid = $this->import($slider);
         if($sliderid){
             self::markChanged($sliderid);
+            
+            $this->generateSlidesWithGenerator($sliderid, $generator, $slide);
+            
             return $sliderid;
         }
     }
@@ -614,29 +619,8 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
             $sliderid = $this->import($slider);
             
             if($sliderid){
-                if($static){
-
-                    nextendimportsmartslider2('nextend.smartslider.generator');
-        
-                    $slidesModel = $this->getModel('slides');
-                    //$slidesModel->deleteBySlider($id);
-                    
-                    $generatorParams = new NextendData();
-                    $generatorParams->loadArray($generator);
-        
-                    $generatorSlideParams = new NextendData();
-                    $generatorSlideParams->loadArray($slide);
-        
-        
-                    $generator = new NextendSmartsliderGenerator($generatorParams, $generatorSlideParams, $sliderid);
-        
-                    $slides = $generator->generateSlides($sliderid);
-                    foreach($slides AS $slide){
-                        unset($slide['id']);
-                        $slidesModel->create($sliderid, $slide, false);
-                    }
-                }
-                self::markChanged($sliderid);
+                $this->saveGenerator($sliderid, $generator, $slide, false);
+                
                 return $sliderid;
             }
         }
@@ -692,40 +676,6 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
             if(isset($slide[$layout]['slider'])) $generatorParams->loadArray($slide[$layout]['slider']);
             
             $this->saveGenerator($sliderid, $generatorParams->toArray(), $slide[$layout]['slide'], false);
-            
-            
-            $generateslides = NextendParse::parse($generatorParams->get('generateslides', '0|*|0|*|0'));
-            $createslides = intval($generateslides[1]);
-            if($generatorParams->get('enabled', 0) && $createslides === 1){
-            
-                nextendimportsmartslider2('nextend.smartslider.generator');
-            
-                $slidesModel = $this->getModel('slides');
-                $slidesModel->deleteBySlider($sliderid);
-            
-                $staticslides = intval($generateslides[2]);
-            
-                $generatorSlideParams = new NextendData();
-                $generatorSlideParams->loadArray($slide[$layout]['slide']);
-            
-                $generator = new NextendSmartsliderGenerator($generatorParams, $generatorSlideParams, $sliderid);
-            
-                if($staticslides){
-                    $slides = $generator->generateSlides($sliderid);
-                    foreach($slides AS $slide){
-                        unset($slide['id']);
-                        $slidesModel->create($sliderid, $slide, false);
-                    }
-                }else{
-                    $slides = $generator->generateSlides($sliderid, false);
-                    $slidesModel->deleteGeneratedBySlider($sliderid);
-                    foreach($slides AS $k => $slide){
-                        unset($slide['id']);
-                        $slide['generator'] = $k+1;
-                        $slidesModel->create($sliderid, $slide, false);
-                    }
-                }
-            }
         }
         return $sliderid;
     }
