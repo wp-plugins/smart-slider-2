@@ -36,12 +36,14 @@ class NextendCacheImage extends NextendCache {
             if(substr($imageurl, 0, 2) == '//'){
                 $imageurl = parse_url(NextendUri::getBaseuri(), PHP_URL_SCHEME).':'.$imageurl;
             }
+            $imageurl = NextendUri::relativetoabsolute($imageurl);
+                        
             $imagepath = NextendFilesystem::absoluteURLToPath($imageurl);
             if($imagepath == $imageurl){
                 if(!$resizeremote) return $originalimageurl;
                 $imagepath = parse_url($imageurl, PHP_URL_PATH);
             }else{
-                $extra[] = filemtime($imagepath);
+                $extra[] = @filemtime($imagepath);
                 $imageurl = $imagepath;
             }
             $extension = strtolower(pathinfo($imagepath, PATHINFO_EXTENSION));
@@ -55,7 +57,7 @@ class NextendCacheImage extends NextendCache {
                 $hash = $this->createHashFromArray(array_merge(func_get_args(), $this->backgrouncolor, $extra));
                 $cachefile = $this->_folder.$hash.'.'.$filetype;
                 if(!NextendFilesystem::existsFile($cachefile)){
-                    $imagetype = exif_imagetype($imageurl);
+                    $imagetype = @exif_imagetype($imageurl);
                     if($imagetype){
                         if($imagetype == IMAGETYPE_PNG){
                             $filetype = 'png';

@@ -133,7 +133,7 @@ class NextendCss {
                     $lesscache->addContext($file[1], $file[2]);
                 } else if (substr($file, 0, 4) == 'http') {
                     $this->serveCSSFile($file);
-                } else if(NextendFilesystem::fileexists($file)){
+                } else if(NextendFilesystem::safefileexists($file)){
                     if ($this->_cacheenabled) {
                         $cache->addFile($file);
                     } else {

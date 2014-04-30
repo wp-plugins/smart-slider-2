@@ -4,7 +4,7 @@ $js->addLibraryJsFile('jquery', dirname(__FILE__) . DIRECTORY_SEPARATOR . 'slide
 
 $backgroundimage = $this->_sliderParams->get('simplebackgroundimage', '');
 $backgroundimagecss = '';
-if ($backgroundimage && $backgroundimage != '-1') $backgroundimagecss = 'background-image: url(' . $backgroundimage . ');';
+if ($backgroundimage && $backgroundimage != '-1') $backgroundimagecss = 'background-image: url(' . NextendUri::fixrelative($backgroundimage) . ');';
 
 
 $flux = (array)NextendParse::parse($this->_sliderParams->get('simplebackgroundanimation', '0|*|bars||blocks'));

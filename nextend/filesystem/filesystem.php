@@ -77,6 +77,10 @@ class NextendFilesystemAbstract {
         return is_file($file);
     }
     
+    static function safefileexists($file){
+        return realpath($file) && is_file($file);
+    }
+    
     static function folders($dir){
         if (!is_dir($dir)) return false;
         $folders = array();

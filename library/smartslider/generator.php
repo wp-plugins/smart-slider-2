@@ -169,7 +169,7 @@ class NextendSmartsliderGenerator {
     }
 
     function onData($matches) {
-        return $this->getData(intval($matches[5]) - 1, $matches[4], $matches[3]);
+        return $this->getData(intval($matches[5]) - 1, $matches[4], '');
     }
     
     function onParseItem($matches){
@@ -224,9 +224,11 @@ class NextendSmartsliderGenerator {
                     break;
                 case 'findimage':
                     $index = isset($fn[1]) ? intval($fn[1]) - 1 : 0;
-                    preg_match_all('/<img.*?src=[\'"](.*?)[\'"][^>]+>/i', $s, $r);
-                    if (isset($r[1]) && isset($r[1][$index])) {
-                        $s = $r[1][$index];
+                    preg_match_all('/(<img.*?src=[\'"](.*?)[\'"][^>]+>)|(background(-image)??\s*?:.*?url\((["|\']?)?(.+?)(["|\']?)?\))/i', $s, $r);
+                    if (isset($r[2]) && !empty($r[2][$index])) {
+                        $s = $r[2][$index];
+                    } else if(isset($r[6]) && !empty($r[6][$index])){
+                        $s = trim($r[6][$index], "'\" \t\n\r\0\x0B");
                     } else {
                         $s = '';
                     }

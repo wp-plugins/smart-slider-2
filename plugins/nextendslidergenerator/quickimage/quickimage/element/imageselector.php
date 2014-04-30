@@ -69,7 +69,7 @@ class NextendElementImageSelector extends NextendElementHidden {
             $i = 0;
             foreach($images AS $img){
                 $html.='<li>';
-                $html.='<img src="'.$img['image'].'" /><div class="field-container">';
+                $html.='<img src="'.NextendUri::fixrelative($img['image']).'" data-src="'.$img['image'].'" /><div class="field-container">';
                 $html.='
 <div class="nextend-mixed-group">
   <div class="nextend-mixed-label">
@@ -172,7 +172,7 @@ njQuery(window).ready(function(){
         iii = 10000;
     
     function addImageToList(img){
-        var el = $('<li><img src="'+img+'" />'+skeleton.replace(/'\.\$i\.'/g, iii)+'</li>').appendTo(images);
+        var el = $('<li><img src="'+nextendFixRelative(img)+'" data-src="'+img+'" />'+skeleton.replace(/'\.\$i\.'/g, iii)+'</li>').appendTo(images);
         iii++;
         images.sortable( "refresh" );
         $(window).trigger('resize');
@@ -180,10 +180,10 @@ njQuery(window).ready(function(){
     }
     
     <?php if(nextendIsJoomla()): ?>
-    var folder = "<?php echo NextendUri::pathToUri(JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('image_path', 'images'). '/')?>",
+    var folder = "<?php echo JComponentHelper::getParams('com_media')->get('image_path', 'images'). '/'; ?>",
+        base_uri = "<?php echo NextendUri::getBaseUri(); ?>",
         iframe = $('#image-chooser'),
         frame = $('#image-chooser');
-    
     frame.on('load', function(){
         frame = $(this.contentWindow.document);
         frame.find('#imageframe').next('.well').remove();
@@ -192,7 +192,9 @@ njQuery(window).ready(function(){
         frame.find('#imageForm').find('.pull-right').remove();
         frame.find('#upbutton').css('verticalAlign', 'top');
         this.contentWindow.ImageManager.populateFields = function(file){
-            addImageToList(folder+file);
+            var uri = '';
+            if(window.nextendimageurl == 0) uri = base_uri;
+            addImageToList(uri+folder+file);
         }
         frame.find('#system-message-container').css('paddingTop', '15px');
         frame.find('body').css('overflow', 'hidden').css('padding', '0 15px');
@@ -358,7 +360,7 @@ Mediabrowser.prototype.insert = Mediabrowser.prototype.insert.wrap(function(pare
             i = 0;
         images.find('img').each(function(){
             data[i] = {};
-            data[i].image = this.src;
+            data[i].image = $(this).data('src');
             var cont = $(this).parent();
             data[i].title = cont.find('input[id^=title]').val();
             data[i].url = cont.find('input[id^=link]').val();

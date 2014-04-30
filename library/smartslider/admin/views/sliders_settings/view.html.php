@@ -18,6 +18,10 @@ class NextendSmartsliderAdminViewSliders_Settings extends NextendView {
         $this->xml = 'joomla';
         $this->render($tpl);
     }
+
+    function cacheAction($tpl) {
+        $this->render($tpl);
+    }
     
     function pluginAction($tpl){
         $plugin = NextendRequest::getVar('action');

@@ -404,7 +404,8 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
     }
     
     function exportSliderAsHTML($id){
-        global $zip;
+        global $zip, $nextendexport;
+        $nextendexport = true;
         nextendimport('nextend.externals.zip_lib');
         $zip = new NextendZipFile();
         $slider = $this->getSlider($id);
@@ -477,7 +478,7 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
 <head>
 <title>'.$slider['title'].'</title>
 '.$googlefonts.'<link rel="stylesheet" type="text/css" href="style.css">
-<script src="script.js"></script> 
+<script type="text/javascript" src="script.js"></script> 
 </head>
 <body>
 <!-- Smart Slider 2 START -->

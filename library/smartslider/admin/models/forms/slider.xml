@@ -14,6 +14,12 @@
             <param type="onoff" label="Down_scale"/>
             <param type="onoff" label="Up_scale"/>
         </param>
+        <param name="align" type="radio" label="Align" default="normal">
+            <option value="normal">Normal</option>
+            <option value="left">Left</option>
+            <option value="center">Center</option>
+            <option value="right">Right</option>
+        </param>
         <param type="mixed" name="globalfontsize" label="Global_font_size" default="12|*|16|*|20" description="Font_sizes_are_defined_in_percentage_in_the_font_settings_to_make_the_slider_totally_responsive_This_value_will_be_the_100_and_texts_scales_to_this_font_size">
             <param type="text" label="Desktop" style="width:40px">
                 <unit>px</unit>

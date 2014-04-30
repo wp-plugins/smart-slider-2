@@ -11,7 +11,7 @@ class plgNextendSliderItemImage extends plgNextendSliderItemAbstract {
     function getTemplate() {
         return '<div>
           <a href="{url}" style="display: block;background: none !important;" >
-              <img src="{image}" style="display: block; max-width: 100%; {css};width:{width};height:{height};" class="{kenburnsclass}" />
+              <img src="{image}" style="display: block; max-width: 100%; {css};width:{width};height:{height};" class="{kenburnsclass} {cssclass}" />
               <style>
               .haskenburns{
                   width: 100% !important;
@@ -105,18 +105,18 @@ class plgNextendSliderItemImage extends plgNextendSliderItemAbstract {
         $image = $data->get('image', '');
         $imagemore = (array)NextendParse::parse($data->get('imagemore'));
         $image = array(
-            'desktop' => (empty($image) ? 0 : $image),
-            'desktopretina' => (empty($imagemore[0]) ? 0 : $imagemore[0]),
-            'tablet' => (empty($imagemore[1]) ? 0 : $imagemore[1]),
-            'tabletretina' => (empty($imagemore[2]) ? 0 : $imagemore[2]),
-            'mobile' => (empty($imagemore[3]) ? 0 : $imagemore[3]),
-            'mobileretina' => (empty($imagemore[4]) ? 0 : $imagemore[4]),
+            'desktop' => (empty($image) ? 0 : NextendUri::fixrelative($image)),
+            'desktopretina' => (empty($imagemore[0]) ? 0 : NextendUri::fixrelative($imagemore[0])),
+            'tablet' => (empty($imagemore[1]) ? 0 : NextendUri::fixrelative($imagemore[1])),
+            'tabletretina' => (empty($imagemore[2]) ? 0 : NextendUri::fixrelative($imagemore[2])),
+            'mobile' => (empty($imagemore[3]) ? 0 : NextendUri::fixrelative($imagemore[3])),
+            'mobileretina' => (empty($imagemore[4]) ? 0 : NextendUri::fixrelative($imagemore[4])),
         );
         
         
         return $style.'<div '.$attr.'>
             '.($link[0] != '#' ? '<a href="'.$link[0].'" target="'.$link[1].'" style="display: block;background: none !important;">' : '').'
-                <img id="'.$id.'" '.$items->slider->makeImg($image, $items->slide).' style="display: block; max-width: 100%; '.htmlspecialchars($data->get('css', '')).';width:'.$size[0].';height:'.$size[1].';" class="'.$data->get('kenburnsclass', '').'" alt="'.htmlspecialchars($data->get('alt', '')).'" title="'.htmlspecialchars($data->get('title', '')).'" />
+                <img id="'.$id.'" '.$items->slider->makeImg($image, $items->slide).' style="display: block; max-width: 100%; '.htmlspecialchars($data->get('css', '')).';width:'.$size[0].';height:'.$size[1].';" class="'.$data->get('kenburnsclass', '').' '.$data->get('cssclass', '').'" alt="'.htmlspecialchars($data->get('alt', '')).'" title="'.htmlspecialchars($data->get('title', '')).'" />
             '.($link[0] != '#' ? '</a>' : '').'
         </div>';
     }
@@ -149,7 +149,7 @@ class plgNextendSliderItemImage extends plgNextendSliderItemAbstract {
         
         return $style.'<div '.$attr.'>
             '.($link[0] != '#' ? '<a href="'.$link[0].'" style="display: block;background: none !important;">' : '').'
-                <img id="'.$id.'" src="'.$data->get('image', '').'" style="display: block; max-width: 100%; '.htmlspecialchars($data->get('css', '')).';width:'.$size[0].';height:'.$size[1].';" class="'.$data->get('kenburnsclass', '').'" />
+                <img id="'.$id.'" class="'.$data->get('cssclass', '').'" src="'.NextendUri::fixrelative($data->get('image', '')).'" style="display: block; max-width: 100%; '.htmlspecialchars($data->get('css', '')).';width:'.$size[0].';height:'.$size[1].';" class="'.$data->get('kenburnsclass', '').' '.$data->get('cssclass', '').'" />
             '.($link[0] != '#' ? '</a>' : '').'
         </div>';
     }

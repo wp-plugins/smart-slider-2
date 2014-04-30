@@ -92,7 +92,7 @@ window.ssadmin = 1;
                     bgimage.css('display', 'none');
                 }else{
                     bgimage.css('display', 'block');
-                    bgimage.attr('src', $this.ssadminLayers.items.fillItemWithSample(s[1]));
+                    bgimage.attr('src', nextendFixRelative($this.ssadminLayers.items.fillItemWithSample(s[1])));
                 }
                 if(s[0].substr(6,8) == '00'){
                     canvas.css('background', '');

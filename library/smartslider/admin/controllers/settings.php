@@ -51,4 +51,25 @@ class NextendSmartsliderAdminControllerSettings extends NextendSmartsliderAdminC
         if(nextendIsJoomla()) $this->defaultAction('joomla');
     }
 
+    function cacheAction() {
+        if(NextendRequest::getInt('refreshcache')){
+            $slidersModel = $this->getModel('sliders');
+            switch (NextendRequest::getInt('refreshcache')){
+                case 1:
+                    foreach($slidersModel->getSliders() AS $slider){
+                        $slidersModel::markChanged($slider['id']);
+                    }
+                    break;
+                case 2:
+                    foreach($slidersModel->getSliders() AS $slider){
+                        $slidersModel->refreshCache($slider['id']);
+                    }
+                    break;
+            }
+            header('LOCATION: ' . $this->route('controller=settings&view=sliders_settings&action=cache'));
+            exit;
+        }
+        $this->display('cache', 'cache');
+    }
+
 }

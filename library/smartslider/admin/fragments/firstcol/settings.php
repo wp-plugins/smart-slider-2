@@ -7,6 +7,9 @@ $settings = array(
 if(nextendIsJoomla()){
     $settings[] = array('id' => 'joomla', 'title' => NextendText::_('Joomla_settings'));
 }
+
+$settings[] = array('id' => 'cache', 'title' => NextendText::_('Cache'));
+
 NextendPlugin::callPlugin('nextendslidergenerator', 'onNextendGeneratorConfigurationList', array(&$settings));
 
 $settings[] = array('id' => 'font', 'title' => NextendText::_('Global_font'));

@@ -222,13 +222,16 @@ class NextendSlider {
             
             $bgmore = (array)NextendParse::parse($slides[$i]['params']->get('backgroundmore'));
             $slides[$i]['bg'] = array(
-                'desktop' => (empty($bg[1]) ? 0 : $bg[1]),
-                'desktopretina' => (empty($bgmore[0]) ? 0 : $bgmore[0]),
-                'tablet' => (empty($bgmore[1]) ? 0 : $bgmore[1]),
-                'tabletretina' => (empty($bgmore[2]) ? 0 : $bgmore[2]),
-                'mobile' => (empty($bgmore[3]) ? 0 : $bgmore[3]),
-                'mobileretina' => (empty($bgmore[4]) ? 0 : $bgmore[4]),
+                'desktop' => (empty($bg[1]) ? 0 : NextendUri::fixrelative($bg[1])),
+                'desktopretina' => (empty($bgmore[0]) ? 0 : NextendUri::fixrelative($bgmore[0])),
+                'tablet' => (empty($bgmore[1]) ? 0 : NextendUri::fixrelative($bgmore[1])),
+                'tabletretina' => (empty($bgmore[2]) ? 0 : NextendUri::fixrelative($bgmore[2])),
+                'mobile' => (empty($bgmore[3]) ? 0 : NextendUri::fixrelative($bgmore[3])),
+                'mobileretina' => (empty($bgmore[4]) ? 0 : NextendUri::fixrelative($bgmore[4])),
+                'alt' => (empty($bg[2]) ? '' : $bg[2]),
             );
+            
+            if(!empty($slides[$i]['thumbnail'])) $slides[$i]['thumbnail'] = NextendUri::fixrelative($slides[$i]['thumbnail']);
             
             $link = $params->get('link', '');
             $link = (array)NextendParse::parse($link);
@@ -237,7 +240,7 @@ class NextendSlider {
                 $slides[$i]['link'] = ' onclick="'.htmlspecialchars(
                     strpos($link[0], 'javascript:') === 0 ? 
                         $link[0] : 
-                        $link[1] == '_blank' ? "window.open('".(nextendIsJoomla() ? JRoute::_($link[0], false) : $link[0])."','_blank');" : "window.location='".(nextendIsJoomla() ? JRoute::_($link[0], false) : $link[0])."'"
+                        ($link[1] == '_blank' ? "window.open('".(nextendIsJoomla() ? JRoute::_($link[0], false) : $link[0])."','_blank');" : "window.location='".(nextendIsJoomla() ? JRoute::_($link[0], false) : $link[0])."'")
                 ).'" ';
                 $slides[$i]['style'].='cursor:pointer;';
             }else{
@@ -250,8 +253,8 @@ class NextendSlider {
     }
 
     function render($cache = false) {
-        $this->preRender();
         if ($this->_norender) return;
+        $this->preRender();
 
         $id = $this->getId();
         $data = & $this->_data;
@@ -359,8 +362,33 @@ class NextendSlider {
             }
         }
         
-        echo $this->parseSlider($slider);
+        
+        $align = $this->_sliderParams->get('align', 'normal');
         $responsive = (array)NextendParse::parse($this->_sliderParams->get('responsive', '0|*|0'));
+        if($responsive[1] != 1 && $align != 'normal'){
+            switch($align){
+                case 'left':
+                  echo "<div class='ss2-align' style='float:left;'>";
+                  break;
+                case 'center':
+                  echo "<div class='ss2-align' style='margin: 0 auto; max-width: ".$size[0]."px;'>";
+                  break;
+                case 'right':
+                  echo "<div class='ss2-align' style='float:right;'>";
+                  break;
+            }
+            $align = true;
+        }else{
+            echo "<div class='ss2-align'>";
+        }
+        
+        echo $this->parseSlider($slider);
+        
+        if($align === true){
+            echo "</div><div style='clear:both;'></div>";
+        }else{
+            echo "</div>";
+        }
         
         if( !$this->_backend && $fadeonload[0] && ((isset($responsive[0]) && $responsive[0]) || (isset($responsive[1]) && $responsive[1]))){
             $works = nextend_try_to_test_memory_limit();
@@ -510,6 +538,8 @@ class NextendSlider {
         $imageload = NextendParse::parse($this->_sliderParams->get('imageload', '0|*|0'));
         $p['lazyload'] = intval($imageload[0]);
         $p['lazyloadneighbor'] = intval($imageload[1]);
+        
+        $p['randomize'] = intval(!$this->_backend && $this->_sliderParams->get('randomize', 0));
 
         return $p;
     }
@@ -672,6 +702,12 @@ class NextendSlider {
         }
         
         $data = '';
+        
+        if(!empty($src['alt'])){
+            $data.='alt="'.htmlspecialchars($src['alt']).'" ';
+            unset($src['alt']);
+        }
+        
         $startimage = '';
         if(is_array($src)){
             foreach($src AS $k => $v){

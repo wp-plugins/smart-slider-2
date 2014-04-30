@@ -67,6 +67,26 @@ class NextendSmartsliderAdminModelSettings extends NextendSmartsliderAdminModelB
                 $namespace.= NextendRequest::getInt('sliderid');
                 self::markChanged(NextendRequest::getInt('sliderid'));
             }
+            if ($namespace == 'joomla'){
+                $license = empty($_REQUEST['settings']['license']) ? '': $_REQUEST['settings']['license'];
+            		$db = NextendDatabase::getInstance();
+                $db->setQuery("SELECT b.update_site_id FROM #__extensions AS a LEFT JOIN #__update_sites_extensions AS b ON a.extension_id = b.extension_id WHERE a.element = 'com_smartslider2' ");
+                $updates = $db->loadAssocList();
+                if(count($updates)){
+                    $id = $updates[0]['update_site_id'];
+                    unset($updates[0]);
+                    if(count($updates)){
+                        foreach($updates AS $u){
+                            $db->setQuery('DELETE FROM #__update_sites WHERE update_site_id = '.$u['update_site_id']);
+                            $db->query();
+                            $db->setQuery('DELETE FROM #__update_sites_extensions WHERE update_site_id = '.$u['update_site_id']);
+                            $db->query();
+                        }
+                    }
+                    $db->setQuery('UPDATE #__update_sites SET location = '.$db->quote('http://www.nextendweb.com/update2/joomla/update.php?license='.urlencode($license).'&fake=extension.xml').' WHERE update_site_id = '.$id);
+                    $db->query();
+                }
+            }
             NextendSmartSliderStorage::set($namespace, json_encode($_REQUEST['settings']));
         }
     }

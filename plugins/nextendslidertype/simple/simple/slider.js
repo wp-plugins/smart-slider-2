@@ -672,6 +672,28 @@
                     _this.mainanimationended();
                 }
             });
+        },
+        randomize: function(){
+            var sl = this.$slider.find('.smart-slider-canvas'),
+                flux = this.$slider.find('.nextend-flux'),
+                fluximg = flux.find('img');
+            var p = sl.parent();
+            
+            if(fluximg.length > 0){
+                sl.each(function(i){
+                    this._flux = fluximg[i];
+                });
+            }
+            
+            sl = this.shuffle(sl);
+            
+            sl.each(function(){
+                p.append(this);
+                flux.append(this._flux);
+            });
+            
+            sl.filter('.'+this._parent.slideActive).removeClass(this._parent.slideActive);
+            sl.eq(0).addClass(this._parent.slideActive);
         }
     });
 

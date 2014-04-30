@@ -45,8 +45,8 @@ function nextendsmartslider2_button_dialog(){
     if ( in_array( basename( $_SERVER['PHP_SELF'] ), array( 'post-new.php', 'page-new.php', 'post.php', 'page.php' ) ) ) {
         if ( $ss2ButtonsActivated ) {
           
-          $wpdb->nextend_smartslider_slides = $wpdb->base_prefix.'nextend_smartslider_slides';
-          $wpdb->nextend_smartslider_sliders = $wpdb->base_prefix.'nextend_smartslider_sliders';
+          $wpdb->nextend_smartslider_slides = $wpdb->prefix.'nextend_smartslider_slides';
+          $wpdb->nextend_smartslider_sliders = $wpdb->prefix.'nextend_smartslider_sliders';
           
           $query = 'SELECT a.title, a.id FROM '.$wpdb->nextend_smartslider_sliders.' AS a';
           $smartsliders = $wpdb->get_results($query, ARRAY_A);

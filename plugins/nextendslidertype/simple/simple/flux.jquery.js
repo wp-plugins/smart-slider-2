@@ -711,6 +711,7 @@ window.flux = {
                     rowHeight = colWidth;
                     this.options.rows = Math.floor(imgHeight / rowHeight);
                 }
+                if(this.options.rows < 1) this.options.rows = 1;
 
                 // Work out how much space remains with the adjusted barWidth
                 var colRemainder = imgWidth - (this.options.columns * colWidth),

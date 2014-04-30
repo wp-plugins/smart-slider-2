@@ -57,6 +57,10 @@ $generatorParams->loadJSON($slider['generator']);
             <a href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=changedynamiclayout&sliderid=' . $sliderid); ?>" class="smartslider-button-link"><span class="smartslider-icon smartslider-action-icon smartslider-action-icon-generator-layout"></span><?php echo NextendText::_('Change_layout'); ?></a>
         </div>
         <?php endif; ?>
+        
+        <div class="smartslider-button smartslider-back smartslider-button-grey smartslider-button-blue-active smartslider-icon-container">
+            <a href="<?php echo $this->route('controller=sliders&view=sliders_generator&action=generatorrecords&sliderid=' . $sliderid); ?>" class="smartslider-button-link"><span class="smartslider-icon smartslider-action-icon smartslider-action-icon-generator-settings"></span><?php echo NextendText::_('Record viewer'); ?></a>
+        </div>
     <?php endif; ?>
 </div>
 <div style="clear: both;"></div>

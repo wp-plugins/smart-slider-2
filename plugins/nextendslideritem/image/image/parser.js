@@ -7,8 +7,7 @@
                 o.width = _d[0];
                 o.height = _d[1];
                 delete o.size;
-            }
-            else if(name === 'link'){
+            }else if(name === 'link'){
                 var _d = data.split('|*|');
                 o.url = _d[0];
                 o.target = _d[1];
@@ -20,6 +19,8 @@
                 }else{
                     o.kenburnsclass = '';
                 }
+            }else if(name === 'image'){
+                o.image = nextendFixRelative(o.image);
             }
             return o;
         },

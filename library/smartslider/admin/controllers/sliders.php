@@ -113,6 +113,21 @@ class NextendSmartsliderAdminControllerSliders extends NextendSmartsliderAdminCo
             $this->noaccess();
         }
     }
+    
+    function generatorrecordsAction(){
+        $slidersModel = $this->getModel('sliders');
+        if ($slidersModel->getSlider(NextendRequest::getInt('sliderid'))) {
+            if(NextendRequest::getInt('refreshcache')){
+                $slidersModel = $this->getModel('sliders');
+                $slidersModel->refreshCache(NextendRequest::getInt('sliderid'));
+                header('LOCATION: ' . $this->route('controller=sliders&view=sliders_generator&action=generatorrecords&sliderid='.NextendRequest::getInt('sliderid')));
+                exit;
+            }
+            $this->display('default', 'records');
+        }else{
+            $this->noaccess();
+        }
+    }
 
     function editAction() {
         if ($this->canDo('slider.edit')) {

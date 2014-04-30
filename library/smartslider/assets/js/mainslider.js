@@ -85,13 +85,15 @@
             this.id = $el.attr('id');
 
             this.$this = $(this);
+            
+            if(this.options.randomize) this.randomize();
 
             this.slideList = $('.smart-slider-canvas', $el);
             
             this._afterInitCheck();
         },
         _afterInitCheck: function(){
-            if(this.$slider.parent().is(':visible')){
+            if(this.$slider.parent().parent().is(':visible')){
                 this.afterInit();
             }else{
                 var _this = this;
@@ -976,6 +978,36 @@
                     // Desktop BOT/Crawler/Spider
                   : ua.match(/Bot|Crawler|Spider|Yahoo|ia_archiver|Covario-IDS|findlinks|DataparkSearch|larbin|Mediapartners-Google|NG-Search|Snappy|Teoma|Jeeves|TinEye/i) && !ua.match(/Mobile/i) ? 'desktop'
                   : 'desktop';
+      },
+      randomize: function(){
+          var sl = this.$slider.find('.smart-slider-canvas');
+          var p = sl.parent();
+          
+          sl = this.shuffle(sl);
+            
+          sl.each(function(){
+              p.append(this);
+          });
+            
+          sl.filter('.'+this._parent.slideActive).removeClass(this._parent.slideActive);
+          sl.eq(0).addClass(this._parent.slideActive);
+      },
+      shuffle: function(array) {
+        var m = array.length, t, i;
+      
+        // While there remain elements to shuffle…
+        while (m) {
+      
+          // Pick a remaining element…
+          i = Math.floor(Math.random() * m--);
+      
+          // And swap it with the current element.
+          t = array[m];
+          array[m] = array[i];
+          array[i] = t;
+        }
+      
+        return array;
       }
     });
 

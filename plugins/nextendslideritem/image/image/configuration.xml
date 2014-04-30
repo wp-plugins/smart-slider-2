@@ -1,7 +1,7 @@
 <root translate="smartslider">
     <params name="imagetype" label="Image_item_settings">
         <param name="image" type="image" label="Image" default=""/>
-        <param name="imagemore" type="mixed" label="Background" default="|*||*||*||*|" description="" test="devicespecificimages">
+        <param name="imagemore" type="mixed" label="Image" default="|*||*||*||*|" description="" test="devicespecificimages">
             <param type="image" label="Desktop retina image" />
             <param type="image" label="Tablet image" mixedstyle="clear: both;" />
             <param type="image" label="Tablet retina image" />
@@ -21,6 +21,7 @@
             <param type="text" label="Width"/>
             <param type="text" label="Height"/>
         </param>
+        <param name="cssclass" type="text" label="CSS Class" default=""/>
         <param name="css" type="textarea" label="CSS" default=""/>
         <param name="onmouseenter" type="text" label="Event_on_mouseenter" description="JavaScript_code_to_run_on_the_event" default=""/>
         <param name="onmouseclick" type="text" label="Event_on_mouseclick" description="JavaScript_code_to_run_on_the_event" default=""/>

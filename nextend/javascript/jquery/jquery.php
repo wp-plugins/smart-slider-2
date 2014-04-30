@@ -13,6 +13,7 @@ class NextendJavascriptjQuery {
     }
     
     static function getInstance() {
+        global $nextendexport;
 
         static $instance;
         if (!is_object($instance)) {
@@ -27,6 +28,8 @@ class NextendJavascriptjQuery {
                     $jqueryLoaded = true;
                 }
             }
+            
+            if($nextendexport) $jqueryLoaded = false;
             
             if(!$jqueryLoaded){
                 $instance->addJsLibraryFile('jQuery.js');

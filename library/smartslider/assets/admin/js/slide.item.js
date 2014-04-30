@@ -362,11 +362,15 @@
                                         break;
                                     case 'findimage':
                                         var index = typeof fn[1] != 'undefined' ? parseInt(fn[1]) - 1 : 0;
-                                        var re = /<img.*?src=[\'"](.*?)[\'"][^>]*>/gi,
+                                        var re = /(<img.*?src=[\'"](.*?)[\'"][^>]*>)|(background(-image)??\s*?:.*?url\((["|\']?)?(.+?)(["|\']?)?\))/gi,
                                             r = [],
                                             tmp = null;
                                         while(tmp = re.exec(s)){
-                                            r.push(tmp[1]);
+                                            if(typeof tmp[2] != 'undefined'){
+                                                r.push(tmp[2]);
+                                            }else if(typeof tmp[6] != 'undefined'){
+                                                r.push(tmp[6]);
+                                            }
                                         };
                                         if (r.length && typeof r[index] != 'undefined') {
                                             s = r[index];

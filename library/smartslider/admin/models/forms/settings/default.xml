@@ -6,7 +6,7 @@
             <param type="text" label="From" />
             <param type="text" label="To" />
         </param>
-		<param type="text" name="externalcssfile" label="Additional_CSS_files" description="If_provided_additional_CSS_files_will_be_included_and_used_on_the_backend_Multiple_CSS_files_also_can_be_included_with_the__divider" default="" />
+		    <param type="text" name="externalcssfile" label="Additional_CSS_files" description="If_provided_additional_CSS_files_will_be_included_and_used_on_the_backend_Multiple_CSS_files_also_can_be_included_with_the__divider" default="" />
         <param type="onoff" name="jquery" label="Load_jQuery_on_frontend" description="If_you_choose_not_to_load_please_make_sure_that_jQuery_version_18_or_higher_loaded_on_your_frontend" default="1" />
         <param type="onoff" name="translate3d" label="Hardware_acceleration_on_sliders" default="1" description="If_you_see_flickers_in_some_browsers_you_can_try_to_disable_this" />
         <param type="text" label="Placeholder_for_images" name="placeholder" default="http://www.nextendweb.com/static/placeholder.png" />

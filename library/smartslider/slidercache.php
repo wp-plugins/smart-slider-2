@@ -70,6 +70,7 @@ class NextendSliderCache {
         //$recache = true;
         if ($recache) {
             $data = $this->render();
+            if($this->slider->_norender) return;
             $cached = array(
                 'time' => time(),
                 'data' => $data
@@ -188,6 +189,7 @@ class NextendSliderCache {
         $this->slider->render(true);
         $this->id = $this->slider->getId();
         $data['html'] = preg_replace_callback('/<style.*?>(.*?)<\/style>/s', array($this, 'inlineCSS'), ob_get_clean());
+        if($this->slider->_norender) return;
 
         $data['fonts'] = $google->_fonts;
         $google->_fonts = $fonts;

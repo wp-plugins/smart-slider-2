@@ -8,9 +8,10 @@
             <param type="date" label="Publish_down" />
         </param>
         <param name="thumbnail" type="image" label="Thumbnail_url" default="" description="Used_in_thumbnail_widgets" />
-        <param name="background" type="mixed" label="Background" default="ffffff00|*|" description="If_the_color_opacity_is_0_the_the_color_wont_show">
+        <param name="background" type="mixed" label="Background" default="ffffff00|*||*|" description="If_the_color_opacity_is_0_the_the_color_wont_show">
             <param type="color" alpha="1" label="Color" />
             <param type="image" label="Image" />
+            <param type="text" label="Alt" />
         </param>
         <param name="backgroundmore" type="mixed" label="Background" default="|*||*||*||*|" description="" test="devicespecificimages">
             <param type="image" label="Desktop retina image" />
@@ -21,7 +22,7 @@
         </param>
         <param type="mixed" name="link" label="Link" default="|*|self" >
             <param type="url" label="Link" />
-            <param type="list" label="Taget window">
+            <param type="list" label="Target window">
                 <option value="_self">Self</option>
                 <option value="_blank">Blank</option>
             </param>

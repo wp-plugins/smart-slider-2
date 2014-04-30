@@ -22,6 +22,15 @@ $fonts->addFont('Open Sans', 600);
 $fonts->addFont('Open Sans', 700);
 ?>
 
+<script type="text/javascript">
+    window.nextendFixRelative = function(uri){
+        if(uri.substr(0, 1) == '/' || uri.indexOf('://') != -1) return uri;
+        return '<?php echo NextendUri::getRelative(); ?>'+uri;
+    }
+    
+    window.nextendimageurl = <?php echo nextendIsJoomla() ? intval(NextendSmartSliderJoomlaSettings::get('imageurl', 1)) : 0; ?>;
+</script>
+
 <div id="smartslider-admin" class="nextend-nowindow smartslider-advanced-layers-simple-active smartslider-device-all-active ni">
 
     <div class="smartslider-head">
