@@ -1,6 +1,6 @@
 === Smart Slider 2 ===
 Contributors: nextendweb
-Tags: slider,layer slider,slide,responsive slider,gallery slider,carousel,image slider,slideshow,wordpress slideshow,widget,horizontal slider,vertical slider,accordion slider,layout,youtube slider,video slider,flickr slider,wordpress slider,simple slider,best slider plugin, carousel, carousel slider, coin slider, coinslider, content slider, content slideshow, featured-content-slider, flex slider, Horizontal slider, Image Rotator, image slider, image slideshow, javascript slider, javascript slideshow, jquery slider, jquery slideshow, media, nivo slider, nivoslider, page, Photo Slider, plugin, Post, posts, posts slider, responsive, responsive slider, responsive slideshow, seo, slide, slider, slider plugin, slider widget, slides, slideshow, slideshow manager, slideshow plugin, vertical slider, vertical slides, widget, widget slider, widget slideshow, widgets, wordpress seo, wordpress slider, wordpress slideshow, wp slider
+Tags: slider,layer slider,slide,responsive slider,gallery slider,carousel,image slider,slideshow,wordpress slideshow,widget,horizontal slider,vertical slider,accordion slider,layout,youtube slider,video slider,flickr slider,wordpress slider,simple slider
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
 Tested up to: 3.9
