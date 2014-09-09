@@ -24,11 +24,7 @@ function nextendsmartslider2_button_button() {
         $ss2ButtonsActivated = true;
         
         wp_enqueue_script('jquery-ui-dialog');
-        wp_enqueue_style('jquery-ui', plugin_dir_url(__FILE__) . 'jquery-ui.min.css');
-        wp_enqueue_style('jquery-ui-core', plugin_dir_url(__FILE__) . 'jquery.ui.core.min.css');
-        wp_enqueue_style('jquery-ui-theme', plugin_dir_url(__FILE__) . 'jquery.ui.theme.min.css');
-        wp_enqueue_style('jquery-ui-dialog', plugin_dir_url(__FILE__) . 'jquery.ui.dialog.min.css');
-        wp_enqueue_style('jquery-ui-button', plugin_dir_url(__FILE__) . 'jquery.ui.button.min.css');
+        wp_enqueue_style('wp-jquery-ui-dialog');
         wp_enqueue_style('jquery-ui-nextend', plugin_dir_url(__FILE__) . 'jquery.ui.nextend.css');
         
         if ( get_user_option('rich_editing') == 'true' ) {

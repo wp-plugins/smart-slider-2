@@ -464,6 +464,14 @@ class NextendSmartsliderAdminControllerSliders extends NextendSmartsliderAdminCo
         }
     }
     
+    function translateUrlsAction(){
+        if ($this->canDo('slider.edit')){
+            $this->display('default','translateurl');
+        } else {
+            $this->noaccess();
+        }
+    }
+    
     function redirectToSliders(){
         header('LOCATION: ' . $this->route('controller=sliders&view=sliders_slider'));
         exit;

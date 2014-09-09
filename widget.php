@@ -144,3 +144,28 @@ class NextendSmartSlider2Widget extends WP_Widget {
 
 }
 add_action('widgets_init', create_function('', 'return register_widget("NextendSmartSlider2Widget");'));
+
+class NextendSmartSlider2WidgetSiteoriginPanels extends NextendSmartSlider2Widget{
+    public static function siteorigin_panels_widget_object($the_widget, $widget){
+        if(get_class($the_widget) === 'NextendSmartSlider2Widget' && is_admin()){
+            return new NextendSmartSlider2WidgetSiteoriginPanels();
+        }
+        return $the_widget;
+    }
+    
+    function widget($args, $instance) {
+
+        $title = apply_filters( 'widget_title', $instance['title'] );
+
+    		echo $args['before_widget'];
+    		if ( ! empty( $title ) )
+    			echo $args['before_title'] . $title . $args['after_title'];
+          
+        echo "Smart Slider 2 - widget";
+    
+        echo $args['after_widget'];
+    }
+}
+
+add_filter('siteorigin_panels_widget_object', 'NextendSmartSlider2WidgetSiteoriginPanels::siteorigin_panels_widget_object', 10, 2);
+

@@ -712,5 +712,17 @@ class NextendSmartsliderAdminModelSliders extends NextendSmartsliderAdminModelBa
         
         self::markChanged($sliderid);
     }
+    
+    function renderTranslateUrlForm(){
+        $js = NextendJavascript::getInstance();
+        $js->loadLibrary('dojo');
+        
+        nextendimport('nextend.form.form');
+        $form = new NextendForm();
+        $configurationXmlFile = dirname(__FILE__) . '/forms/translateurl.xml';
+        $form->loadArray(NextendRequest::getVar('translateurl'));
+        $form->loadXMLFile($configurationXmlFile);
+        echo $form->render('translateurl');
+    }
 
 }

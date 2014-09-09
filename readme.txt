@@ -2,9 +2,9 @@
 Contributors: nextendweb
 Tags: slider,layer slider,slide,responsive slider,gallery slider,carousel,image slider,slideshow,wordpress slideshow,widget,horizontal slider,vertical slider,accordion slider,layout,youtube slider,video slider,flickr slider,wordpress slider,simple slider
 Donate link: https://www.facebook.com/nextendweb
-Requires at least: 3.0
-Tested up to: 3.9
-Stable tag: 2.3.10
+Requires at least: 3.5
+Tested up to: 4.0
+Stable tag: 2.3.11
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -124,6 +124,10 @@ Or you can get the shortcode - [View](http://www.nextendweb.com/wp-content/uploa
 4. Screenshot from the backend, which will help you through the set up process with easily understandable features.
 
 == Changelog ==
+
+= 2.3.11 =
+* Fix: PHP 5.1.x issue
+* Compatibility fix: Page Builder by SiteOrigin
 
 = 2.3.10 =
 * Feature: Slider align (Left, Center, Right)

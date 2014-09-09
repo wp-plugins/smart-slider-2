@@ -57,7 +57,7 @@ class NextendSmartsliderAdminControllerSettings extends NextendSmartsliderAdminC
             switch (NextendRequest::getInt('refreshcache')){
                 case 1:
                     foreach($slidersModel->getSliders() AS $slider){
-                        $slidersModel::markChanged($slider['id']);
+                        NextendSmartsliderAdminModelSliders::markChanged($slider['id']);
                     }
                     break;
                 case 2:

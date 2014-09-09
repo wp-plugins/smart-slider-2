@@ -575,7 +575,12 @@
     			this.$slider.find("*[data-click]").each(function(){
     				var thisme = $(this);
     				if(thisme.data('click')!=""){
-    					thisme.on("click", function(){eval(thisme.data('click'));});
+    					thisme.on("click", function(e){
+                  var result = eval('(function() {' + thisme.data('click') + '}())');
+                  if(!result){
+                      e.preventDefault();
+                  }
+              });
     				}
     			});
     			this.$slider.find("*[data-enter]").each(function(){

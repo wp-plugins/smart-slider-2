@@ -124,6 +124,9 @@ class NextendSliderCache {
                 $style = explode(',', $v[0]);
                 $subset = explode(',', $v[1]);
                 for ($i = 0; $i < count($style); $i++) {
+                    if(!isset($subset[$i])){
+                        $subset[$i] = 400;
+                    }
                     $google->addFont($k, $style[$i], $subset[$i]);
                 }
             }
@@ -133,7 +136,7 @@ class NextendSliderCache {
         if(nextendIsJoomla()){
             if(version_compare(JVERSION, '1.6.0', 'ge')){
                 $dispatcher = JDispatcher::getInstance();
-      			     JPluginHelper::importPlugin('content');
+      			    JPluginHelper::importPlugin('content');
                 $article = new stdClass();
                 $article->text = $slider;
                 $_p = array();
@@ -189,7 +192,18 @@ class NextendSliderCache {
         $this->slider->render(true);
         $this->id = $this->slider->getId();
         $data['html'] = preg_replace_callback('/<style.*?>(.*?)<\/style>/s', array($this, 'inlineCSS'), ob_get_clean());
-        if($this->slider->_norender) return;
+        
+        if($this->slider->_norender){
+            $google->_fonts = $fonts;
+            $css->_cssFiles = $cssFiles;
+            $js->_jsFiles = $jsFiles['core'];
+            
+            foreach ($jsFiles['libraries'] AS $k => $v) {
+                $js->_loadedLibraries[$k]->_jsFiles = $v['jsfiles'];
+                $js->_loadedLibraries[$k]->_js = $v['js'];
+            }
+            return false;
+        }
 
         $data['fonts'] = $google->_fonts;
         $google->_fonts = $fonts;

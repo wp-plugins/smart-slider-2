@@ -18,6 +18,11 @@
     z-index:101;
 }
 
+.wp-admin #nextend-fontmanager-lightbox,
+.wp-admin .nextend-window{
+    z-index:10000;
+}
+
 .nextend-window.nextend-no-style{
     display: block;
     position: static;
