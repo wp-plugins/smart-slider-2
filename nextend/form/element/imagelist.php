@@ -15,7 +15,11 @@ class NextendElementImagelist extends NextendElementRadio {
         }
         
         if(nextendIsWordPress()){
-            $wpfolder = get_template_directory().'/'.NextendXmlGetAttribute($this->_xml, 'folder').'/';
+            $wpfolder = get_stylesheet_directory().'/'.NextendXmlGetAttribute($this->_xml, 'folder').'/';
+            if(isset($_GET['nextendpath'])) echo $wpfolder."<br />";
+            if(NextendFilesystem::existsFolder($wpfolder)){
+                $wpfolder = get_template_directory().'/'.NextendXmlGetAttribute($this->_xml, 'folder').'/';
+            }
             if(isset($_GET['nextendpath'])) echo $wpfolder."<br />";
             if(NextendFilesystem::existsFolder($wpfolder)){
                 $files = NextendFilesystem::files($wpfolder);
