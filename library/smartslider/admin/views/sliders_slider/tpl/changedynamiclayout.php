@@ -76,7 +76,7 @@ $slider->_generatorParams->set('generateslides', intval($slider->_generatorParam
 function generateDynamicThumbs($controller, $image, $sliderid, $id, $data){
     global $layout, $sliderpreset;
     ?>
-    <div class="smartslider-dynamic-thumb <?php echo ($layout == $id ? 'selected' : 'notselected') ?>" onclick="location.href='<?php echo $controller->route('controller=sliders&view=sliders_slider&action=changedynamiclayout&fontset='.NextendRequest::getInt('fontset', 0).'&type='.NextendRequest::getVar('type', '').'&sliderid='.$sliderid.'&sliderpreset='.$sliderpreset.'&layout='.($layout == $id ? '' : $id)); ?>'">
+    <div class="smartslider-dynamic-thumb <?php echo ($layout == $id ? 'selected' : 'notselected') ?>" onclick="location.href='<?php echo $controller->route('controller=sliders&view=sliders_slider&action=changedynamiclayout&fontset='.NextendRequest::getInt('fontset', 0).'&type='.urlencode(NextendRequest::getVar('type', '')).'&sliderid='.$sliderid.'&sliderpreset='.urlencode($sliderpreset).'&layout='.($layout == $id ? '' : $id)); ?>'">
         <div><?php echo $data['title']; ?></div>
         <img src="<?php echo NextendUri::pathToUri(NextendFilesystem::translateToMediaPath($image)) ?>" />
     </div>
@@ -86,7 +86,7 @@ function generateDynamicThumbs($controller, $image, $sliderid, $id, $data){
 function generateDynamicSliderThumbs($controller, $image, $sliderid, $id, $data){
     global $layout, $sliderpreset;
     ?>
-    <div class="smartslider-dynamic-thumb <?php echo ($sliderpreset == $id ? 'selected' : 'notselected') ?>" onclick="location.href='<?php echo $controller->route('controller=sliders&view=sliders_slider&action=changedynamiclayout&fontset='.NextendRequest::getInt('fontset', 0).'&type='.NextendRequest::getVar('type', '').'&sliderid='.$sliderid.'&sliderpreset='.($sliderpreset == $id ? '' : $id).'&layout='.$layout); ?>'">
+    <div class="smartslider-dynamic-thumb <?php echo ($sliderpreset == $id ? 'selected' : 'notselected') ?>" onclick="location.href='<?php echo $controller->route('controller=sliders&view=sliders_slider&action=changedynamiclayout&fontset='.NextendRequest::getInt('fontset', 0).'&type='.urlencode(NextendRequest::getVar('type', '')).'&sliderid='.$sliderid.'&sliderpreset='.($sliderpreset == $id ? '' : $id).'&layout='.urlencode($layout)); ?>'">
         <div><?php echo $data['title']; ?></div>
         <img src="<?php echo NextendUri::pathToUri(NextendFilesystem::translateToMediaPath($image)) ?>" />
     </div>
@@ -119,9 +119,9 @@ $this->loadFragment('secondcolstart');
 ?>
 <form id="smartslider-form" action="" method="post">
 <?php NextendForm::tokenize(); ?>
-<input type="hidden" name="layout" value="<?php echo $layout;?>" />
+<input type="hidden" name="layout" value="<?php echo htmlspecialchars($layout);?>" />
 <input type="hidden" name="save" value="1" />
-<input type="hidden" name="type" value="<?php echo NextendRequest::getVar('type', ''); ?>" />
+<input type="hidden" name="type" value="<?php echo htmlspecialchars(NextendRequest::getVar('type', '')); ?>" />
 <h2>Choose slider preset - optional</h2>
 <div class="blue-container">
     <?php
@@ -158,7 +158,7 @@ $this->loadFragment('secondcolstart');
     <h3>Missing fonts?</h3>
     <p>These layouts need custom font set to display properly. If font set have not loaded yet, you should load them.<br />
     Note: This action will clear the current font set on this slider.</p>
-    <a href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=changedynamiclayout&loadfontset=1&fontset=1&sliderid='.$sliderid.'&layout='.NextendRequest::getVar('layout')); ?>" style="margin-top: 10px;" class="button b">Load font set</a>
+    <a href="<?php echo $this->route('controller=sliders&view=sliders_slider&action=changedynamiclayout&loadfontset=1&fontset=1&sliderid='.$sliderid.'&layout='.urlencode(NextendRequest::getVar('layout'))); ?>" style="margin-top: 10px;" class="button b">Load font set</a>
 </div>
 <?php endif; ?>
 

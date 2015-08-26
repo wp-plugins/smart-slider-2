@@ -2,9 +2,9 @@
 
 class NextendSmartSlider2Widget extends WP_Widget {
 
-    function NextendSmartSlider2Widget() {
+    function __construct() {
         $widget_ops = array('classname' => 'NextendSmartSlider2Widget', 'description' => 'Displays a Smart Slider');
-        $this->WP_Widget('NextendSmartSlider2Widget', 'Nextend Smart Slider 2', $widget_ops);
+        parent::__construct('NextendSmartSlider2Widget', 'Nextend Smart Slider 2', $widget_ops);
     }
 
     function form($instance) {

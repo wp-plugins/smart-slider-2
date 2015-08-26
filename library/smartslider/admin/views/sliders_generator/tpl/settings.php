@@ -40,14 +40,14 @@ $this->loadFragment('secondcolstart');
         $_REQUEST['group'] = $source[0];
         $_REQUEST['type'] = $smartslidergenerator['source'];
     }else{
-        $smartslidergenerator['source'] = $_REQUEST['type'];
+        $smartslidergenerator['source'] = htmlspecialchars($_REQUEST['type']);
         $gotopreset = 1;
     }
     $xml = $slidersModel->editDynamicForm($smartslidergenerator, 'generator', true);
     ?>
     <input name="generator[source]" value="<?php echo $smartslidergenerator['source']; ?>" type="hidden"/>
     <input name="sliderid" value="<?php echo NextendRequest::getInt('sliderid'); ?>" type="hidden"/>
-    <input name="gotopreset" value="<?php echo $gotopreset; ?>" type="hidden"/>
+    <input name="gotopreset" value="<?php echo htmlspecialchars($gotopreset); ?>" type="hidden"/>
     <input name="save" value="1" type="hidden"/>
 </form>
 
