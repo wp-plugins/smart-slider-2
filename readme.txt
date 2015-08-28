@@ -1,5 +1,5 @@
 === Smart Slider 2 ===
-Contributors: nextendweb
+Contributors: nextendweb, nextendweb_gabor
 Tags: slider,layer slider,slide,responsive slider,gallery slider,carousel,image slider,slideshow,wordpress slideshow,widget,horizontal slider,vertical slider,accordion slider,layout,youtube slider,video slider,flickr slider,wordpress slider,simple slider
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.5
