@@ -3,7 +3,7 @@
 Plugin Name: Smart Slider 2
 Plugin URI: http://nextendweb.com/
 Description: The perfect all-in-one responsive slider solution for WordPress.
-Version: 2.3.12
+Version: 2.3.13
 Author: Nextend
 Author URI: http://www.nextendweb.com
 License: GPLv3 or later
@@ -82,4 +82,20 @@ function nextend_load_ss2(){
 
 function nextend_ss2_jquery(){
     wp_enqueue_script('jquery');
+}
+
+add_action('admin_notices', 'ss2toss3_admin_notice');
+function ss2toss3_admin_notice() {
+    if ( !get_option('ss2toss3_ignore_notice') ) {
+        echo '<div onclick="location.href=\''.admin_url('index.php?ss2toss3=0').'\';" class="updated"><p>'; 
+        echo '<a target="_blank" href="https://wordpress.org/plugins/smart-slider-3/"><strong>Smart Slider 3</strong></a> is available! It’s a brand new plugin to create beautiful sliders in the next generation visual editor. <a target="_blank" href="https://wordpress.org/plugins/smart-slider-3/"><strong>View Smart Slider 3</strong></a>  at WordPress.org! <a style="float:right;" href="'.admin_url('index.php?ss2toss3=0').'">Hide Notice</a>';
+        echo "</p></div>";
+    }
+}
+
+add_action('admin_init', 'ss2toss3_nag_ignore');
+function ss2toss3_nag_ignore() {
+    if (isset($_GET['ss2toss3']) && '0' == $_GET['ss2toss3']) {
+        update_option('ss2toss3_ignore_notice', 'true', true);
+    }
 }

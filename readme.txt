@@ -3,14 +3,16 @@ Contributors: nextendweb, nextendweb_gabor
 Tags: slider,layer slider,slide,responsive slider,gallery slider,carousel,image slider,slideshow,wordpress slideshow,widget,horizontal slider,vertical slider,accordion slider,layout,youtube slider,video slider,flickr slider,wordpress slider,simple slider
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.5
-Tested up to: 4.3
-Stable tag: 2.3.12
+Tested up to: 4.4
+Stable tag: 2.3.13
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 The perfect all-in-one responsive slider solution for WordPress.
 
 == Description ==
+
+>[Smart Slider 3](https://wordpress.org/plugins/smart-slider-3/) is available! It's a brand new plugin to create beautiful sliders in the next generation visual editor. [View Smart Slider 3](https://wordpress.org/plugins/smart-slider-3/)!
 
 Smart Slider 2 comes with an intuitive interface for backend, which makes easy for anyone to design beautiful sliders in minutes. Grab a new layer, move it on the canvas, finally drag&drop some items with your mouse and your slide is ready. Our customers highly recommend Smart Slider 2.
 
@@ -124,6 +126,9 @@ Or you can get the shortcode - [View](http://www.nextendweb.com/wp-content/uploa
 4. Screenshot from the backend, which will help you through the set up process with easily understandable features.
 
 == Changelog ==
+
+= 2.3.13 =
+* Smart Slider 3 released
 
 = 2.3.12 =
 * XSS security fix
